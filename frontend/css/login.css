@@ -1,0 +1,141 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body{
+    min-height: 100vh;
+    background-image: url("../assetsImages/imgBG.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.btn-container{
+    display: flex;
+    justify-content: flex-end;
+    padding: 30px;
+    gap: 10px;
+}
+.btn-container button{
+    padding: 10px 40px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.5);
+    transition: 0.1s ease-in;
+}
+.btn-container button:hover{
+    cursor: pointer;
+    transform: scale(1.01);
+}
+main{
+    width: 100%;
+    min-height: calc(100vh - 250px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+    box-sizing: border-box;
+}
+.main-container{
+    position: relative;
+    width: clamp(450px,50%,500px);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+}
+.main-container h2{
+    text-align: center;
+    margin-bottom: 100px;
+    font-size: 1.5rem;
+}
+.main-container h1{
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 50px;
+}
+.main-container .input-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 25px;
+}
+.txtBoxes-container {
+    position: relative;
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.txtBoxes-container input {
+    width: 100%;
+    padding: 10px 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.txtBoxes-container label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    pointer-events: none;
+    transition: 0.2s ease all;
+    background-color: none;
+    padding: 0 4px;
+    font-size: 1rem;
+}
+/* When input is focused or has content */
+.txtBoxes-container input:focus + label,
+.txtBoxes-container input:not(:placeholder-shown) + label {
+    top: -10px;
+    left: 5px;
+    font-size: 0.8rem;
+    color: blue;
+}
+.main-container .btnLogin-container{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 70px auto;
+    gap: 15px;
+}
+.main-container .btnLogin-container button{
+    width: 90%;
+    padding: 10px;
+    font-size: 1rem;
+background-color: rgb(40, 40, 255);
+color: white;
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+font-weight: bold;
+outline: none;
+border: none;
+border-radius: 5px;
+transition: 0.1s ease;
+}
+.btnLogin-container button:hover{
+    cursor: pointer;
+    transform: scale(1.02);
+    box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.5);
+}
+.btnLogin-container a{
+    color: black;
+    transition: 0.1s ease-in;
+}
+.btnLogin-container a:hover{
+    transform: scale(1.01);
+}
