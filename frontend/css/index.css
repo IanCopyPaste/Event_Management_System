@@ -4,7 +4,11 @@
     box-sizing: border-box;
     font-family: sans-serif;
 }
+html{
+    scroll-behavior: smooth;
+}
     .header-container{
+        z-index: 1;
         position: sticky;
         top: 0;
         width: 100%;
@@ -82,8 +86,45 @@
     width: 100%;
     height: 100vh;
     display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
-.box{
+.mainNav-container .box{
+    width: 33%;
+    height: 90vh;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 
+                 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.mainNav-container .box h1{
+    transition: all 0.3s ease;
+    background-color: rgba(29, 29, 29, 0.829);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 2rem;
+}
+
+/* Hover effect */
+.mainNav-container .box:hover{
+    cursor: pointer;
+    align-items: center; /* vertical move */
+    transform: scale(1.01); /* slight zoom */
+}
+
+.mainNav-container .box:hover h1{
+    content: "Check Events"; /* CSS alone can’t replace text; we use pseudo element instead */
+    transform: translateY(-10px); /* smooth move up */
 }
 .pressedNav{
     font-weight: bold;

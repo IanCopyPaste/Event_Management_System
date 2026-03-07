@@ -20,7 +20,7 @@
 
                 <h2 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 
             'Lucida Sans Unicode', Geneva, Verdana, sans-serif; width: 350px;">
-                    University of Krisrian Evangelion
+                    University of Kristian Evangelion
                 </h2>
             </div>
 
@@ -48,22 +48,26 @@
                 <li><a href="#">Events</a></li>
                 <li><a href="#">My Calendar</a></li>
                 <li><a href="#">Campus Map</a></li>
-                <li><a href="#">Featured Events</a></li>
+                <li><a href="#feat">Featured Events</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="mainNav-container">
-        <div class="box" id="box1" style="background-color: yellow; height: 90vh; width: 200px;">
-
+    <section class="mainNav-container">
+        <div class="box" id="box1" style="background: url(frontend/assetsImages/imgBG.jpg); background-repeat: no-repeat; background-size: cover;">
+            <h1>Events</h1>
         </div>
-        <div class="box" id="box2" style="background-color: red; height: 90vh;  width: 200px;">
-
+        <div class="box" id="box2" style="background: url(frontend/assetsImages/Calendar_2024.jpg); background-repeat: no-repeat; background-size: cover;">
+            <h1>My Calendar</h1>
         </div>
-        <div class="box" id="box3" style="background-color: blue; height: 90vh;  width: 200px;">
-
+        <div class="box" id="box3" style="background: url(frontend/assetsImages/campus_map.jpg); background-repeat: no-repeat; background-size: cover;">
+            <h1>Campus Map</h1>
         </div>
-    </main>
+    </section>
+
+    <section class="featured-container" id="feat" style="background-color: antiquewhite; height: 100vh;">
+
+    </section>
 </body>
 <script src="frontend/js/index.js"></script>
 

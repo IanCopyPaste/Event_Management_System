@@ -6,7 +6,7 @@ window.addEventListener("scroll", function () {
     let currentScroll = window.pageYOffset;
 
     // threshold to prevent twitching
-    if (Math.abs(currentScroll - lastScroll) < 80) return;
+    if (Math.abs(currentScroll - lastScroll) < 70) return;
 
     if (currentScroll > lastScroll) {
         // scrolling down → hide
