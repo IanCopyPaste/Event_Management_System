@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .modal{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .openModal:hover{
+            cursor: pointer;
+        }
+        .closeModal:hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <button class="openModal">Open Modal</button>
+    </main>
+    <div class="modal" style="width: 200px; height: 200px; background-color: rgb(16, 143, 255); display: none;
+    justify-content: center; align-items: center;">
+        <Button class="closeModal">Close Modal</Button>
+    </div>
+</body>
+<script>
+    const openModal = document.querySelector(".openModal");
+    const closeModal = document.querySelector(".closeModal");
+    const modal = document.querySelector(".modal");
+    const main = document.querySelector("main");
+    openModal.addEventListener("click",()=>{
+        modal.style.display = "flex";
+        main.style.filter = "blur(1.5px)"
+    });
+    closeModal.addEventListener("click",()=>{
+         modal.style.display = "none";
+         main.style.filter = "blur(0px)"
+    });
+</script
+</html>
