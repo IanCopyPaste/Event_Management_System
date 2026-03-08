@@ -295,6 +295,11 @@ html {
     padding: 10px 25px;
     border-radius: 20px;
 }
+.org-slide-wrapper{
+    width:100%;
+    margin:auto;
+    overflow:hidden; 
+}
 .org-slide-container{
     display:flex;
     gap:20px;
