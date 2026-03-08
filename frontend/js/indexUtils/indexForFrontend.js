@@ -84,7 +84,7 @@ let slideInterval = setInterval(() => {
         currentSlide = 0;
     }
     showSlide(currentSlide);
-}, 2000); // change slide every 5 seconds
+}, 4000); // change slide every 5 seconds
 
 nextBtn.addEventListener("click", () => {
     currentSlide++;
@@ -119,3 +119,5 @@ prevBtn.addEventListener("click", () => {
 });
 
 showSlide(currentSlide);
+
+const slider = document.querySelector(".org-slide-container");

@@ -60,14 +60,43 @@ html {
 
 .nav-container ul {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     list-style-type: none;
+}
+
+.nav-container li {
+    display: inline-block;
 }
 
 .nav-container li a {
     text-decoration: none;
     color: black;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
+    position: relative;
+    display: inline-block;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-container li a:hover {
+    color: blue;
+    transform: scale(1.05);
+    font-weight: bold;
+}
+
+/* underline animation */
+.nav-container li a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background: blue;
+    left: 0;
+    bottom: -3px;
+    transition: 0.3s ease;
+}
+
+.nav-container li a:hover::after {
+    width: 100%;
 }
 
 .right-container2 {
@@ -123,17 +152,18 @@ html {
 }
 
 .mainNav-container .box h1 {
-    transition: all 0.3s ease;
+    transition: all 0.7s ease-in-out;
     background-color: rgba(29, 29, 29, 0.829);
     padding: 10px;
     border-radius: 10px;
     font-size: 2rem;
+    position: relative;
+    bottom: 0;
 }
 
 /* Hover effect */
 .mainNav-container .box:hover {
     cursor: pointer;
-    align-items: center;
     /* vertical move */
     transform: scale(1.01);
     /* slight zoom */
@@ -142,112 +172,121 @@ html {
 .mainNav-container .box:hover h1 {
     content: "Check Events";
     /* CSS alone can’t replace text; we use pseudo element instead */
-    transform: translateY(-10px);
+    bottom: 50%;
+    font-size: 3.5rem;
     /* smooth move up */
 }
 
-.featured-container{
-    height:100vh;
-    position:relative;
-    width:100%;
+.featured-container {
+    height: 100vh;
+    position: relative;
+    width: 100%;
 }
 
-.featured-container .backblur-img{
-    height:80vh;
-    width:100%;
+.featured-container .backblur-img {
+    height: 80vh;
+    width: 100%;
 }
 
-.featured-container .backblur-img img{
-    height:100%;
-    width:100%;
-    filter:blur(2px);
-    opacity:0.9;
-    object-fit:cover;
+.featured-container .backblur-img img {
+    height: 100%;
+    width: 100%;
+    filter: blur(2px);
+    opacity: 0.9;
+    object-fit: cover;
 }
 
-.featured-title{
-    position:absolute;
-    top:80px;
-    left:20px;
-    color:white;
-    background-color:rgba(14,14,14,0.541);
-    padding:5px;
-    border-radius:5px;
+.featured-title {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    color: white;
+    background-color: rgba(14, 14, 14, 0.541);
+    padding: 5px;
+    border-radius: 5px;
 }
 
-.featured-container .top-img{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+.featured-container .top-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
-.top-img{
+
+.top-img {
     width: fit-content;
-    height:clamp(300px,50vh,600px);
+    height: clamp(300px, 50vh, 600px);
 }
-.top-img-container{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+
+.top-img-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: auto;
     width: fit-content;
-    height:clamp(300px,50vh,600px);
+    height: clamp(300px, 50vh, 600px);
 }
-.top-img-main{
-    width:clamp(500px,100%,1000px);
-    height:clamp(300px,50vh,600px);
-    box-shadow:0px 0px 15px 20px rgba(0,0,0,0.712);
+
+.top-img-main {
+    width: clamp(500px, 100%, 1000px);
+    height: clamp(300px, 50vh, 600px);
+    box-shadow: 0px 0px 15px 20px rgba(0, 0, 0, 0.712);
     border-radius: 20px;
 }
 
-.event-title{
-    position:relative;
-    color:white;
-    font-family:'Lucida Sans','Lucida Sans Regular','Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,sans-serif;
+.event-title {
+    position: relative;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.featured-container .slide-btns{
-    position:absolute;
-    top:50%;
-    z-index:2;
-    width:100%;
-    display:flex;
-    justify-content:space-around;
+.featured-container .slide-btns {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }
 
-.featured-container .sliders{
-    background-color:transparent;
-    border:none;
-    outline:none;
-    font-size:3rem;
-    color:white;
-    transition:0.2s ease-in;
+.featured-container .sliders {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 3rem;
+    color: white;
+    transition: 0.2s ease-in;
 }
-.sliders:hover{
+
+.sliders:hover {
     cursor: pointer;
     transform: scale(1.01);
 }
-.top-img-container .event-org{
+
+.top-img-container .event-org {
     position: absolute;
     left: 10px;
     top: 5%;
     color: white;
 }
-.top-img-container .event-title{
+
+.top-img-container .event-title {
     position: absolute;
     bottom: 13%;
     left: 10px;
     font-size: 1.5rem;
     font-weight: bold;
 }
-.top-img-container .event-time{
+
+.top-img-container .event-time {
     position: absolute;
     bottom: 5%;
     left: 10px;
     color: white;
     font-size: 1.4rem;
 }
-.top-img-container .event-status{
+
+.top-img-container .event-status {
     position: absolute;
     right: 15px;
     bottom: 8%;
@@ -256,6 +295,34 @@ html {
     padding: 10px 25px;
     border-radius: 20px;
 }
+.org-slide-container{
+    display:flex;
+    gap:20px;
+    align-items:center;
+    width:max-content;
+    animation: slide 50s linear infinite;
+}
+.orgs-main{
+    height:15vh;
+    width:auto;
+}
+
+/* animation */
+@keyframes slide{
+    from{
+        transform: translateX(0);
+    }
+    to{
+        transform: translateX(-100%);
+    }
+}
+.footer-container {
+    width: 100%;
+    height: max-content;
+    padding: 10px;
+    background-color: aqua;
+}
+
 .pressedNav {
     font-weight: bold;
     color: blue;
