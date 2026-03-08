@@ -1,32 +1,37 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: sans-serif;
 }
-html{
+
+html {
     scroll-behavior: smooth;
 }
-    .header-container{
-        z-index: 1;
-        position: sticky;
-        top: 0;
-        width: 100%;
-        background-color: white;
-        border-radius: 0px 0px 20px 20px;
-        box-shadow: 0px 5px 5px 1px rgba(128, 128, 128, 0.4);
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
+
+.header-container {
+    z-index: 1;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    border-radius: 0px 0px 20px 20px;
+    box-shadow: 0px 5px 5px 1px rgba(128, 128, 128, 0.4);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 .upper-container {
     width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 10px 20px 0px 20px;
-    overflow: hidden; /* important for collapsing */
+    overflow: hidden;
+    /* important for collapsing */
     transition: max-height 0.4s ease, padding 0.4s ease;
-    max-height: 150px; /* adjust to normal container height */
+    max-height: 150px;
+    /* adjust to normal container height */
 }
 
 .upper-container.hide {
@@ -34,37 +39,44 @@ html{
     padding-top: 0;
     padding-bottom: 0;
 }
-.upper-container .left-container{
+
+.upper-container .left-container {
     display: flex;
     align-items: center;
     gap: 15px;
 }
-.upper-container .right-container{
+
+.upper-container .right-container {
     display: flex;
     align-items: center;
     gap: 15px;
 }
-.right-container .info-container{
+
+.right-container .info-container {
     display: flex;
     flex-direction: column;
     align-items: end;
 }
-.nav-container ul{
+
+.nav-container ul {
     display: flex;
     gap: 20px;
     list-style-type: none;
 }
-.nav-container li a{
+
+.nav-container li a {
     text-decoration: none;
     color: black;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-.right-container2{
-    display: flex;   
+
+.right-container2 {
+    display: flex;
     align-items: center;
     gap: 6px;
 }
-.right-container2 .btnLog{
+
+.right-container2 .btnLog {
     height: 30px;
     display: flex;
     align-items: center;
@@ -78,23 +90,26 @@ html{
     box-shadow: 0px 0px 3px 1px rgba(128, 128, 128, 0.384);
     transition: 0.2s ease;
 }
-.btnLog:hover{
+
+.btnLog:hover {
     cursor: pointer;
     transform: scale(1.02);
 }
-.mainNav-container{
+
+.mainNav-container {
     width: 100%;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
-.mainNav-container .box{
+
+.mainNav-container .box {
     width: 33%;
     height: 90vh;
     color: white;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 
-                 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -107,7 +122,7 @@ html{
     overflow: hidden;
 }
 
-.mainNav-container .box h1{
+.mainNav-container .box h1 {
     transition: all 0.3s ease;
     background-color: rgba(29, 29, 29, 0.829);
     padding: 10px;
@@ -116,17 +131,129 @@ html{
 }
 
 /* Hover effect */
-.mainNav-container .box:hover{
+.mainNav-container .box:hover {
     cursor: pointer;
-    align-items: center; /* vertical move */
-    transform: scale(1.01); /* slight zoom */
+    align-items: center;
+    /* vertical move */
+    transform: scale(1.01);
+    /* slight zoom */
 }
 
-.mainNav-container .box:hover h1{
-    content: "Check Events"; /* CSS alone can’t replace text; we use pseudo element instead */
-    transform: translateY(-10px); /* smooth move up */
+.mainNav-container .box:hover h1 {
+    content: "Check Events";
+    /* CSS alone can’t replace text; we use pseudo element instead */
+    transform: translateY(-10px);
+    /* smooth move up */
 }
-.pressedNav{
+
+.featured-container{
+    height:100vh;
+    position:relative;
+    width:100%;
+}
+
+.featured-container .backblur-img{
+    height:80vh;
+    width:100%;
+}
+
+.featured-container .backblur-img img{
+    height:100%;
+    width:100%;
+    filter:blur(2px);
+    opacity:0.9;
+    object-fit:cover;
+}
+
+.featured-title{
+    position:absolute;
+    top:80px;
+    left:20px;
+    color:white;
+    background-color:rgba(14,14,14,0.541);
+    padding:5px;
+    border-radius:5px;
+}
+
+.featured-container .top-img{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.top-img-container{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:clamp(500px,85%,1000px);
+    height:clamp(300px,50vh,600px);
+}
+
+.top-img-main{
+    width:clamp(500px,85%,1000px);
+    height:clamp(300px,50vh,600px);
+    box-shadow:0px 0px 15px 20px rgba(0,0,0,0.712);
+    border-radius: 20px;
+}
+
+.event-title{
+    position:relative;
+    color:white;
+    font-family:'Lucida Sans','Lucida Sans Regular','Lucida Grande','Lucida Sans Unicode',Geneva,Verdana,sans-serif;
+}
+
+.featured-container .slide-btns{
+    position:absolute;
+    top:50%;
+    z-index:2;
+    width:100%;
+    display:flex;
+    justify-content:space-around;
+}
+
+.featured-container .sliders{
+    background-color:transparent;
+    border:none;
+    outline:none;
+    font-size:3rem;
+    color:white;
+    transition:0.2s ease-in;
+}
+.sliders:hover{
+    cursor: pointer;
+    transform: scale(1.01);
+}
+.top-img-container .event-org{
+    position: absolute;
+    left: 10px;
+    top: 5%;
+    color: white;
+}
+.top-img-container .event-title{
+    position: absolute;
+    bottom: 13%;
+    left: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.top-img-container .event-time{
+    position: absolute;
+    bottom: 5%;
+    left: 10px;
+    color: white;
+    font-size: 1.4rem;
+}
+.top-img-container .event-status{
+    position: absolute;
+    right: 10px;
+    bottom: 8%;
+    color: white;
+    background-color: rgb(0, 170, 0);
+    padding: 10px 25px;
+    border-radius: 20px;
+}
+.pressedNav {
     font-weight: bold;
     color: blue;
     text-decoration: underline;

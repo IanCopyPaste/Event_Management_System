@@ -2,9 +2,14 @@
 include("../database/config.php");
 header("Content-Type: application/json");
 
-$query = "SELECT * FROM clients";
+$query = "SELECT * FROM clients WHERE id = ?";
 $result = $conn->execute_query($query);
 $data = mysqli_fetch_assoc($result);
+$client = [];
+
+while($data = mysqli_fetch_assoc($result)){
+    $client[] = $data;
+}
 
 if($data){
     echo json_encode($data);
