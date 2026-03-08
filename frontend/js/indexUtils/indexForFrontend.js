@@ -33,14 +33,14 @@ const slides = [
     status: "Open"
 },
 {
-    img: "frontend/assetsImages/imgBG.jpg",
+    img: "frontend/assetsImages/imgBG2.jpg",
     org: "Engineering",
     title: "Tech Expo",
     time: "9:00 AM to 5:00 PM",
     status: "Ongoing"
 },
 {
-    img: "frontend/assetsImages/imgBG.jpg",
+    img: "frontend/assetsImages/imgBG3.jpg",
     org: "Business",
     title: "Startup Pitch",
     time: "1:00 PM to 4:00 PM",
@@ -55,6 +55,7 @@ const org = document.querySelector(".event-org");
 const title = document.querySelector(".event-title");
 const time = document.querySelector(".event-time");
 const status = document.querySelector(".event-status");
+const backBlur = document.querySelector("#backBlur");
 
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
@@ -64,6 +65,7 @@ function showSlide(index){
     org.textContent = slides[index].org;
     title.textContent = slides[index].title;
     time.textContent = slides[index].time;
+    backBlur.src = slides[index].img;
     if(slides[index].status == "Open"){
         status.textContent = slides[index].status;
         status.style.backgroundColor = "green";
@@ -76,12 +78,28 @@ function showSlide(index){
     }
     
 }
+let slideInterval = setInterval(() => {
+    currentSlide++;
+    if(currentSlide >= slides.length){
+        currentSlide = 0;
+    }
+    showSlide(currentSlide);
+}, 2000); // change slide every 5 seconds
+
 nextBtn.addEventListener("click", () => {
     currentSlide++;
     if(currentSlide >= slides.length){
         currentSlide = 0;
     }
     showSlide(currentSlide);
+    clearInterval(slideInterval);
+    slideInterval = setInterval(() => {
+        currentSlide++;
+        if(currentSlide >= slides.length){
+            currentSlide = 0;
+        }
+        showSlide(currentSlide);
+    }, 5000);
 });
 
 prevBtn.addEventListener("click", () => {
@@ -90,7 +108,14 @@ prevBtn.addEventListener("click", () => {
         currentSlide = slides.length - 1;
     }
     showSlide(currentSlide);
+    clearInterval(slideInterval);
+    slideInterval = setInterval(() => {
+        currentSlide++;
+        if(currentSlide >= slides.length){
+            currentSlide = 0;
+        }
+        showSlide(currentSlide);
+    }, 5000);
 });
 
 showSlide(currentSlide);
-
