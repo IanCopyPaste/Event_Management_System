@@ -74,7 +74,7 @@ html {
     font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
     position: relative;
     display: inline-block;
-    transition: transform 0.2s ease, color 0.2s ease;
+    transition: transform 0.5s ease, color 0.2s ease;
 }
 
 .nav-container li a:hover {
