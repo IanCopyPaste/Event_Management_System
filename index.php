@@ -26,7 +26,7 @@ $page = $_GET['page'] ?? 'home';
                 </h2>
             </div>
 
-            <div class="right-container" style="display: none;">
+            <div class="right-container" style="display: flex;">
                 <div class="info-container">
                     <h2 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 
                 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
@@ -39,7 +39,7 @@ $page = $_GET['page'] ?? 'home';
                     style="width: clamp(45px, 7vw, 80px); height:auto; border-radius:200px; border:1px solid black;">
             </div>
 
-            <div class="right-container2" style="display: flex;">
+            <div class="right-container2" style="display: none;">
                 <a href="logIn.php" style="text-decoration: none;"><button class="btnLog" id="btnLogOrg"
                         style="background-color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-weight: bold;">Login</button></a>
                 <button class="btnLog" id="btnLogOrg" style="background-color: rgb(0, 100, 214);; color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-weight: bold;">Login as
