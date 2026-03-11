@@ -124,3 +124,5 @@ prevBtn.addEventListener("click", () => {
 showSlide(currentSlide);
 
 const slider = document.querySelector(".org-slide-container");
+
+console.log("FromFrontend");

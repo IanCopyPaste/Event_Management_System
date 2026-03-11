@@ -56,46 +56,56 @@ html {
     flex-direction: column;
     align-items: end;
 }
-
-.nav-container ul {
-    display: flex;
-    gap: 30px;
-    list-style-type: none;
+.nav-container ul{
+display:flex;
+gap:30px;
+list-style-type:none;
 }
 
-.nav-container li {
-    display: inline-block;
+.nav-container li{
+display:inline-block;
 }
 
-.nav-container li a {
-    text-decoration: none;
-    color: black;
-    font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
-    position: relative;
-    display: inline-block;
-    transition: transform 0.2s ease, color 0.2s ease;
+.nav-container button{
+background:none;
+border:none;
+cursor:pointer;
+color:black;
+font-family:'Lucida Sans', Geneva, Verdana, sans-serif;
+position:relative;
+display:inline-block;
+transition:transform 0.2s ease, color 0.2s ease;
+font-size:16px;
 }
 
-.nav-container li a:hover {
-    color: blue;
-    transform: scale(1.05);
-    font-weight: bold;
+.nav-container button:hover{
+color:rgb(0, 100, 214);;
+transform:scale(1.05);
+font-weight:bold;
 }
 
-/* underline animation */
-.nav-container li a::after {
-    content: "";
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    background: blue;
-    left: 0;
-    bottom: -3px;
-    transition: 0.3s ease;
+.nav-container button::after{
+content:"";
+position:absolute;
+width:0%;
+height:2px;
+background:rgb(0, 100, 214);;
+left:0;
+bottom:-3px;
+transition:0.3s ease;
 }
 
-.nav-container li a:hover::after {
-    width: 100%;
+.nav-container button:hover::after{
+width:100%;
+}
+
+.nav-container button.active{
+color:rgb(0, 100, 214);;
+font-weight:bold;
+}
+
+.nav-container button.active::after{
+width:100%;
 }
 
 .right-container2 {
@@ -132,12 +142,15 @@ html {
     justify-content: space-around;
 }
 
+.mainNav-container form{
+    width:33%;
+}
+
 .mainNav-container .box {
-    width: 33%;
+    width: 100%;
     height: 90vh;
+    border: none;
     color: white;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -150,32 +163,46 @@ html {
     overflow: hidden;
 }
 
+/* white glow overlay */
+.mainNav-container .box::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.35);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* text */
 .mainNav-container .box h1 {
-    transition: all 0.7s ease-in-out;
+    transition: all 0.4s ease;
     background-color: rgba(29, 29, 29, 0.829);
     padding: 10px;
     border-radius: 10px;
     font-size: 2rem;
     position: relative;
-    bottom: 0;
+    bottom: 40%;
+    
+    opacity: 0;
+    transform: translateY(30px);
 }
 
-/* Hover effect */
+/* hover */
 .mainNav-container .box:hover {
     cursor: pointer;
-    /* vertical move */
     transform: scale(1.01);
-    /* slight zoom */
 }
 
+/* glow effect */
+.mainNav-container .box:hover::before{
+    opacity: 1;
+}
+
+/* text fade in */
 .mainNav-container .box:hover h1 {
-    content: "Check Events";
-    /* CSS alone can’t replace text; we use pseudo element instead */
-    bottom: 50%;
-    font-size: 3.5rem;
-    /* smooth move up */
+    opacity: 1;
+    transform: translateY(0);
 }
-
 .featured-container {
     height: 100vh;
     position: relative;
@@ -329,6 +356,6 @@ html {
 
 .pressedNav {
     font-weight: bold;
-    color: blue;
+    color: rgb(0, 100, 214);;
     text-decoration: underline;
 }

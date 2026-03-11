@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="frontend/css/login.css">
 </head>
 
 <body>
     <div
         style="display: inline-block; background-color:  rgba(255, 255, 255, 0.9); margin: 30px; padding: 10px; border-radius: 10px;">
         <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-            <img src="assetsImages/univLogo.png" alt="NoIcon.png"
+            <img src="frontend/assetsImages/univLogo.png" alt="NoIcon.png"
                 style="display: inline-block; height: auto; width: 50px;">
             <h2>University of Kristian Evangelion</h2>
         </div>
     </div>
     <div class="btn-container" style="float: right;">
-        <button style="background-color: rgb(59, 59, 255); color: white;">Log In as Organizer</button>
+        <button style="background-color: rgb(0, 100, 214); color: white;">Log In as Organizer</button>
         <button>Log In</button>
     </div>
     <main>
@@ -43,6 +43,6 @@
         </div>
     </main>
 </body>
-<script src="js/login.js"></script>
+<script src="frontend/js/login.js"></script>
 
 </html>
