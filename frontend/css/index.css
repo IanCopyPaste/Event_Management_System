@@ -25,6 +25,7 @@ html {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 10px 20px 0px 20px;
     overflow: hidden;
     /* important for collapsing */
@@ -112,6 +113,7 @@ width:100%;
     display: flex;
     align-items: center;
     gap: 6px;
+    height: fit-content;
 }
 
 .right-container2 .btnLog {
@@ -154,10 +156,11 @@ width:100%;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding: 20px;
+    padding: 10px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    border-radius: 10px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -179,7 +182,7 @@ width:100%;
     background-color: rgba(29, 29, 29, 0.829);
     padding: 10px;
     border-radius: 10px;
-    font-size: 2rem;
+    font-size: 3rem;
     position: relative;
     bottom: 40%;
     
@@ -349,7 +352,6 @@ width:100%;
 }
 .footer-container {
     width: 100%;
-    height: max-content;
     padding: 10px;
     background-color: aqua;
 }

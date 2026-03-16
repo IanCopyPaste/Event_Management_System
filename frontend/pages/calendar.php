@@ -1,5 +1,6 @@
-<main>
-<button id="btnCal">Ppress me</button>
-<h1 style="text-align: center;">this is the calendar my nigga</h1>
-<script src="frontend/js/calendar.js"></script>    
-</main>
+<section class="calendar-container" style="width: 70%; height: 70vh; display: flex; padding: 50px 0px;">
+
+    <!--CALENDAR CONTAINER-->
+</section>
+<script src="frontend/js/calendar.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>

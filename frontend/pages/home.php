@@ -66,7 +66,7 @@
 
     <form action="index.php" method="GET">
         <button class="box" id="box1"
-            style="background:url(frontend/assetsImages/imgBG3.jpg);">
+            style="background:url(frontend/assetsImages/imgBG3.jpg); background-repeat: no-repeat; background-size: cover;">
             <input type="hidden" name="page" value="events">
             <h1 id="txtEvents">Events</h1>
         </button>
@@ -74,7 +74,7 @@
 
     <form action="index.php" method="GET">
         <button class="box" id="box2"
-            style="background:url(frontend/assetsImages/Calendar_2024.jpg);">
+            style="background:url(frontend/assetsImages/Calendar_2024.jpg); background-repeat: no-repeat; background-size: cover;">
             <input type="hidden" name="page" value="calendar">
             <h1 id="txtCalendar">My Calendar</h1>
         </button>
@@ -82,10 +82,10 @@
 
     <form action="index.php" method="GET">
         <button class="box" id="box3"
-            style="background:url(frontend/assetsImages/campus_map.jpg);">
+            style="background:url(frontend/assetsImages/campus_map.jpg); background-repeat: no-repeat; background-size: cover;">
             <input type="hidden" name="page" value="map">
             <h1 id="txtMap">Campus Map</h1>
         </button>
     </form>
-
 </section>
+<script src="frontend/js/indexUtils/indexForFrontend.js"></script>
