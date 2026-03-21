@@ -9,11 +9,14 @@ $page = $_GET['page'] ?? 'home';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University of Kristian Evangelion Events</title>
     <link rel="stylesheet" href="frontend/css/index.css">
-    
+    <link rel="stylesheet" href="frontend/css/calendar.css">
+
     <!--CALENDAR CONFIGS-->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.14/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.14/index.global.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 </head>
 
@@ -46,7 +49,7 @@ $page = $_GET['page'] ?? 'home';
             </div>
 
             <div class="right-container2" style="display: flex;">
-                <a href="logIn.php" style="text-decoration: none;"><button class="btnLog" id="btnLogOrg"
+                <a href="loginLanding.php" style="text-decoration: none;"><button class="btnLog" id="btnLogOrg"
                         style="background-color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-weight: bold;">Login</button></a>
                 <button class="btnLog" id="btnLogOrg" style="background-color: rgb(0, 100, 214);; color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-weight: bold;">Login as
                     organizer</button>
@@ -72,7 +75,7 @@ $page = $_GET['page'] ?? 'home';
                 break;
 
             case "events":
-                include("frontend/pages/events.html");
+                include("frontend/pages/events.php");
                 break;
 
             case "calendar":
@@ -80,14 +83,14 @@ $page = $_GET['page'] ?? 'home';
                 break;
 
             case "map":
-                include("frontend/pages/map.html");
+                include("frontend/pages/map.php");  
                 break;
 
             default:
                 echo "Page not found";
         }
     } catch (\Throwable $th) {
-        echo "page might not be found";
+        //echo "page might not be found";
     }
     ?>
 
@@ -95,7 +98,7 @@ $page = $_GET['page'] ?? 'home';
     <footer class="footer-container">
         <H1 style="text-align: center;">FOOTER</H1>
     </footer>
-<script src="frontend/js/indexUtils/header.js"></script>
+    <script src="frontend/js/indexUtils/header.js"></script>
 </body>
 
 </html>

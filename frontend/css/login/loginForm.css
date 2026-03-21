@@ -1,0 +1,135 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.main-container {
+     position: relative;
+    font-family: 'Barlow', sans-serif;
+    font-weight: thin;
+    margin: auto;
+    width: clamp(450px, 50%, 500px);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+    animation: formContainer 0.8s ease;
+
+}
+
+.main-container h2 {
+    text-align: center;
+    margin-bottom: 100px;
+    font-size: 1.5rem;
+}
+
+.main-container h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 50px;
+}
+
+.main-container .input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 25px;
+    
+}
+
+.txtBoxes-container {
+    position: relative;
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.txtBoxes-container input {
+    width: 100%;
+    padding: 10px 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.txtBoxes-container label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    pointer-events: none;
+    transition: 0.2s ease all;
+    background-color: none;
+    padding: 0 4px;
+    font-size: 1rem;
+}
+
+/* When input is focused or has content */
+.txtBoxes-container input:focus+label,
+.txtBoxes-container input:not(:placeholder-shown)+label {
+    top: -10px;
+    left: 5px;
+    font-size: 0.8rem;
+    color: blue;
+}
+
+.main-container .btnLogin-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 70px auto;
+    gap: 15px;
+}
+
+.main-container .btnLogin-container #btnLogin {
+    width: 90%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: rgba(0, 55, 158, 1);
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    transition: 0.1s ease;
+}
+
+.btnLogin-container #btnLogin:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+    box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+.btnLogin-container a {
+    color: black;
+    transition: 0.1s ease-in;
+}
+
+.btnLogin-container a:hover {
+    transform: scale(1.01);
+}
+
+.modal-container {
+    font-family: 'Barlow', sans-serif;
+}
+
+@keyframes formContainer {
+    from {
+        opacity: 0;
+        top: 30px;
+    }
+
+    to {
+        opacity: 1;
+        top: 0px;
+    }
+}

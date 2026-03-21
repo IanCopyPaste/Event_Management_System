@@ -1,6 +1,7 @@
 <?php
 include("../database/config.php");
 header("Content-Type: application/json");
+session_start();
 
 $query = "SELECT * FROM clients WHERE id = ?";
 $result = $conn->execute_query($query);

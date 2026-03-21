@@ -1,0 +1,139 @@
+:root {
+    --font-Barlow: 'Barlow', sans-serif;
+    --font-Barlow-Semi: 'Barlow Semi Condensed', sans-serif;
+}
+html{
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: #fff;
+    color: #111;
+}
+main{
+    animation: main-container 0.8s ease;
+}
+#logoBg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 99vh;
+    transform: translate(-65%);
+    z-index: -2;
+}
+
+#rdmBg0 {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    transform: translate(25%, 30%);
+    z-index: -3;
+}
+
+section {
+    height: 99vh;
+    width: 100%;
+    position: relative;
+}
+
+section .logo-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding: 20px;
+}
+
+section .logo-container img {
+    width: auto;
+    height: clamp(50px, 10vh, 100px);
+}
+
+section main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+    font-family: var(--font-Barlow-Semi);
+}
+
+section main p {
+    font-weight: bold;
+    font-size: clamp(1.5rem, 2vw, 3rem);
+    color: #222;
+}
+
+section main h1 {
+    font-weight: bold;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #222;
+}
+
+.btn-container {
+    display: flex;
+    gap: 20px;
+}
+
+.btn-container button {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    padding: 17px 35px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Individual button colors */
+.btn-user {
+    color: rgba(39, 115, 255, 1);
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-organizer {
+    color: white;
+    background-color: rgba(0, 55, 158, 1);
+}
+
+.btn-container button:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+@keyframes main-container {
+    from {
+        opacity: 0;
+        top: 20px;
+    }
+    to {
+        opacity: 1;
+        top: 0px;
+    }
+}
+
+@media(max-width: 685px) {
+    #logoBg {
+        transform: translate(-80%);
+    }
+}

@@ -1,6 +1,6 @@
 const btnLogin = document.querySelector("#btnLogin");
 btnLogin.addEventListener("click",()=>{
-    window.location.href = "../index.php" ;  
+    window.location.href = "index.php" ;  
 });
 async function checkConn() {
     const response = await fetch("../../login.php",{
