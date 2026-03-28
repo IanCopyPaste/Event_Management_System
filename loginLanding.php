@@ -1,5 +1,5 @@
 <?php
-$page = $_GET['page'] ?? 'logIn';
+$page = $_GET['page'] ?? 'login0';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,8 +15,8 @@ $page = $_GET['page'] ?? 'logIn';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="frontend/css/login/log.css">
-    <link rel="stylesheet" href="frontend/css/login/loginForm.css">
+    <link rel="stylesheet" href="frontend/css/login/login0.css">
+    <link rel="stylesheet" href="frontend/css/login/login1.css">
 </head>
 
 <body>
@@ -29,11 +29,11 @@ $page = $_GET['page'] ?? 'logIn';
         </div>
         <?php
             switch ($page) {
-                case 'logIn':
-                    include ('frontend/pages/logInPages/login.php');
+                case 'login0':
+                    include ('frontend/pages/logInPages/login0.php');
                     break;
-                case 'logInForm':
-                    include('frontend/pages/logInPages/loginForm.php');
+                case 'login1':
+                    include('frontend/pages/logInPages/login1.php');
                     break;
 
                 case 'organizer':
