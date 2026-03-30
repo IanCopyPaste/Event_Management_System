@@ -125,10 +125,10 @@
     position: fixed;
 }
 #backForm button {
-    background-color: white;
+    background-color: transparent;
     border: none;
     outline: none;
-    font-size: 1.8rem
+    font-size: 1.8rem;
 }
 #backForm button:hover{
     cursor: pointer;

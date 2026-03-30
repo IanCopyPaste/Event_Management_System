@@ -1,0 +1,75 @@
+.resetPass-container {
+    position: relative;
+    font-family: 'Barlow', sans-serif;
+    font-weight: thin;
+    margin: auto;
+    width: clamp(450px, 50%, 500px);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7);
+    animation: formContainer 0.8s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+#backFormReset button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.8rem;
+}
+
+#backFormReset button:hover {
+    cursor: pointer;
+}
+
+.method-section {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.method-options {
+    font-family: 'Barlow', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 20px;
+}
+
+.option {
+    font-size: 1.3rem;
+}
+
+#email {
+    accent-color: blue;
+}
+
+#sms{
+    accent-color: blue;
+}
+
+#btnProceed {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 10px 16px;
+    background-color: rgba(0, 55, 158, 1);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: center;
+    margin: 80px 0px 10px 0px;
+    width: 65%;
+}
+
+#btnProceed:hover {
+    background-color: rgba(0, 55, 158, 0.85);
+}
+
+#btnProceed:active {
+    transform: scale(0.97);
+}

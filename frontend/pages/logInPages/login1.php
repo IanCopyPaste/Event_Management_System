@@ -7,7 +7,7 @@
     <h1>Login to start now!</h1>
     <div class="input-container">
         <div class="txtBoxes-container">
-            <input type="text" id="txtUsername" name="username" placeholder=" ">
+            <input type="number" id="txtUsername" name="username" placeholder=" ">
             <label for="txtUsername">Enter School ID</label>
         </div>
 
@@ -18,7 +18,7 @@
     </div>
     <div class="btnLogin-container">
         <button id="btnLogin">Login</button>
-        <a href="">Forgot Password</a>
+        <a href="loginLanding.php?page=resetPass">Forgot Password? Click Here</a>
     </div>
 </div>
 <div class="resultModal-container">
@@ -51,18 +51,32 @@
             notifModal.classList.remove("wrongPass");
             notifModal.classList.add("correctPass");
 
-            notifModal_message.textContent = data.message;
-            window.location.href = "index.php";
+            let count = 2;
+
+            notifModal_message.textContent = data.message + " Redirecting in " + count + "s";
+
+            const interval = setInterval(() => {
+                count--;
+
+                if (count > 0) {
+                    notifModal_message.textContent = data.message + " Redirecting in " + count + "s";
+                } else {
+                    clearInterval(interval);
+                    window.location.href = "index.php";
+                }
+            }, 1000); // runs every 1 second
         } else {
             notifModal.classList.remove("correctPass");
             notifModal.classList.add("wrongPass");
-
             notifModal_message.textContent = data.message;
+            setTimeout(() => {
+                notifModal.classList.remove("wrongPass");
+            }, 3000)
         }
 
     }
 
     btn_back.addEventListener("click", () => {
-        window.location.href = "loginLanding.php"
+        window.location.href = "loginLanding.php?page=login0    "
     });
 </script>

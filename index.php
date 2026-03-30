@@ -27,19 +27,19 @@ $page = $_GET['page'] ?? 'home';
     try {
         switch ($page) {
             case "home":
-                include("frontend/pages/home.php");
+                include("frontend/pages/index/home.php");
                 break;
 
             case "events":
-                include("frontend/pages/events.php");
+                include("frontend/pages/index/events.php");
                 break;
 
             case "calendar":
-                include("frontend/pages/calendar.php");
+                include("frontend/pages/index/calendar.php");
                 break;
 
             case "map":
-                include("frontend/pages/map.php");  
+                include("frontend/pages/index/map.php");  
                 break;
 
             default:

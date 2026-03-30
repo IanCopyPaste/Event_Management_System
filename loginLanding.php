@@ -1,5 +1,5 @@
 <?php
-$page = $_GET['page'] ?? 'login0';
+$page = $_GET['page'] ?? 'login1';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,6 +17,7 @@ $page = $_GET['page'] ?? 'login0';
 
     <link rel="stylesheet" href="frontend/css/login/login0.css">
     <link rel="stylesheet" href="frontend/css/login/login1.css">
+    <link rel="stylesheet" href="frontend/css/login/resetPass.css">
 </head>
 
 <body>
@@ -28,22 +29,26 @@ $page = $_GET['page'] ?? 'login0';
             <img src="frontend/assetsImages/login/qcCircle.png" alt="">
         </div>
         <?php
-            switch ($page) {
-                case 'login0':
-                    include ('frontend/pages/logInPages/login0.php');
-                    break;
-                case 'login1':
-                    include('frontend/pages/logInPages/login1.php');
-                    break;
+        switch ($page) {
+            case 'login0':
+                include('frontend/pages/logInPages/login0.php');
+                break;
+            case 'login1':
+                include('frontend/pages/logInPages/login1.php');
+                break;
 
-                case 'organizer':
-                    include 'frontend/pages/logInPages/loginOrg.php';
-                    break;
+            case 'resetPass':
+                include 'frontend/pages/logInPages/resetPass.php';
+                break;
 
-                default:
-                    echo "Invalid selection!";
-                    break;
-            };
+            case 'sendOtp':
+                include 'frontend/pages.logInPages/confirmOtp.php';
+                break;
+                
+            default:
+                echo "Invalid selection!";
+                break;
+        };
         ?>
     </section>
 </body>
