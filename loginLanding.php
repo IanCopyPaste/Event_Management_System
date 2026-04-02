@@ -18,6 +18,7 @@ $page = $_GET['page'] ?? 'login1';
     <link rel="stylesheet" href="frontend/css/login/login0.css">
     <link rel="stylesheet" href="frontend/css/login/login1.css">
     <link rel="stylesheet" href="frontend/css/login/resetPass.css">
+    <link rel="stylesheet" href="frontend/css/login/changePass.css">
 </head>
 
 <body>
@@ -41,10 +42,14 @@ $page = $_GET['page'] ?? 'login1';
                 include 'frontend/pages/logInPages/resetPass.php';
                 break;
 
-            case 'sendOtp':
-                include 'frontend/pages.logInPages/confirmOtp.php';
+            case 'confirmOTP':
+                include 'frontend/pages/logInPages/confirmOtp.php';
                 break;
                 
+            case 'changePass':
+                include 'frontend/pages/logInPages/changePass.php';
+                break;
+
             default:
                 echo "Invalid selection!";
                 break;

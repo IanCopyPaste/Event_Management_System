@@ -54,9 +54,11 @@ Thank you';
 
         $mail->send();
         echo json_encode([
+            "student_id" => $data["student_id"],
             "status" => true,
             "message" => "YOUR OTP WAS SENT TO " . $user["email"],
-            "otp" => $otp
+            "otp" => $otp,
+            "mode" => $data["mode"]
         ]);
         break;
 

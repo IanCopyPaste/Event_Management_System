@@ -52,4 +52,13 @@ $page = $_GET['page'] ?? 'home';
 
    <?php include("frontend/pages/headerFooter/footer.php")?>
 </body>
+<script>
+    async function checkID(params) {
+        try {
+            const response = await fetch("backend/checkUser_id.php");
+        } catch (error) {
+            alert(error);
+        }
+    }
+</script>
 </html>

@@ -1,0 +1,31 @@
+.confirmedPass-container {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+    background: #ffffff;
+    padding: 10px 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.confirmedPass-container.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.confirmedPass-container h2 {
+    color: #16a34a;
+    margin-bottom: 10px;
+}
+
+.confirmedPass-container h3 {
+    color: #555;
+    font-weight: 400;
+    font-size: 14px;
+}

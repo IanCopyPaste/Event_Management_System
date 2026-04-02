@@ -1,20 +1,3 @@
-document.addEventListener("DOMContentLoaded",async ()=>{
-    try {
-         const response = await fetch("backend/forBackendData/checkUser_id.php");
-         const data = await response.json();
-         if(data["isStored"] == true){
-            console.log(data["user_id"]);
-            displayUser(data["user_id"]);
-         }else{
-            console.log("user not found");
-         }    
-    } catch (error) {
-        console.error(error);
-    }    
-});
-function displayUser(){
-    
-}
 
 let lastScroll = 0;
 const upperCont = document.querySelector(".upper-container");
@@ -142,4 +125,3 @@ prevBtn.addEventListener("click", () => {
 showSlide(currentSlide);
 
 const slider = document.querySelector(".org-slide-container");
-console.log("FromFrontend");

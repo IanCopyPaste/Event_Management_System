@@ -13,7 +13,7 @@
     </div>
 
     <div class="method-section">
-        <h2>Select recovery method Email or SMS</h2>
+        <h2>Select recovery method Email or SMS:</h2>
 
         <div class="method-options">
             <div class="option">
@@ -23,7 +23,7 @@
             <div class="option">
                 <input type="radio" name="method" id="sms" disabled>
                 <label for="sms">SMS: PH+6367676769</label>
-                <p style="font-size: 0.9rem; color:red;">SMS verification is currently unavailable for now walang pambili api huhu</p>
+                <p style="font-size: 0.9rem; color:red; font-style:italic;">SMS verification is currently unavailable for now walang pambili api yung developer</p>
             </div>
         </div>
     </div>
@@ -50,6 +50,8 @@
     });
 
     btnProceed.addEventListener("click", async () => {
+        btnProceed.innerHTML = "<img src='frontend/assetsImages/loadingGif.gif' style='width:10%; height:22px;'>"
+        btnProceed.disabled = true;
         const txtstudID = document.querySelector("#studID");
         let mode = "";
 
@@ -72,16 +74,19 @@
 
         const data = await response.json();
 
-        if(data.status){
-            window.sendOTP = {
+        if (data.status) {
+            sessionStorage.setItem("sendOTP", JSON.stringify({
                 student_id: data.student_id,
-                otp: data.otp
-            }
-            const otep = window.sendOTP.otp
-            console.log(otep);
-            alert("otp sent to email!")
-        }else{
+                otp: data.otp,
+                mode: data.mode
+            }));
+            const stored = JSON.parse(sessionStorage.getItem("sendOTP"));
+            alert(data.message)
+            window.location.href = "loginLanding.php?page=confirmOTP";
+        } else {
             alert("User not found");
         }
+        btnProceed.innerHTML = "Proceed";
+        btnProceed.disabled = false;
     });
 </script>
