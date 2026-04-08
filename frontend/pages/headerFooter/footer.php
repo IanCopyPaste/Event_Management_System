@@ -1,3 +1,9 @@
+ <style>
+    footer{
+        position: static;
+        bottom: 0;
+    }
+ </style>
  <footer class="footer-container">
      <H1 style="text-align: center;">FOOTER</H1>
      <button id="logout">Log out</button>

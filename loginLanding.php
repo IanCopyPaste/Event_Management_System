@@ -1,5 +1,5 @@
 <?php
-$page = $_GET['page'] ?? 'login1';
+$page = $_GET['page'] ?? 'login0';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +48,10 @@ $page = $_GET['page'] ?? 'login1';
                 
             case 'changePass':
                 include 'frontend/pages/logInPages/changePass.php';
+                break;
+            
+            case 'orgForm0':
+                include 'frontend/pages/loginOrgPages/logOrgform.php';
                 break;
 
             default:

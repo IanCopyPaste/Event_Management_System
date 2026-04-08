@@ -4,7 +4,7 @@
             <<button>
     </div>
     <h2></h2>
-    <h1>Login to start now!</h1>
+    <h1>Hello Student! Login Now!</h1>
     <div class="input-container">
         <div class="txtBoxes-container">
             <input type="number" id="txtUsername" name="username" placeholder=" ">
@@ -34,7 +34,8 @@
     btn_login.addEventListener("click", login);
 
     async function login() {
-        const school_ID = document.querySelector("#txtUsername").value;
+        try {
+            const school_ID = document.querySelector("#txtUsername").value;
         const password = document.querySelector("#txtPassword").value;
         const response = await fetch("backend/forBackendData/loginPage/login.php", {
             method: "POST",
@@ -74,6 +75,9 @@
             }, 3000)
         }
 
+        } catch (error) {
+            alert("Error Occured");
+        }
     }
 
     btn_back.addEventListener("click", () => {

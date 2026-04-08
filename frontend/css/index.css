@@ -3,6 +3,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: sans-serif;
+    font-family: 'Barlow',sans-serif;
 }
 
 html {
@@ -28,12 +29,9 @@ html {
     align-items: center;
     padding: 10px 20px 0px 20px;
     overflow: hidden;
-    /* important for collapsing */
     transition: max-height 0.4s ease, padding 0.4s ease;
     max-height: 150px;
-    /* adjust to normal container height */
 }
-
 .upper-container.hide {
     max-height: 0;
     padding-top: 0;
@@ -80,7 +78,7 @@ font-size:16px;
 }
 
 .nav-container button:hover{
-color:rgb(0, 100, 214);;
+color:rgb(0, 100, 214);
 transform:scale(1.05);
 font-weight:bold;
 }

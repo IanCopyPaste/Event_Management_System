@@ -1,77 +1,230 @@
- <header class="header-container">
-     <div class="upper-container">
-         <div class="left-container">
-             <a href="index.php">
-                 <img src="frontend/assetsImages/univLogo.png" alt="univLogo.png"
-                     style="width: clamp(40px, 6vw, 70px); height:auto;">
-             </a>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
 
-             <h2 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 
-            'Lucida Sans Unicode', Geneva, Verdana, sans-serif; width: 350px;" id="title">
-                 University of Kristian Evangelion: Events
-             </h2>
-         </div>
+    header {
+        font-style: 'Barlow', sans-serif;
+        padding: 10px;
+        border-radius: 0px 10px 10px 0px;
+        position: sticky;
+    }
 
-         <div class="right-container" style="display: none;">
-             <div class="info-container">
-                 <h2 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 
-                'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
-                     Dela Cruz, Juan T.
-                 </h2>
-                 <p>Student ID: 20-2001</p>
-             </div>
+    .upper-container {
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(3, 33%);
+    }
 
-             <img src="frontend/assetsImages/icons8-management-100.png" alt="profile.png"
-                 style="width: clamp(45px, 7vw, 80px); height:auto; border-radius:200px; border:1px solid black;">
-         </div>
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1.5rem;
+        font-style: 'Barlow', sans-serif;
+        font-weight: 600;
+    }
 
-         <div class="right-container2" style="display: none;">
-             <a href="loginLanding.php?page=login0" style="text-decoration: none;"><button class="btnLog" id="btnLogOrg"
-                     style="background-color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-weight: bold;">Login</button></a>
-             <button class="btnLog" id="btnLogOrg" style="background-color: rgb(0, 100, 214);; color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-weight: bold;">Login as
-                 organizer</button>
-         </div>
-     </div>
-     <nav class="nav-container" style="margin:0px 0px 10px 0px;">
-         <form action="index.php" method="GET">
-             <ul>
-                 <li><button name="page" value="home" class="<?= $page == 'home' ? 'active' : '' ?>">Home</button></li>
-                 <li><button name="page" value="events" class="<?= $page == 'events' ? 'active' : '' ?>">Events</button></li>
-                 <li><button name="page" value="calendar" class="<?= $page == 'calendar' ? 'active' : '' ?>">My Calendar</button></li>
-                 <li><button name="page" value="map" class="<?= $page == 'map' ? 'active' : '' ?>">Campus Map</button></li>
-             </ul>
-         </form>
-     </nav>
- </header>
- <script>
-     console.log("this is from the header bitch");
-     console.log("this is from the header bitch2");
-     document.addEventListener("DOMContentLoaded", async () => {
-         const profileContainer = document.querySelector(".right-container");
-         const profileName = document.querySelector(".info-container h2");
-         const profileUserid = document.querySelector(".info-container p");
+    .logo-container img {
+        width: 60px;
+        height: auto;
+    }
 
-         const loginContainer = document.querySelector(".right-container2");
-         try {
-             const response = await fetch("backend/forBackendData/checkUser_id.php");
-             const data = await response.json();
-             if (data["isStored"] == true) {
-                 profileContainer.style.display = "flex";
-                 loginContainer.style.display = "none";
-                 getUserCredential();
-             } else {
-                 loginContainer.style.display = "flex";
-                 profileContainer.style.display = "none"
-             }
-         } catch (error) {
-             console.error(error);
-         }
+    .nav-container {
+        margin: auto;
+    }
 
-         async function getUserCredential() {
-             const response = await fetch("backend/forBackendData/homePage/userDisplay.php");
-             const data = await response.json();
-             profileName.textContent = data.last_name + ", " + data.first_name + " " + data.middle_name;
-             profileUserid.textContent = "User ID: " + data.users_id;
-         }
-     });
- </script>
+    .nav-container ul {
+        display: flex;
+        gap: 30px;
+        list-style-type: none;
+    }
+
+    .nav-container li {
+        display: inline-block;
+    }
+
+    .nav-container button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: black;
+        font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
+        position: relative;
+        display: inline-block;
+        transition: transform 0.2s ease, color 0.2s ease;
+        font-size: 16px;
+    }
+
+    .nav-container button:hover {
+        color: rgb(0, 100, 214);
+        ;
+        transform: scale(1.05);
+        font-weight: bold;
+    }
+
+    .nav-container button::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        background: rgb(0, 100, 214);
+        ;
+        left: 0;
+        bottom: -3px;
+        transition: 0.3s ease;
+    }
+
+    .nav-container button:hover::after {
+        width: 100%;
+    }
+
+    .nav-container button.active {
+        color: rgb(0, 100, 214);
+        font-weight: bold;
+    }
+
+    .nav-container button.active::after {
+        width: 100%;
+    }
+
+    .right-container .rightLogin-container {
+        width: 100%;
+        /*display: flex;*/
+        gap: 10px;
+        justify-content: end;
+        margin-right: 5px;
+    }
+
+    .right-container .rightLogin-container button {
+        font-family: 'Barlow', sans-serif;
+        font-weight: bold;
+        font-size: 1rem;
+        padding: 8px 40px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        box-shadow: 1px 3px 5px 1px rgba(125, 125, 125, 0.4);
+        transition: 0.2s ease;
+    }
+
+    .right-container .rightLogin-container .btnLog {
+        background-color: white;
+        color: rgb(0, 100, 214);
+    }
+
+    .right-container .rightLogin-container .btnLogOrg {
+        background-color: rgb(0, 100, 214);
+        color: white;
+    }
+
+    .right-container .rightLogin-container button:hover {
+        cursor: pointer;
+        transform: scale(1.02);
+    }
+
+    .right-container .rightInfo-container {
+        width: 100%;
+        gap: 10px;
+        justify-content: end;
+        align-items: center;
+    }
+
+    .right-container .rightLogin-container .info-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        font-family: 'Barlow', sans-serif;
+    }
+
+    .right-container .rightInfo-container .info-container .txtName {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .right-container .rightInfo-container .info-container .txtUserid {
+        font-size: 1.1rem;
+    }
+
+    .right-container .rightInfo-container img {
+        width: 70px;
+        height: auto;
+        border-radius: 100px;
+    }
+</style>
+<header>
+    <div class="upper-container">
+        <div class="logo-container">
+            <img src="frontend/assetsImages/login/logoUKE.svg" alt="univLogo.php">
+            <p>University of Kristian Evangelion</p>
+        </div>
+        <nav class="nav-container">
+            <form action="index.php" method="GET">
+                <ul>
+                    <li><button name="page" value="home" class="<?= $page == 'home' ? 'active' : '' ?>">Home</button>
+                    </li>
+                    <li><button name="page" value="events"
+                            class="<?= $page == 'events' ? 'active' : '' ?>">Events</button></li>
+                    <li><button name="page" value="calendar" class="<?= $page == 'calendar' ? 'active' : '' ?>">My
+                            Calendar</button></li>
+                    <li><button name="page" value="org" class="<?= $page == 'org' ? 'active' : '' ?>">Create Organization</button></li>
+                </ul>
+            </form>
+        </nav>
+        <div class="right-container">
+            <div class="rightLogin-container" style="display: none;">
+                <button class="btnLog">Login</button>
+                <button class="btnLogOrg">Login as organizer</button>
+            </div>
+            <div class="rightInfo-container" style="display: flex;">
+                <div class="info-container">
+                    <p class="txtName">Santos, Ronald M.</p>
+                    <p class="txtUserid">User ID: 20200</p>
+                </div>
+                <img src="frontend/assetsImages/organizerSide/profileImg.png" alt="UserIMG.jpeg">
+            </div>
+        </div>
+    </div>
+</header>
+<script>
+    console.log("this is from the header bitch");
+    console.log("this is from the header bitch2");
+
+    const btnToLogin = document.querySelector(".btnLog");
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        const profileContainer = document.querySelector(".rightInfo-container");
+        const profileName = document.querySelector(".info-container .txtName");
+        const profileUserid = document.querySelector(".info-container .txtUserid");
+
+        const loginContainer = document.querySelector(".rightLogin-container");
+        try {
+            const response = await fetch("backend/forBackendData/checkUser_id.php");
+            const data = await response.json();
+            if (data["isStored"] == true) {
+                profileContainer.style.display = "flex";
+                loginContainer.style.display = "none";
+                getUserCredential();
+            } else {
+                loginContainer.style.display = "flex";
+                profileContainer.style.display = "none"
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+        async function getUserCredential() {
+            const response = await fetch("backend/forBackendData/homePage/userDisplay.php");
+            const data = await response.json();
+            profileName.textContent = data.last_name + ", " + data.first_name + " " + data.middle_name;
+            profileUserid.textContent = "User ID: " + data.users_id;
+        }
+    });
+
+
+    btnToLogin.addEventListener("click", () => {
+        window.location.href = "loginLanding.php"
+    });
+</script>

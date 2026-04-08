@@ -29,6 +29,10 @@ $page = $_GET['page'] ?? 'home';
             case "home":
                 include("frontend/pages/index/home.php");
                 break;
+                
+            case 'newHome':
+                include("frontend/pages/index/newHome.php");
+                break;
 
             case "events":
                 include("frontend/pages/index/events.php");
@@ -38,8 +42,8 @@ $page = $_GET['page'] ?? 'home';
                 include("frontend/pages/index/calendar.php");
                 break;
 
-            case "map":
-                include("frontend/pages/index/map.php");  
+            case "org":
+                include("frontend/pages/index/org.php");  
                 break;
 
             default:
