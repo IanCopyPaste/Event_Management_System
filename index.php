@@ -1,6 +1,22 @@
 <?php
+session_start();
 $page = $_GET['page'] ?? 'home';
+
+// Handle protected pages FIRST
+if ($page === "events" && !isset($_SESSION["users_id"])) {
+    header("Location: loginLanding.php");
+    exit;
+}
+if ($page === "calendar" && !isset($_SESSION["users_id"])) {
+    header("Location: loginLanding.php");
+    exit;
+}
+if ($page === "org" && !isset($_SESSION["users_id"])) {
+    header("Location: loginLanding.php");
+    exit;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,54 +31,40 @@ $page = $_GET['page'] ?? 'home';
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.14/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.14/index.global.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 </head>
 
 <body>
-   <?php include("frontend/pages/headerFooter/header.php")?>
+
+    <?php include("frontend/pages/headerFooter/header.php") ?>
 
     <?php
-    try {
-        switch ($page) {
-            case "home":
-                include("frontend/pages/index/home.php");
-                break;
-                
-            case 'newHome':
-                include("frontend/pages/index/newHome.php");
-                break;
+    switch ($page) {
+        case "home":
+            include("frontend/pages/index/home.php");
+            break;
 
-            case "events":
-                include("frontend/pages/index/events.php");
-                break;
+        case 'newHome':
+            include("frontend/pages/index/newHome.php");
+            break;
 
-            case "calendar":
-                include("frontend/pages/index/calendar.php");
-                break;
+        case "events":
+            include("frontend/pages/index/events.php");
+            break;
 
-            case "org":
-                include("frontend/pages/index/org.php");  
-                break;
+        case "calendar":
+            include("frontend/pages/index/calendar.php");
+            break;
 
-            default:
-                echo "Page not found";
-        }
-    } catch (\Throwable $th) {
-        //echo "page might not be found";
+        case "org":
+            include("frontend/pages/index/org.php");
+            break;
+
+        default:
+            echo "Page not found";
     }
     ?>
 
-   <?php include("frontend/pages/headerFooter/footer.php")?>
+    <?php include("frontend/pages/headerFooter/footer.php") ?>
+
 </body>
-<script>
-    async function checkID(params) {
-        try {
-            const response = await fetch("backend/checkUser_id.php");
-        } catch (error) {
-            alert(error);
-        }
-    }
-</script>
 </html>
