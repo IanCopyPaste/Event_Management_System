@@ -129,12 +129,7 @@
         <div class="option-container">
             <label for="option" style="font-weight:600;">Select Department to Apply with</label>
             <select name="option" id="option" required>
-                <option value="10">Department of Information Technology - College of Computing Studies</option>
-                <option value="11">Department of Computer Science - College of Computing Studies</option>
-                <option value="12">Department of Business Administration - College of Business and Management</option>
-                <option value="13">Department of Accountancy - College of Business and Management</option>
-                <option value="14">Department of Civil Engineering - College of Engineering</option>
-                <option value="15">Department of Psychology - College of Arts and Sciences</option>
+                
             </select>
         </div>
 
@@ -179,6 +174,20 @@
     const btnSubmit = document.querySelector(".btnSubmit");
 
     document.addEventListener("DOMContentLoaded", async () => {
+        const selectDept = document.querySelector("#option");
+        try {
+            const response = await fetch("backend/forBackendData/createOrganizationPage/getDepartments.php");
+            const data = await response.json();
+            data.forEach(element => {
+                //alert(element.department_name);
+                selectDept.innerHTML += `<option value=${element.department_id}>${element.department_name}</option>`
+            });
+        } catch (error) {
+            alert(error);
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", async () => {
         const pendingNotif = document.querySelector("#pendingNotif");
         const btnSubmit = document.querySelector(".btnSubmit");
         const response = await fetch("backend/forBackendData/createOrganizationPage/checkOrgUserApplication.php");
@@ -220,11 +229,11 @@
         const txtOrgDept = document.getElementById("option");
         const txtOrgEmail = document.getElementById("org_email");
         const txtOrgNumber = document.getElementById("org_number");
-        const txtOrgUsername = document.getElementById("org_username");
+        const txtOrgUsername = document.getElementById("org_username"); 
         const confirmPass1 = document.getElementById("org_confirmPassword");
         const orgAddedFiles = document.getElementById("org_files");
 
-        e.preventDefault();
+        //e.preventDefault();
 
         const formData = new FormData();
 
