@@ -117,7 +117,7 @@
         padding: 10px;
     }
 </style>
-<form action="" method="POST" class="orgForm-container">
+<div class="orgForm-container">
     <p id="formLabel">Create an Organization</p>
 
     <div class="txtFields-container">
@@ -128,9 +128,7 @@
 
         <div class="option-container">
             <label for="option" style="font-weight:600;">Select Department to Apply with</label>
-            <select name="option" id="option" required>
-                
-            </select>
+            <select name="option" id="option" required></select>
         </div>
 
         <div class="txtInputs-container">
@@ -158,19 +156,19 @@
         <small id="matchMessage"></small>
         <div class="filesInput-container">
             <label for="org_files" style="font-weight: 600;">Additional Files (optional)</label>
-            <input type="file" placeholder=" " id="org_files">
+            <input type="file" id="org_files">
         </div>
         <div class="btnSubmit-container">
             <input type="submit" class="btnSubmit">
         </div>
-        <p style="color: red; display: none;" id="pendingNotif">You still have a pending application</p>
+        <p style="color: red; display: none;" id="pendingNotif">You still have a pending application, Check your email for confirmation</p>
     </div>
-</form>
+</div>
+
 <script>
     const confirmPass = document.getElementById("org_confirmPassword");
     const pass = document.getElementById("org_password");
     const message = document.getElementById("matchMessage");
-
     const btnSubmit = document.querySelector(".btnSubmit");
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -179,8 +177,7 @@
             const response = await fetch("backend/forBackendData/createOrganizationPage/getDepartments.php");
             const data = await response.json();
             data.forEach(element => {
-                //alert(element.department_name);
-                selectDept.innerHTML += `<option value=${element.department_id}>${element.department_name}</option>`
+                selectDept.innerHTML += `<option value="${element.department_id}">${element.department_name}</option>`
             });
         } catch (error) {
             alert(error);
@@ -189,7 +186,6 @@
 
     document.addEventListener("DOMContentLoaded", async () => {
         const pendingNotif = document.querySelector("#pendingNotif");
-        const btnSubmit = document.querySelector(".btnSubmit");
         const response = await fetch("backend/forBackendData/createOrganizationPage/checkOrgUserApplication.php");
         const data = await response.json();
         if (data.status) {
@@ -221,19 +217,35 @@
             btnSubmit.style.backgroundColor = "grey";
         }
     }
+
     pass.addEventListener("input", checkPassword);
     confirmPass.addEventListener("input", checkPassword);
 
     btnSubmit.addEventListener("click", async (e) => {
+        e.preventDefault();
+
         const txtOrgName = document.getElementById("org_name");
         const txtOrgDept = document.getElementById("option");
         const txtOrgEmail = document.getElementById("org_email");
         const txtOrgNumber = document.getElementById("org_number");
-        const txtOrgUsername = document.getElementById("org_username"); 
+        const txtOrgUsername = document.getElementById("org_username");
         const confirmPass1 = document.getElementById("org_confirmPassword");
         const orgAddedFiles = document.getElementById("org_files");
 
-        //e.preventDefault();
+        if (
+            !txtOrgName.value ||
+            !txtOrgDept.value ||
+            !txtOrgEmail.value ||
+            !txtOrgNumber.value ||
+            !txtOrgUsername.value ||
+            !confirmPass1.value
+        ) {
+            alert("Your Information is Incomplete");
+            return;
+        } else if (!txtOrgEmail.value.includes("@")) {
+            alert("Your Email is in Incorrect Format");
+            return;
+        }
 
         const formData = new FormData();
 
@@ -255,6 +267,19 @@
         });
 
         const data = await response.json();
-        alert(data.message);
+        if (data.status == true) {
+            const response1 = await fetch("backend/forBackendData/createOrganizationPage/sendApplyNotif.php",{
+                method:"POST",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "org_name":txtOrgName.value
+                })
+            });
+            const data1 = await response1.json();
+            alert(data1.message);
+            location.reload();
+        }
     });
 </script>

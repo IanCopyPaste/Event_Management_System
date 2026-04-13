@@ -17,6 +17,10 @@ if($row = mysqli_fetch_assoc($result)){
             "message" => "Login Successful! Welcome " . $row["first_name"] . "!"
         ]);
         $_SESSION["users_id"] = $row["users_id"];
+        $_SESSION["users_email"] = $row["email"];
+        $_SESSION["users_fname"] = $row["first_name"];
+        $_SESSION["users_mname"] = $row["middle_name"];
+        $_SESSION["users_lname"] = $row["last_name"];
     }else{
         echo json_encode([
             "remarks" => false,

@@ -1,5 +1,4 @@
 <section class="calendar-container" style="width: 70%; height: 50vh; display: flex; padding: 50px 0px;">
-
     <!--CALENDAR CONTAINER-->
 </section>
 <div class="modal-container">

@@ -11,7 +11,7 @@ try {
     $org_contact_no = $_POST["org_number"] ?? null;
     $org_username = $_POST["org_username"] ?? null;
     $org_password = $_POST["org_password"] ?? null;
-    $additional_files = null;
+    $additional_files = $_FILES["file"] ?? null;
 
     if (isset($_FILES["file"]) && $_FILES["file"]["error"] === 0) {
         $uploadDir = "../../../image_data/org_applications_docs/";
@@ -28,7 +28,7 @@ try {
     $created_at = date("Y-m-d H:i:s");
 
     $stmt = $conn->prepare("INSERT INTO org_application (user_id, department_id, org_name, org_email, org_contact_no, org_username, org_password, additional_files, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("iisssssss", $user_id, $department_id, $org_name, $org_email, $org_contact_no, $org_username, $hashed_password, $additional_files, $created_at);
+    $stmt->bind_param("iisssssss", $user_id, $department_id, $org_name, $org_email, $org_contact_no, $org_username, $hashed_password, $fileName, $created_at);
     $stmt->execute();
 
     echo json_encode([
@@ -42,4 +42,3 @@ try {
         "message" => "Error Occured in Backend!"
     ]);
 }
-?>
