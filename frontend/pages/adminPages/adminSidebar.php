@@ -9,7 +9,7 @@
     .side-container {
         height: 100vh;
         width: 20%;
-        max-width: 17%;
+        max-width: 16%;
         padding: 20px 0px;
         border-radius: 0px 5px 5px 0px;
         background-color: rgba(39, 115, 255, 1);

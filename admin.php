@@ -14,7 +14,7 @@ $page = $_GET["page"] ?? 'orgDash';
         }
         .page-container{
             padding: 5px;
-            width: 80%;
+            width: 100%;
         }
     </style>
 </head>

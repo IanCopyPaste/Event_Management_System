@@ -96,6 +96,10 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
+    .btnSubmit img{
+        height: 20px;
+        width: 20px;
+    }
 
     .btnSubmit:hover {
         cursor: pointer;
@@ -159,7 +163,7 @@
             <input type="file" id="org_files">
         </div>
         <div class="btnSubmit-container">
-            <input type="submit" class="btnSubmit">
+            <button class="btnSubmit">Submit</button>
         </div>
         <p style="color: red; display: none;" id="pendingNotif">You still have a pending application, Check your email for confirmation</p>
     </div>
@@ -246,7 +250,8 @@
             alert("Your Email is in Incorrect Format");
             return;
         }
-
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = `<img src="frontend/assetsImages/loadingGif.gif" alt="loading">`
         const formData = new FormData();
 
         if (orgAddedFiles.files[0] != null) {

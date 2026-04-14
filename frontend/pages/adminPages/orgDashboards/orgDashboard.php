@@ -24,25 +24,27 @@ $adminPages = $_GET["adminPages"] ?? 'manageOrg';
         padding: 10px 14px;
         border-radius: 6px;
         transition: all 0.2s ease;
-        color: #333;
+        color: #000000;
     }
 
     .orgPage-container button:hover {
-        background-color: rgba(83, 155, 255, 0.12);
+        background-color: rgba(83, 155, 255, 1);
         cursor: pointer;
+        color: white;
+        font-weight: 500;
         transform: translateY(-1px);
     }
 
     .orgPage-container button.org-active {
         font-weight: 700;
         text-decoration: none;
-        color: rgb(0, 0, 0);
-        background-color: rgba(83, 155, 255, 0.18);
+        color: rgb(255, 255, 255);
+        background-color: rgba(83, 155, 255, 1);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
 
     .orgPage-container button.org-active:hover {
-        background-color: rgba(83, 155, 255, 0.18);
+        background-color: rgba(83, 155, 255, 1);
         transform: none;
     }
 </style>

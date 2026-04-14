@@ -14,6 +14,7 @@ if($row = mysqli_fetch_assoc($result)){
     if(($data["users_id"] == $row["users_id"]) && ($data["password"] == $row["password_hashed"])){
         echo json_encode([
             "remarks" => true,
+            "role" => $row["role"],
             "message" => "Login Successful! Welcome " . $row["first_name"] . "!"
         ]);
         $_SESSION["users_id"] = $row["users_id"];

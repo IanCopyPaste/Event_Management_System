@@ -1,9 +1,211 @@
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Barlow', sans-serif;
+    }
 
+    .orgsApply-container {
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .utilities-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0px 10px;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .field label {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .utilities-container select,
+    .utilities-container input {
+        padding: 10px 12px;
+        border: 1px solid #cfe8ff;
+        border-radius: 6px;
+        outline: none;
+    }
+
+    .utilities-container select:focus,
+    .utilities-container input:focus {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+    }
+
+    #txtSearchbar {
+        margin-left: auto;
+        width: 240px;
+    }
+
+    .utilities-container select:hover,
+    .utilities-container input:hover {
+        border-color: #b0b0b0;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        border-radius: 12px;
+        border: 1px solid #cfe8ff;
+    }
+
+    .orgApplication-table {
+        margin-top: 20px;
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+    }
+
+    .orgApplication-table thead {
+        background: rgba(0, 65, 156, 1);
+    }
+
+    .orgApplication-table th {
+        padding: 12px;
+        text-align: left;
+        font-size: 13px;
+        color: #ffffff;
+        border-bottom: 1px solid #cfe8ff;
+    }
+
+    .orgApplication-table td {
+        padding: 12px;
+        font-size: 13px;
+        color: #334155;
+        border-bottom: 1px solid #e0f0ff;
+        max-width: 200px;
+    }
+
+    .orgApplication-table td button {
+        padding: 5px 10px;
+        background-color: rgba(0, 65, 156, 1);
+        color: white;
+    }
+
+    .orgApplication-table td button:hover {
+        cursor: pointer;
+    }
+
+    .orgApplication-table tbody tr:hover {
+        background: #f0f8ff;
+    }
+
+    .empty {
+        text-align: center;
+        color: #60a5fa;
+        padding: 20px;
+    }
 </style>
 <div class="orgsApply-container">
-    
+    <div class="utilities-container">
+
+        <div class="field">
+            <label for="sortByNewest">Sort By Date/Name</label>
+            <select name="sortByNewest" id="sortByNewest">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="ascending">Organization Name (A-Z)</option>
+                <option value="ascending">Organization Name (Z-A)</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="sortByStatus">Filter By Status</label>
+            <select name="sortByStatus" id="sortByStatus">
+                <option value="pending">🟡 Pending</option>
+                <option value="approved">🟢 Approved</option>
+                <option value="rejected">🔴 Rejected</option>
+                <option value="all">🌏 All</option>
+            </select>
+        </div>
+
+        <input type="text" id="txtSearchbar" placeholder="Search...">
+
+    </div>
+    <table class="orgApplication-table">
+        <thead>
+            <tr>
+                <th style="border-radius: 5px 0px 0px 5px;">Application ID</th>
+                <th>Org name</th>
+                <th>Org Email</th>
+                <th>Org Contact No.</th>
+                <th>Department Name</th>
+                <th>Organizer ID</th>
+                <th>Status</th>
+                <th style="border-radius: 0px 5px 5px 0px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="empty">
+                <td colspan="9">No data available</td>
+            </tr>
+            <tr>
+                <td colspan="9"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <script>
+    const dataNotif = document.querySelector(".empty");
+    const tableBody = document.querySelector(".orgApplication-table tbody");
 
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        loadOrgApplications(null);
+    });
+
+    async function loadOrgApplications(org_apply_ID) {
+        const response = await fetch("backend/forBackendData/adminNorgs/application/fetchOrgApplications.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                org_application_id: org_apply_ID
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.status === true) {
+            dataNotif.style.display = "none";
+
+            tableBody.innerHTML = "";
+
+            data.record.forEach(element => {
+                tableBody.innerHTML += `
+                <tr>
+                    <td>${element.org_apply_id}</td>
+                    <td>${element.org_name}</td>
+                    <td>${element.org_email}</td>
+                    <td>${element.org_contact_no}</td>
+                    <td>${element.department_name}</td>
+                    <td>${element.users_id}</td>
+                    <td>${element.status}</td>
+                    <td>
+                        <button data-applicationid="${element.org_apply_id}">⌕ View</button>
+                    </td>
+                </tr>
+            `;
+            });
+            console.log(data.record);
+        }
+        const btnShowInfoModal = document.querySelectorAll(".orgApplication-table td button");
+        btnShowInfoModal.forEach(info => {
+            info.addEventListener("click", (e) => {
+                alert(info.dataset.applicationid);
+            });
+        });
+    }
 </script>
