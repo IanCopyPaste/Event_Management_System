@@ -334,7 +334,7 @@ let org_id = null;
 document.addEventListener("DOMContentLoaded", loadOrganizations);
 
 async function loadOrganizations() {
-    const res = await fetch("backend/forBackendData/adminNorgs/application/displayOrgs.php", {
+    const res = await fetch("backend/forBackendData/adminNorgs/manage/displayOrgs.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ org_id: null })
@@ -380,7 +380,7 @@ document.querySelector(".btnCloseModal").onclick = () => {
 };
 
 async function fetchOrganization(id) {
-    const res = await fetch("backend/forBackendData/adminNorgs/application/displayOrgs.php", {
+    const res = await fetch("backend/forBackendData/adminNorgs/manage/displayOrgs.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ org_id: id })

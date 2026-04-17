@@ -360,6 +360,8 @@
     const sortByStatus = document.querySelector("#sortByStatus");
     const txtSearchbar = document.querySelector("#txtSearchbar");
 
+    let email;
+
     let org_apply_id = null;
     let fileName = null;
     const fileDirectory = "image_data/org_applications_docs/";
@@ -428,8 +430,10 @@
         txtCreated_at.value = d.record.created_at;
         txtStatus.value = d.record.status;
 
+        email = d.record.org_email;
+
         const iframe = document.querySelector(".file-preview iframe");
-        const btn = document.querySelector(".btnDownload");
+        const btn = document.querySelector(".btnDownload");''
 
         if (!d.record.additional_files) {
             fileName = null;
@@ -512,4 +516,22 @@
     sortByNewest.onchange = fetchWithFilters;
     sortByStatus.onchange = fetchWithFilters;
     txtSearchbar.oninput = fetchWithFilters;
+
+    async function sendStatusToEmail(email) {
+        try {
+            const response = await fetch("backend/forBackendData/adminNorgs/application/sendStatsEmail.php",{
+                method: "POST",
+                headers:{"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    "org_email": this.email
+                })
+            });
+            const data = await response.json();
+            if(data.status == true){
+                console.log(data.message);
+            }
+        } catch (error) {
+            alert("error occured in js");
+        }
+    }
 </script>
