@@ -12,9 +12,22 @@ $page = $_GET["page"] ?? 'orgDash';
         .admin-container {
             display: flex;
         }
-        .page-container{
+
+        .page-container {
             padding: 5px;
-            width: 100%;
+            margin-left: 250px;
+            width: calc(100% - 270px);
+        }
+
+        .side-container {
+            position: fixed;
+            height: 100vh;
+            width: 270px;
+            max-width: 16%;
+            padding: 20px 0px;
+            border-radius: 0px 5px 5px 0px;
+            background-color: rgba(39, 115, 255, 1);
+            overflow: hidden;
         }
     </style>
 </head>
@@ -26,6 +39,9 @@ $page = $_GET["page"] ?? 'orgDash';
         switch ($page) {
             case 'orgDash':
                 include("frontend/pages/adminPages/orgDashboards/orgDashboard.php");
+                break;
+            case 'userDash':
+                include("frontend/pages/adminPages/userDasboard.html");
                 break;
             case 'eventDash':
                 include("frontend/pages/adminPages/eventDashboard.html");

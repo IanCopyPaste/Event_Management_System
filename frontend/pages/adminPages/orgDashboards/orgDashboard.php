@@ -25,6 +25,7 @@ $adminPages = $_GET["adminPages"] ?? 'manageOrg';
         border-radius: 6px;
         transition: all 0.2s ease;
         color: #000000;
+        box-shadow: 0px 1px 2px grey;
     }
 
     .orgPage-container button:hover {
@@ -41,6 +42,7 @@ $adminPages = $_GET["adminPages"] ?? 'manageOrg';
         color: rgb(255, 255, 255);
         background-color: rgba(83, 155, 255, 1);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: none;
     }
 
     .orgPage-container button.org-active:hover {

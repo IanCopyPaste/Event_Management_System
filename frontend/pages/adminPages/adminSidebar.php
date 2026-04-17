@@ -1,19 +1,15 @@
+<?php
+session_start();
+$_SESSION["user_fname"] = "Riley";
+$_SESSION["user_lname"] = "Adote";
+$_SESSION["users_id"] = "20200";
+?>
 <style>
     * {
         padding: 0;
         margin: 0;
         box-sizing: border-box;
         font-family: 'Barlow', sans-serif;
-    }
-
-    .side-container {
-        height: 100vh;
-        width: 20%;
-        max-width: 16%;
-        padding: 20px 0px;
-        border-radius: 0px 5px 5px 0px;
-        background-color: rgba(39, 115, 255, 1);
-        overflow: hidden;
     }
 
     .side-container p {
@@ -77,14 +73,15 @@
 </style>
 <div class="side-container">
     <div class="adminProfile-container">
-        <img src="frontend/assetsImages/univLogo.png" alt="">
+        <img src="frontend/assetsImages/univLogo.png" alt="NoProfile">
         <div class="adminInfo-container" >
-            <p class="adminName">UKE Admin</p>
-            <p class="adminID">Admin ID: 29200</p>
+            <p class="adminName"><?=  $_SESSION["user_fname"] ." ". $_SESSION["user_lname"]?></p>
+            <p class="adminID">Admin ID: <?=  $_SESSION["users_id"] ?></p>
         </div>
     </div>
     <form action="admin.php" method="GET">
         <button name="page" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
+        <button name="page" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
         <button name="page" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
         <button name="page" value="sponsorDash" id="<?= $page =='sponsorDash' ? 'admin-active' : ''?>">Sponsorships</button>
         <button name="page" value="settingsDash" id="<?= $page == 'settingsDash' ? 'admin-active' : ''?>">Settings</button>

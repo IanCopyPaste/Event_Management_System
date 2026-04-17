@@ -160,7 +160,7 @@
         <small id="matchMessage"></small>
         <div class="filesInput-container">
             <label for="org_files" style="font-weight: 600;">Additional Files (optional)</label>
-            <input type="file" id="org_files">
+            <input type="file" id="org_files" accept=".pdf,.jpg,.jpeg,.png">
         </div>
         <div class="btnSubmit-container">
             <button class="btnSubmit">Submit</button>

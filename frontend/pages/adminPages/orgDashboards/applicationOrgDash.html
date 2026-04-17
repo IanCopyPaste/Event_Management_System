@@ -71,6 +71,11 @@
         background: rgba(0, 65, 156, 1);
     }
 
+    .orgApplication-table tbody {
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+
     .orgApplication-table th {
         padding: 12px;
         text-align: left;
@@ -91,6 +96,9 @@
         padding: 5px 10px;
         background-color: rgba(0, 65, 156, 1);
         color: white;
+        border: none;
+        border-radius: 3px;
+        outline: none;
     }
 
     .orgApplication-table td button:hover {
@@ -106,106 +114,402 @@
         color: #60a5fa;
         padding: 20px;
     }
+
+    .orgInfo-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 90vh;
+        width: 60%;
+        background-color: white;
+        border-radius: 14px;
+        border: 1px solid rgba(83, 155, 255, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 65, 156, 0.2);
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .btnCloseModal {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 1.3rem;
+        background: transparent;
+        border: none;
+        color: rgba(0, 65, 156, 1);
+    }
+
+    .btnCloseModal:hover {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+
+    .allOrgInfo-container {
+        padding: 30px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+    }
+
+    .allOrgInfo-container input {
+        padding: 10px 12px;
+        border-radius: 6px;
+        border: 1px solid rgba(117, 117, 117, 0.3);
+        background: #ffffff;
+        color: rgb(0, 0, 0);
+        font-size: 13px;
+    }
+
+    .file-preview {
+        grid-column: span 2;
+        height: 600px;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid rgba(83, 155, 255, 0.3);
+    }
+
+    .file-preview iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .btnDownload {
+        grid-column: span 2;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        background: rgba(83, 155, 255, 1);
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btnDownload:hover {
+        background: rgba(0, 65, 156, 1);
+    }
+
+    .approvalUtil-container {
+        padding: 16px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        border-top: 1px solid rgba(83, 155, 255, 0.2);
+    }
+
+    .approvalUtil-container button {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .approvalUtil-container p {
+        color: red;
+        margin-right: 10px;
+        visibility: hidden;
+    }
+
+    .btnApprove {
+        background: rgb(77, 160, 0);
+        color: white;
+    }
+
+    .btnReject {
+        background: rgb(211, 0, 0);
+        color: white;
+    }
+
+    .btnCancel {
+        background: white;
+        border: 1px solid rgba(83, 155, 255, 0.5);
+        color: rgb(0, 0, 0);
+    }
+
+    .btnApprove:hover {
+        opacity: 0.9;
+    }
+
+    .btnReject:hover {
+        opacity: 0.9;
+    }
+
+    .btnCancel:hover {
+        background: rgba(83, 155, 255, 0.1);
+    }
+
+    .btnDownloadDisabled {
+        grid-column: span 2;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        background-color: grey;
+        color: black;
+    }
+
+    .btnDisabled {
+        background-color: grey;
+        cursor: not-allowed;
+    }
 </style>
+
 <div class="orgsApply-container">
     <div class="utilities-container">
-
         <div class="field">
             <label for="sortByNewest">Sort By Date/Name</label>
-            <select name="sortByNewest" id="sortByNewest">
+            <select id="sortByNewest">
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
-                <option value="ascending">Organization Name (A-Z)</option>
-                <option value="ascending">Organization Name (Z-A)</option>
+                <option value="az">Organization Name (A-Z)</option>
+                <option value="za">Organization Name (Z-A)</option>
             </select>
         </div>
 
         <div class="field">
             <label for="sortByStatus">Filter By Status</label>
-            <select name="sortByStatus" id="sortByStatus">
+            <select id="sortByStatus">
+                <option value="all">🌏 All</option>
                 <option value="pending">🟡 Pending</option>
                 <option value="approved">🟢 Approved</option>
                 <option value="rejected">🔴 Rejected</option>
-                <option value="all">🌏 All</option>
             </select>
         </div>
 
         <input type="text" id="txtSearchbar" placeholder="Search...">
-
     </div>
+
     <table class="orgApplication-table">
         <thead>
             <tr>
-                <th style="border-radius: 5px 0px 0px 5px;">Application ID</th>
+                <th>Application ID</th>
                 <th>Org name</th>
                 <th>Org Email</th>
                 <th>Org Contact No.</th>
                 <th>Department Name</th>
                 <th>Organizer ID</th>
                 <th>Status</th>
-                <th style="border-radius: 0px 5px 5px 0px;">Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             <tr class="empty">
-                <td colspan="9">No data available</td>
-            </tr>
-            <tr>
-                <td colspan="9"></td>
+                <td colspan="8">No data available</td>
             </tr>
         </tbody>
     </table>
+     </div>
 </div>
+
+<div class="orgInfo-modal">
+    <h3 style="margin:20px">Application Review Panel</h3>
+    <button class="btnCloseModal">✕</button>
+
+    <div class="allOrgInfo-container">
+        <label>Application ID</label>
+        <input id="txtOrg_application_id" readonly>
+
+        <label>Organization Name</label>
+        <input id="txtOrg_name" readonly>
+
+        <label>Organization Email</label>
+        <input id="txtOrg_email" readonly>
+
+        <label>Contact Number</label>
+        <input id="txtOrg_contact_no" readonly>
+
+        <label>Department</label>
+        <input id="txtOrg_department_name" readonly>
+
+        <label>Organizer ID</label>
+        <input id="txtOrganizer_id" readonly>
+
+        <label>Organizer Name</label>
+        <input id="txtOrganizer_name" readonly>
+
+        <label>Submitted At</label>
+        <input id="txtCreated_at" readonly>
+
+        <label>Status</label>
+        <input id="txtStatus" readonly>
+
+        <label>File Preview: </label>
+        <div class="file-preview">
+            <iframe></iframe>
+        </div>
+
+        <button class="btnDownload" onclick="downloadFile()">Download File</button>
+    </div>
+
+    <div class="approvalUtil-container">
+        <p>The application has been decided</p>
+        <button class="btnApprove">Approve</button>
+        <button class="btnReject">Reject</button>
+        <button class="btnCancel">Cancel</button>
+</div>
+
 <script>
     const dataNotif = document.querySelector(".empty");
     const tableBody = document.querySelector(".orgApplication-table tbody");
+    const sortByNewest = document.querySelector("#sortByNewest");
+    const sortByStatus = document.querySelector("#sortByStatus");
+    const txtSearchbar = document.querySelector("#txtSearchbar");
 
+    let org_apply_id = null;
+    let fileName = null;
+    const fileDirectory = "image_data/org_applications_docs/";
 
-    document.addEventListener("DOMContentLoaded", async () => {
-        loadOrgApplications(null);
+    document.addEventListener("DOMContentLoaded", loadOrgApplications);
+
+    async function loadOrgApplications() {
+        const res = await fetch("backend/forBackendData/adminNorgs/application/fetchOrgApplications.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ org_application_id: null })
+        });
+        const data = await res.json();
+        renderTable(data.record);
+    }
+
+    function renderTable(records) {
+        tableBody.innerHTML = "";
+        if (!records || records.length === 0) {
+            tableBody.innerHTML = `<tr class="empty"><td colspan="8">No data available</td></tr>`;
+            return;
+        }
+        records.forEach(e => {
+            tableBody.innerHTML += `
+        <tr>
+            <td>${e.org_apply_id}</td>
+            <td>${e.org_name}</td>
+            <td>${e.org_email}</td>
+            <td>${e.org_contact_no}</td>
+            <td>${e.department_name}</td>
+            <td>${e.users_id}</td>
+            <td>${e.status}</td>
+            <td><button data-id="${e.org_apply_id}">⌕ View</button></td>
+        </tr>`;
+        });
+    }
+
+    tableBody.addEventListener("click", e => {
+        if (e.target.tagName === "BUTTON") {
+            org_apply_id = e.target.dataset.id;
+            document.querySelector(".orgInfo-modal").style.display = "flex";
+            fetchSpeficicApplication(org_apply_id);
+        }
     });
 
-    async function loadOrgApplications(org_apply_ID) {
-        const response = await fetch("backend/forBackendData/adminNorgs/application/fetchOrgApplications.php", {
+    document.querySelector(".btnCloseModal").onclick = () => document.querySelector(".orgInfo-modal").style.display = "none";
+    document.querySelector(".btnCancel").onclick = () => document.querySelector(".orgInfo-modal").style.display = "none";
+    document.querySelector(".btnApprove").onclick = () => status("approved", org_apply_id);
+    document.querySelector(".btnReject").onclick = () => status("rejected", org_apply_id);
+
+    async function fetchSpeficicApplication(id) {
+        const res = await fetch("backend/forBackendData/adminNorgs/application/fetchOrgApplications.php", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                org_application_id: org_apply_ID
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ org_application_id: id })
+        });
+        const d = await res.json();
+
+        txtOrg_application_id.value = d.record.org_apply_id;
+        txtOrg_name.value = d.record.org_name;
+        txtOrg_email.value = d.record.org_email;
+        txtOrg_contact_no.value = d.record.org_contact_no;
+        txtOrg_department_name.value = d.record.department_name;
+        txtOrganizer_id.value = d.record.users_id;
+        txtOrganizer_name.value = d.record.organizer;
+        txtCreated_at.value = d.record.created_at;
+        txtStatus.value = d.record.status;
+
+        const iframe = document.querySelector(".file-preview iframe");
+        const btn = document.querySelector(".btnDownload");
+
+        if (!d.record.additional_files) {
+            fileName = null;
+            iframe.src = "";
+            btn.disabled = true;
+            btn.classList.add("btnDownloadDisabled");
+        } else {
+            fileName = d.record.additional_files;
+            iframe.src = fileDirectory + fileName;
+            btn.disabled = false;
+            btn.classList.remove("btnDownloadDisabled");
+        }
+
+        if (d.record.status !== "pending") {
+            document.querySelector(".btnApprove").disabled = true;
+            document.querySelector(".btnReject").disabled = true;
+            document.querySelector(".approvalUtil-container p").style.visibility = "visible";
+
+            document.querySelector(".btnApprove").classList.add("btnDisabled");
+            document.querySelector(".btnReject").classList.add("btnDisabled");
+        } else {
+            document.querySelector(".btnApprove").disabled = false;
+            document.querySelector(".btnReject").disabled = false;
+            document.querySelector(".approvalUtil-container p").style.visibility = "hidden";
+
+            document.querySelector(".btnApprove").classList.remove("btnDisabled");
+            document.querySelector(".btnReject").classList.remove("btnDisabled");
+        }
+    }
+
+    async function status(s, id) {
+        const response = await fetch("backend/forBackendData/adminNorgs/application/updateStatus.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ statusString: s, orgApplyID: id })
         });
 
         const data = await response.json();
-
-        if (data.status === true) {
-            dataNotif.style.display = "none";
-
-            tableBody.innerHTML = "";
-
-            data.record.forEach(element => {
-                tableBody.innerHTML += `
-                <tr>
-                    <td>${element.org_apply_id}</td>
-                    <td>${element.org_name}</td>
-                    <td>${element.org_email}</td>
-                    <td>${element.org_contact_no}</td>
-                    <td>${element.department_name}</td>
-                    <td>${element.users_id}</td>
-                    <td>${element.status}</td>
-                    <td>
-                        <button data-applicationid="${element.org_apply_id}">⌕ View</button>
-                    </td>
-                </tr>
-            `;
+        if(s == "approved"){
+            const response1 = await fetch("backend/forBackendData/adminNorgs/application/transferApplications.php",{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "applyID": id
+                })
             });
-            console.log(data.record);
+            const data1 = await response1.json();
+            if(data1.status == true){
+                console.log(data1.message);
+            }
         }
-        const btnShowInfoModal = document.querySelectorAll(".orgApplication-table td button");
-        btnShowInfoModal.forEach(info => {
-            info.addEventListener("click", (e) => {
-                alert(info.dataset.applicationid);
-            });
-        });
+        alert("Org ID: " + data.applicationID + " " + data.message)
+        //location.reload();
     }
+
+    function downloadFile() {
+        if (!fileName) return;
+        const a = document.createElement("a");
+        a.href = fileDirectory + fileName;
+        a.download = "";
+        a.click();
+    }
+
+    async function fetchWithFilters() {
+        const res = await fetch("backend/forBackendData/adminNorgs/application/utilitiesFetch.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                sortNewest: sortByNewest.value,
+                sortStatus: sortByStatus.value,
+                txtSearch: txtSearchbar.value
+            })
+        });
+        const data = await res.json();
+        renderTable(data.record);
+    }
+
+    sortByNewest.onchange = fetchWithFilters;
+    sortByStatus.onchange = fetchWithFilters;
+    txtSearchbar.oninput = fetchWithFilters;
 </script>

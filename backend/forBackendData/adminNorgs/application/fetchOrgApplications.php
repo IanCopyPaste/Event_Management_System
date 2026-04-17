@@ -15,6 +15,7 @@ try {
 
     u.users_id,
     CONCAT(u.first_name, ' ', u.middle_name, ' ', u.last_name) AS organizer,
+    oa.additional_files,
 
     d.department_name
 
@@ -22,7 +23,7 @@ FROM org_application oa
 JOIN users u ON oa.user_id = u.users_id
 JOIN department d ON oa.department_id = d.department_id
 WHERE oa.org_apply_id=?
-ORDER BY oa.created_at DESC";
+ORDER BY oa.created_at";
         $stmt = mysqli_prepare($conn, $query);
         mysqli_stmt_bind_param($stmt, "i", $data["org_application_id"]);
         mysqli_stmt_execute($stmt);
