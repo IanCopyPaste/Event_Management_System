@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2026 at 03:23 AM
+-- Generation Time: Apr 19, 2026 at 09:47 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -130,7 +130,7 @@ CREATE TABLE `organizations` (
   `org_email` varchar(50) DEFAULT NULL,
   `org_contact_no` varchar(50) DEFAULT NULL,
   `org_username` varchar(50) DEFAULT NULL,
-  `org_password` varchar(50) DEFAULT NULL,
+  `org_password` varchar(255) DEFAULT NULL,
   `org_logo` mediumblob DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -140,7 +140,9 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`org_id`, `users_id`, `department_id`, `org_name`, `org_email`, `org_contact_no`, `org_username`, `org_password`, `org_logo`, `created_at`) VALUES
-(1000, 20203, 10, 'THE KOLOKOY CLUB', 'kolokoyClub@gmail.com', '122', '123', '$2y$10$qsSZ.s4k6FK3BHVmRl4FBuhV6sL/VwiGTySQM74tG4U', NULL, '2026-04-13 08:49:19');
+(1000, 20203, 10, 'THE KOLOKOY CLUB', 'kolokoyClub@gmail.com', '122', 'ian', 'ian', NULL, '2026-04-19 07:02:19'),
+(1003, 20202, 11, 'THE KOLOKOY CLUB', 'velasco.ezekieljohn.javellana@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJi', NULL, '2026-04-14 05:13:46'),
+(1006, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', NULL, '2026-04-19 07:28:21');
 
 -- --------------------------------------------------------
 
@@ -167,9 +169,10 @@ CREATE TABLE `org_application` (
 --
 
 INSERT INTO `org_application` (`org_apply_id`, `user_id`, `department_id`, `org_name`, `org_email`, `org_contact_no`, `org_username`, `org_password`, `status`, `additional_files`, `created_at`) VALUES
-(1, 20200, 11, 'tbs genggeng', 'kolokoy@gmail.com', '09123456789', 'kolokoyKame', '$2y$10$HioSqCXfRumXPFdHT8tK2eJrNHMkpjJNtVpL0AwqGwumji/X7352y', 'pending', 'pedo.pdf', '2026-04-10 04:39:33'),
-(16, 20203, 10, 'THE KOLOKOY CLUB', 'kolokoyClub@gmail.com', '122', '123', '$2y$10$qsSZ.s4k6FK3BHVmRl4FBuhV6sL/VwiGTySQM74tG4Ui105xSPj4K', 'approved', 'file_69dd026f8197a8.34277366.jpg', '2026-04-13 16:49:19'),
-(22, 20202, 11, 'THE KOLOKOY CLUB', '123@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJiy.7mY/W796', 'approved', NULL, '2026-04-14 13:13:46');
+(1, 20200, 11, 'tbs genggeng', 'samonte.psalmamiel.tosoc@gmail.com', '09123456789', 'kolokoyKame', '$2y$10$HioSqCXfRumXPFdHT8tK2eJrNHMkpjJNtVpL0AwqGwumji/X7352y', 'rejected', 'pedo.pdf', '2026-04-10 04:39:33'),
+(16, 20203, 10, 'THE KOLOKOY CLUB', 'esteban.jamesbenedict.mabbayad.12@gmail.com', '122', '123', '$2y$10$qsSZ.s4k6FK3BHVmRl4FBuhV6sL/VwiGTySQM74tG4Ui105xSPj4K', 'approved', 'file_69dd026f8197a8.34277366.jpg', '2026-04-13 16:49:19'),
+(22, 20202, 11, 'THE KOLOKOY CLUB', 'adote.ronadrian.molleda@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJiy.7mY/W796', 'rejected', NULL, '2026-04-14 13:13:46'),
+(24, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', 'approved', NULL, '2026-04-19 09:19:19');
 
 -- --------------------------------------------------------
 
@@ -347,13 +350,13 @@ ALTER TABLE `forms`
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `org_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1001;
+  MODIFY `org_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1007;
 
 --
 -- AUTO_INCREMENT for table `org_application`
 --
 ALTER TABLE `org_application`
-  MODIFY `org_apply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `org_apply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `responses`
