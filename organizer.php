@@ -1,5 +1,5 @@
 <?php
-$page = $_GET["page"] ?? 'orgDash';
+$page = $_GET["organizerPages"] ?? 'analyticsDash';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +9,7 @@ $page = $_GET["page"] ?? 'orgDash';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <style>
-        .admin-container {
+        .organizer-container {
             display: flex;
         }
 
@@ -32,13 +32,13 @@ $page = $_GET["page"] ?? 'orgDash';
     </style>
 </head>
 
-<body class="admin-container">
-    <?php include("frontend/pages/adminPages/adminSidebar.php") ?>
+<body class="organizer-container">
+    <?php include("frontend/pages/organizerPages/organizerSidebar.php") ?>
     <div class="page-container">
         <?php
         switch ($page) {
-            case 'orgDash':
-                include("frontend/pages/adminPages/orgDashboards/orgDashboard.php");
+            case 'analyticsDash':
+                include("frontend/pages/organizerPages/analyticsDash/analytics.php");
                 break;
             case 'userDash':
                 include("frontend/pages/adminPages/userDasboard.html");
@@ -50,7 +50,7 @@ $page = $_GET["page"] ?? 'orgDash';
                 include("frontend/pages/adminPages/sponsorDashboard.html");
                 break;
             case 'settingsDash':
-                include("frontend/pages/adminPages/settingDashboard.html");
+                include("frontend/pages/organizerPages/settings.html");
                 break;
             default:
                 echo "Page not found";

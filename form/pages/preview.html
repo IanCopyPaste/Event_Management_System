@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Form - FormForge</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/animations.css">
+</head>
+<body>
+    <!-- Preview Banner -->
+    <div style="background: var(--accent-cyan); color: var(--bg-dark); text-align: center; padding: 15px; font-family: 'Space Mono', monospace; font-weight: 700;">
+        📋 PREVIEW MODE - This is how your form will look
+    </div>
+
+    <div class="container container-small">
+        <!-- Form Header -->
+        <div class="card card-accent animate-fade-down mb-30" style="text-align: center;">
+            <h1 id="formTitle" class="mono" style="font-size: 2rem; color: var(--accent-cyan); margin-bottom: 15px;"></h1>
+            <p id="formDescription" style="color: var(--text-gray); display: none;"></p>
+        </div>
+
+        <!-- Questions -->
+        <div id="questionsContainer"></div>
+
+        <!-- Submit Button -->
+        <button class="btn btn-primary btn-full mt-30" onclick="alert('This is a preview. Publish your form to collect real responses!')">
+            Submit Response (Preview)
+        </button>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../js/helpers.js"></script>
+    <script>
+        // Load form data from localStorage
+        const formData = JSON.parse(localStorage.getItem('previewFormData'));
+
+        if (!formData) {
+            document.querySelector('.container').innerHTML = `
+                <div class="card" style="text-align: center; padding: 40px;">
+                    <h2 class="mono" style="color: var(--accent-cyan); margin-bottom: 15px;">No Preview Data</h2>
+                    <p style="color: var(--text-gray);">Please create a form first before previewing.</p>
+                </div>
+            `;
+        } else {
+            // Display form
+            document.getElementById('formTitle').textContent = formData.title;
+            
+            if (formData.description) {
+                document.getElementById('formDescription').textContent = formData.description;
+                show('formDescription');
+            }
+
+            // Render questions
+            const container = document.getElementById('questionsContainer');
+            
+            formData.questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'card animate-fade-up delay-' + Math.min(index + 1, 4);
+                
+                let inputHtml = '';
+                
+                switch (question.type) {
+                    case 'text':
+                        inputHtml = '<input type="text" placeholder="Your answer">';
+                        break;
+                    
+                    case 'textarea':
+                        inputHtml = '<textarea placeholder="Your answer"></textarea>';
+                        break;
+                    
+                    case 'multiple':
+                        inputHtml = question.options.map(option => `
+                            <label style="display: block; margin-bottom: 10px; cursor: pointer;">
+                                <input type="radio" name="q${index}">
+                                ${escapeHtml(option)}
+                            </label>
+                        `).join('');
+                        break;
+                    
+                    case 'checkbox':
+                        inputHtml = question.options.map(option => `
+                            <label style="display: block; margin-bottom: 10px; cursor: pointer;">
+                                <input type="checkbox">
+                                ${escapeHtml(option)}
+                            </label>
+                        `).join('');
+                        break;
+                    
+                    case 'dropdown':
+                        inputHtml = `
+                            <select>
+                                <option value="">Choose an option...</option>
+                                ${question.options.map(option => 
+                                    `<option value="${escapeHtml(option)}">${escapeHtml(option)}</option>`
+                                ).join('')}
+                            </select>
+                        `;
+                        break;
+                }
+                
+                questionDiv.innerHTML = `
+                    <div class="mb-20">
+                        <strong style="font-size: 1.2rem;">${escapeHtml(question.text)}</strong>
+                        ${question.required ? '<span style="color: var(--accent-cyan);"> *</span>' : ''}
+                    </div>
+                    ${inputHtml}
+                `;
+                
+                container.appendChild(questionDiv);
+            });
+        }
+    </script>
+</body>
+</html>

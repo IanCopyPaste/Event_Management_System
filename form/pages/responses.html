@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Responses - FormForge</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/theme.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/animations.css">
+</head>
+<body>
+    <div class="container container-wide">
+        <!-- Header -->
+        <header class="header animate-fade-down">
+            <h1 class="logo">FormForge</h1>
+            <p class="tagline">View Form Responses</p>
+        </header>
+
+        <!-- Form ID Input -->
+        <div class="card animate-fade-up delay-1 mb-30">
+            <h2 class="mono mb-20" style="color: var(--accent-cyan);">Load Responses</h2>
+            <div class="flex-between flex-gap">
+                <input 
+                    type="text" 
+                    id="formIdInput" 
+                    placeholder="Enter Form ID (e.g., aB3xK9mP)"
+                    class="mono"
+                    style="flex: 1;"
+                >
+                <button class="btn btn-primary" onclick="loadResponses()">
+                    Load
+                </button>
+            </div>
+        </div>
+
+        <!-- Responses Section -->
+        <div id="responsesSection" style="display: none;">
+            <!-- Form Info -->
+            <div class="card card-accent mb-30" id="formInfo">
+                <!-- Loaded dynamically -->
+            </div>
+
+            <!-- Responses List -->
+            <div id="responsesContainer">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="../js/config.js"></script>
+    <script src="../js/helpers.js"></script>
+    <script>
+        async function loadResponses() {
+            const formId = document.getElementById('formIdInput').value.trim();
+            
+            if (!formId) {
+                showError('Please enter a form ID');
+                return;
+            }
+
+            try {
+                const result = await apiCall(`${window.API_CONFIG.getResponses}?id=${formId}`);
+
+                if (!result.success) {
+                    showError(result.error || 'Failed to load responses');
+                    return;
+                }
+
+                displayResponses(result.form);
+                show('responsesSection');
+
+            } catch (error) {
+                showError('Error loading responses: ' + error.message);
+            }
+        }
+
+        function displayResponses(form) {
+            // Form Info
+            const formInfo = document.getElementById('formInfo');
+            formInfo.innerHTML = `
+                <h1 class="mono" style="color: var(--accent-cyan); margin-bottom: 10px;">
+                    ${escapeHtml(form.title)}
+                </h1>
+                ${form.description ? `<p style="color: var(--text-gray); margin-bottom: 15px;">${escapeHtml(form.description)}</p>` : ''}
+                <p style="color: var(--text-gray);">
+                    Total Responses: <strong style="color: var(--accent-cyan);">${form.responses.length}</strong>
+                </p>
+            `;
+
+            // Responses
+            const container = document.getElementById('responsesContainer');
+            
+            if (form.responses.length === 0) {
+                container.innerHTML = `
+                    <div class="card" style="text-align: center; padding: 40px; color: var(--text-gray);">
+                        No responses yet
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            form.responses.forEach((response, index) => {
+                html += `
+                    <div class="card animate-fade-up delay-${Math.min(index + 1, 4)}" style="margin-bottom: 20px;">
+                        <div class="flex-between mb-20" style="padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
+                            <span class="mono" style="color: var(--accent-cyan);">Response #${index + 1}</span>
+                            <span style="color: var(--text-gray); font-size: 0.9rem;">${response.submitted_at}</span>
+                        </div>
+                `;
+
+                // Get question map
+                const questionMap = {};
+                form.questions.forEach(q => {
+                    questionMap[q.id] = q.text;
+                });
+
+                // Display answers
+                Object.keys(response.data).forEach(questionId => {
+                    const answer = response.data[questionId];
+                    const answerText = Array.isArray(answer) ? answer.join(', ') : answer;
+                    const questionText = questionMap[questionId] || 'Unknown Question';
+
+                    html += `
+                        <div style="margin-bottom: 15px;">
+                            <div style="color: var(--text-gray); font-size: 0.95rem; margin-bottom: 5px;">
+                                ${escapeHtml(questionText)}
+                            </div>
+                            <div style="color: var(--text-white); font-weight: 600;">
+                                ${escapeHtml(answerText)}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Load from URL if present
+        const urlFormId = getUrlParam('id');
+        if (urlFormId) {
+            document.getElementById('formIdInput').value = urlFormId;
+            loadResponses();
+        }
+    </script>
+</body>
+</html>

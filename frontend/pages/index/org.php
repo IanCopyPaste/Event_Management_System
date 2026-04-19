@@ -120,9 +120,16 @@
         border: 1px solid #ccc;
         padding: 10px;
     }
+    #take-note{
+        color: red;
+        text-align: center;
+        margin: 20px;
+    }
 </style>
 <div class="orgForm-container">
     <p id="formLabel">Create an Organization</p>
+
+    <p id="take-note">Note: Make sure to remember your username and password upon applying</p>
 
     <div class="txtFields-container">
         <div class="txtInputs-container">

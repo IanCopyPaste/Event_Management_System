@@ -36,44 +36,52 @@
     async function login() {
         try {
             const school_ID = document.querySelector("#txtUsername").value;
-        const password = document.querySelector("#txtPassword").value;
-        const response = await fetch("backend/forBackendData/loginPage/login.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "users_id": school_ID,
-                "password": password
-            })
-        });
-        const data = await response.json();
-        if (data.remarks == true) {
-            notifModal.classList.remove("wrongPass");
-            notifModal.classList.add("correctPass");
-
-            let count = 2;
-
-            notifModal_message.textContent = data.message + " Redirecting in " + count + "s";
-
-            const interval = setInterval(() => {
-                count--;
-
-                if (count > 0) {
-                    notifModal_message.textContent = data.message + " Redirecting in " + count + "s";
-                } else {
-                    clearInterval(interval);
-                    window.location.href = "index.php";
-                }
-            }, 1000); // runs every 1 second
-        } else {
-            notifModal.classList.remove("correctPass");
-            notifModal.classList.add("wrongPass");
-            notifModal_message.textContent = data.message;
-            setTimeout(() => {
+            const password = document.querySelector("#txtPassword").value;
+            const response = await fetch("backend/forBackendData/loginPage/login.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "users_id": school_ID,
+                    "password": password
+                })
+            });
+            const data = await response.json();
+            if (data.remarks == true) {
                 notifModal.classList.remove("wrongPass");
-            }, 3000)
-        }
+                notifModal.classList.add("correctPass");
+
+                let count = 2;
+
+                notifModal_message.textContent = data.message + " Redirecting in " + count + "s";
+
+                const interval = setInterval(() => {
+                    count--;
+
+                    if (count > 0) {
+                        notifModal_message.textContent = data.message + " Redirecting in " + count + "s";
+                    } else {
+                        if (data.role == "client") {
+                            clearInterval(interval);
+                            window.location.href = "index.php";
+                        }else if(data.role == "admin"){
+                            clearInterval(interval);
+                            window.location.href = "admin.php";
+                        }else{
+                            clearInterval(interval);
+                            window.location.href = "index.php"
+                        }
+                    }
+                }, 1000); // runs every 1 second
+            } else {
+                notifModal.classList.remove("correctPass");
+                notifModal.classList.add("wrongPass");
+                notifModal_message.textContent = data.message;
+                setTimeout(() => {
+                    notifModal.classList.remove("wrongPass");
+                }, 3000)
+            }
 
         } catch (error) {
             alert("Error Occured");

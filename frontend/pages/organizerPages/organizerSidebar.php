@@ -1,9 +1,11 @@
 <?php
 session_start();
-if(!isset($_SESSION["users_id"])){
+if(!isset($_SESSION["org_id"])){
     echo "page not found";
     exit;
 }
+$altPath = "frontend/assetsImages/univLogo.png";
+$path = "image_data/org_logo/";
 ?>
 <style>
     * {
@@ -74,22 +76,17 @@ if(!isset($_SESSION["users_id"])){
 </style>
 <div class="side-container">
     <div class="adminProfile-container">
-        <img src="frontend/assetsImages/univLogo.png" alt="NoProfile">
+        <img src="<?php if(!isset($_SESSION["org_logo"])){echo $altPath;}else{echo $path . $_SESSION["org_logo"];}?>" alt="NoProfile">
         <div class="adminInfo-container" >
-            <p class="adminName"><?=  $_SESSION["users_fname"] ." ". $_SESSION["users_lname"]?></p>
-            <p class="adminID">Admin ID: <?=  $_SESSION["users_id"] ?></p>
+            <p class="adminName" style="word-wrap: break-word;"><?=  $_SESSION["org_name"]?></p>
+            <p class="adminID">ORG ID: <?=  $_SESSION["org_id"]?></p>
         </div>
     </div>
-    <form action="admin.php" method="GET">
-        <button name="page" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
-        <button name="page" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
-        <button name="page" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
-        <button name="page" value="sponsorDash" id="<?= $page =='sponsorDash' ? 'admin-active' : ''?>">Sponsorships</button>
-        <button name="page" value="settingsDash" id="<?= $page == 'settingsDash' ? 'admin-active' : ''?>">Settings</button>
+    <form action="organizer.php" method="GET">
+        <button name="organizerPages" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
+        <button name="organizerPages" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
+        <button name="organizerPages" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
+        <button name="organizerPages" value="sponsorDash" id="<?= $page =='sponsorDash' ? 'admin-active' : ''?>">Sponsorships</button>
+        <button name="organizerPages" value="settingsDash" id="<?= $page == 'settingsDash' ? 'admin-active' : ''?>">Settings</button>
     </form>
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-
-    });
-</script>
