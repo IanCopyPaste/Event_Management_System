@@ -62,7 +62,7 @@ $path = "image_data/org_logo/";
          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
         cursor: pointer;
     }
-    #admin-active{
+    #org-active{
         background-color: rgba(0, 65, 156, 1);
          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     }
@@ -83,10 +83,9 @@ $path = "image_data/org_logo/";
         </div>
     </div>
     <form action="organizer.php" method="GET">
-        <button name="organizerPages" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
-        <button name="organizerPages" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
-        <button name="organizerPages" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
-        <button name="organizerPages" value="sponsorDash" id="<?= $page =='sponsorDash' ? 'admin-active' : ''?>">Sponsorships</button>
-        <button name="organizerPages" value="settingsDash" id="<?= $page == 'settingsDash' ? 'admin-active' : ''?>">Settings</button>
+        <button name="organizerPages" value="analyticsDash" id="<?= $page == 'analyticsDash' ? 'org-active' : ''?>">Analytics Dashboard</button>
+        <button name="organizerPages" value="eventsDash" id="<?= $page == 'eventsDash' ? 'org-active' : ''?>">Events</button>
+        <button name="organizerPages" value="sponsorDash" id="<?= $page == 'sponsorDash' ? 'org-active' : ''?>">Sponsorships</button>
+        <button name="organizerPages" value="settingsDash" id="<?= $page =='settingsDash' ? 'org-active' : ''?>">Org Settings</button>
     </form>
 </div>

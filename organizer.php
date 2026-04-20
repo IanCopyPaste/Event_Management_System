@@ -1,5 +1,9 @@
 <?php
-$page = $_GET["organizerPages"] ?? 'analyticsDash';
+if (isset($_GET["eventPages"])) {
+    $page = 'eventsDash';
+} else {
+    $page = $_GET["organizerPages"] ?? 'analyticsDash';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,13 +42,10 @@ $page = $_GET["organizerPages"] ?? 'analyticsDash';
         <?php
         switch ($page) {
             case 'analyticsDash':
-                include("frontend/pages/organizerPages/analyticsDash/analytics.php");
+                include("frontend/pages/organizerPages/analyticsDash/analyticsDash.php");
                 break;
-            case 'userDash':
-                include("frontend/pages/adminPages/userDasboard.html");
-                break;
-            case 'eventDash':
-                include("frontend/pages/adminPages/eventDashboard.html");
+            case 'eventsDash':
+                include("frontend/pages/organizerPages/eventsDash/eventDash.php");
                 break;
             case 'sponsorDash':
                 include("frontend/pages/adminPages/sponsorDashboard.html");
@@ -59,4 +60,5 @@ $page = $_GET["organizerPages"] ?? 'analyticsDash';
         ?>
     </div>
 </body>
+
 </html>

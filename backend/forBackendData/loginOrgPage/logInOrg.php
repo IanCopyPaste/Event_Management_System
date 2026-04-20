@@ -21,6 +21,7 @@ if($row = mysqli_fetch_assoc($result)){
         ]);
         $_SESSION["org_id"] = $row["org_id"];
         $_SESSION["org_name"] = $row["org_name"];
+        $_SESSION["org_email"] = $row["org_email"];
         $_SESSION["org_contact"] = $row["org_contact_no"];
         $_SESSION["org_username"] = $row["org_username"];
         $_SESSION["org_logo"] = $row["org_logo"];
