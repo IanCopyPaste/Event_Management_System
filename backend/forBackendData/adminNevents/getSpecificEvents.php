@@ -1,6 +1,7 @@
 <?php
 include("../../database/config.php");
 header("Content-Type: application/json");
+$data = json_decode(file_get_contents("php://input"),true);
 
 $query = "SELECT 
     e.event_id,
@@ -37,17 +38,11 @@ mysqli_stmt_bind_param($stmt,"i",$data["event_id"]);
 if (mysqli_stmt_execute($stmt)) {
 
     $result = mysqli_stmt_get_result($stmt);
-
-    $records = [];
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $records[] = $row;
-    }
-
     echo json_encode([
         "status" => true,
         "message" => "event info fetched successful",
-        "records" => $records
+        "records" => mysqli_fetch_assoc($result),
+        "id" => $data["event_id"]
     ]);
 }else{
     echo json_encode([

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2026 at 09:16 AM
+-- Generation Time: Apr 22, 2026 at 05:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -78,7 +78,7 @@ CREATE TABLE `events` (
   `end_time` time DEFAULT NULL,
   `registration_deadline` datetime DEFAULT NULL,
   `capacity` int(11) DEFAULT NULL,
-  `slot_taken` int(11) DEFAULT NULL,
+  `slot_taken` int(11) DEFAULT 0,
   `status` enum('closed','open','ongoing''finished') DEFAULT 'open',
   `event_bg_picture` text DEFAULT NULL,
   `approval_status` enum('pending','rejected','approved') DEFAULT 'pending',
@@ -91,8 +91,8 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`event_id`, `org_id`, `advertisement_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`) VALUES
-(3005, 1006, NULL, 'wsada', 'dsadasd', 'asdads', '2026-04-01', '2026-04-09', '20:14:00', '17:17:00', '2026-04-09 17:19:00', 123, NULL, 'open', NULL, 'rejected', '2026-04-20 17:15:13', '{\"year_level\":[\"1st\",\"3rd\",\"4th\"],\"programs\":[\"21\",\"24\",\"30\"]}'),
-(3011, 1006, NULL, 'sdadsa', 'dasdasd', '123', '2026-04-03', '2026-04-02', '17:25:00', '19:27:00', '2026-04-23 21:23:00', 123, NULL, 'open', NULL, 'pending', '2026-04-20 17:23:56', '{\"year_level\":[\"Alumni\"],\"programs\":[\"24\"]}');
+(3005, 1006, NULL, 'wsada', 'dsadasd', 'asdads', '2026-04-01', '2026-04-09', '20:14:00', '17:17:00', '2026-04-09 17:19:00', 123, 0, 'open', NULL, 'approved', '2026-04-20 17:15:13', '{\"year_level\":[\"1st\",\"3rd\",\"4th\"],\"programs\":[\"21\",\"24\",\"30\"]}'),
+(3011, 1006, NULL, 'sdadsa', 'dasdasd', '123', '2026-04-03', '2026-04-02', '17:25:00', '19:27:00', '2026-04-23 21:23:00', 123, 0, '', NULL, 'approved', '2026-04-20 17:23:56', '{\"year_level\":[\"Alumni\"],\"programs\":[\"24\"]}');
 
 -- --------------------------------------------------------
 

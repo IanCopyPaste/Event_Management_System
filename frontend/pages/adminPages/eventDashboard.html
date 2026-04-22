@@ -365,11 +365,6 @@
 
         <label>Status</label>
         <input id="txtStatus" readonly>
-
-        <label>Event Image</label>
-        <div class="file-preview">
-            <img id="eventImage" style="width:100%;height:100%;object-fit:cover;">
-        </div>
     </div>
 
     <div class="approvalUtil-container">
@@ -398,7 +393,8 @@
         email: null,
         orgName: null,
         organizerName: null,
-        organizerId: null
+        organizerId: null,
+        event_name: null
     };
 
     document.addEventListener("DOMContentLoaded", loadOrgApplications);
@@ -437,7 +433,6 @@
     tableBody.addEventListener("click", e => {
         if (e.target.tagName === "BUTTON") {
             selectedApp.id = e.target.dataset.id;
-            console.log(selectedApp.id);
             modal.style.display = "flex";
             fetchSpecificApplication(selectedApp.id);
         }
@@ -445,18 +440,22 @@
 
     btnCloseModal.onclick = () => modal.style.display = "none";
     btnCancelModal.onclick = () => modal.style.display = "none";
-    btnApprove.onclick = () => updateStatus("approved");
+    btnApprove.onclick = () => updateStatus("approved",selectedApp.id);
     btnReject.onclick = () => updateStatus("rejected");
 
     async function fetchSpecificApplication(id) {
         const res = await fetch("backend/forBackendData/adminNevents/getSpecificEvents.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ event_id: id })
+            body: JSON.stringify({ "event_id": id })
         });
 
         const d = await res.json();
         const r = d.records;
+
+        const restrictions = JSON.parse(r.restrictions);
+        const resYearLevel = restrictions.year_level;
+        txtRestrictions.value = "";
 
         txtEvent_id.value = r.event_id;
         txtEvent_name.value = r.event_name;
@@ -467,7 +466,9 @@
         txtDeadline.value = r.registration_deadline;
         txtCapacity.value = r.capacity;
         txtSlots.value = r.slot_taken;
-        txtRestrictions.value = r.restrictions;
+        resYearLevel.forEach(element => {
+            txtRestrictions.value += element + " ";
+        });
         txtOrg_name.value = r.org_name;
         txtOrg_email.value = r.org_email;
         txtOrg_contact_no.value = r.org_contact_no;
@@ -475,10 +476,9 @@
         txtCreated_at.value = r.event_created_at;
         txtStatus.value = r.approval_status;
 
-        document.querySelector("#eventImage").src = r.event_bg_picture;
-
         selectedApp.email = r.org_email;
         selectedApp.orgName = r.org_name;
+        selectedApp.event_name = r.event_name;
 
         const isPending = r.approval_status === "pending";
 
@@ -491,13 +491,13 @@
         statusText.style.visibility = isPending ? "hidden" : "visible";
     }
 
-    async function updateStatus(status) {
+    async function updateStatus(status,event_id) {
         btnApprove.disabled = true;
         btnReject.disabled = true;
         btnApprove.classList.add("btnDisabled");
         btnReject.classList.add("btnDisabled");
 
-        const response = await fetch("backend/forBackendData/adminNevents/updateEventStatus.php", {
+        const response = await fetch("backend/forBackendData/adminNevents/updateEventsStatus.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -511,7 +511,7 @@
         await sendStatusToEmail(status);
 
         alert(data.message);
-        location.reload();
+        //location.reload();
     }
 
     async function fetchWithFilters() {
@@ -540,7 +540,8 @@
                 body: JSON.stringify({
                     org_email: selectedApp.email,
                     status: status,
-                    org_name: selectedApp.orgName
+                    org_name: selectedApp.orgName,
+                    event_name: selectedApp.event_name
                 })
             });
 
