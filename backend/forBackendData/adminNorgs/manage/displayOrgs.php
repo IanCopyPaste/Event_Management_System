@@ -7,16 +7,16 @@ $data = json_decode(file_get_contents("php://input"), true);
 try {
 
     if (!empty($data["org_id"])) {
-
         $query = "SELECT 
             o.org_id,
             o.users_id,
             o.org_name,
             o.org_email,
             o.org_contact_no,
+            o.status,
+            CONCAT(u.first_name,' ',u.middle_name,' ',u.last_name) AS organizer,
             dpt.department_name,
-            o.created_at,
-            CONCAT(u.first_name,' ',u.middle_name,' ',u.last_name) AS organizer
+            o.created_at
         FROM organizations o
         JOIN department dpt ON o.department_id = dpt.department_id
         JOIN users u ON o.users_id = u.users_id
@@ -38,7 +38,6 @@ try {
                 "message" => "not found"
             ]);
         }
-
     } else {
         $query = "SELECT 
             o.org_id,
@@ -46,6 +45,7 @@ try {
             o.org_name,
             o.org_email,
             o.org_contact_no,
+            o.status,
             dpt.department_name,
             CONCAT(u.first_name,' ',u.middle_name,' ',u.last_name) AS organizer,
             o.created_at
@@ -68,11 +68,9 @@ try {
             "record" => $output
         ]);
     }
-
 } catch (\Throwable $th) {
     echo json_encode([
         "status" => false,
         "message" => "error occured fetching"
     ]);
 }
-?>

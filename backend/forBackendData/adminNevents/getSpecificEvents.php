@@ -30,8 +30,10 @@ $query = "SELECT
 FROM events e
 JOIN organizations o ON e.org_id = o.org_id
 JOIN department d ON o.department_id = d.department_id
-ORDER BY e.created_at DESC;";
+WHERE e.event_id=?
+ORDER BY e.created_at DESC";
 $stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt,"i",$data["event_id"]);
 if (mysqli_stmt_execute($stmt)) {
 
     $result = mysqli_stmt_get_result($stmt);

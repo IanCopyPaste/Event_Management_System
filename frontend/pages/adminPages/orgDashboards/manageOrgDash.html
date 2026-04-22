@@ -255,7 +255,34 @@
 
     .btnDisabled {
         background-color: grey;
+        color: black;
         cursor: not-allowed;
+    }
+
+    .btn-container button {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        color: white;
+    }
+    .btn-container button:disabled {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        color: black;
+        background-color: grey;
+    }
+
+    .btn-container .btnDeact {
+        background-color: rgb(237, 0, 0);
+    }
+
+    .btn-container .btnActive {
+        background-color: rgb(19, 191, 0);
     }
 </style>
 
@@ -283,7 +310,7 @@
                 <th>Org Contact No.</th>
                 <th>Department Name</th>
                 <th>Organizer ID</th>
-                <th>Organizer Name</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -293,7 +320,7 @@
             </tr>
         </tbody>
     </table>
-     </div>
+</div>
 </div>
 
 <div class="orgInfo-modal">
@@ -322,38 +349,49 @@
         <label>Organizer Name</label>
         <input id="txtOrganizer_name" readonly>
 
+        <label>Organization Status</label>
+        <input id="txtStatus" readonly>
+
         <label>Created At</label>
         <input id="txtCreated_at" readonly>
+
+        <div class="btn-container">
+            <button class="btnDeact">Deactivate</button>
+            <button class="btnActive">Activate</button>
+        </div>
     </div>
 </div>
 
 <script>
-const tableBody = document.querySelector(".orgApplication-table tbody");
-let org_id = null;
+    const tableBody = document.querySelector(".orgApplication-table tbody");
+    let org_id = null;
 
-document.addEventListener("DOMContentLoaded", loadOrganizations);
+    const btnDeact = document.querySelector(".btnDeact");
+    const btnActive = document.querySelector(".btnActive");
 
-async function loadOrganizations() {
-    const res = await fetch("backend/forBackendData/adminNorgs/manage/displayOrgs.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ org_id: null })
-    });
+    document.addEventListener("DOMContentLoaded", loadOrganizations);
 
-    const data = await res.json();
-    renderTable(data.record);
-}
+    async function loadOrganizations() {
+        const res = await fetch("backend/forBackendData/adminNorgs/manage/displayOrgs.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ org_id: null })
+        });
 
-function renderTable(records) {
-    tableBody.innerHTML = "";
-
-    if (!records || records.length === 0) {
-        tableBody.innerHTML = `<tr class="empty"><td colspan="7">No data available</td></tr>`;
-        return;
+        const data = await res.json();
+        renderTable(data.record);
     }
 
-    records.forEach(e => {
-        tableBody.innerHTML += `
+    function renderTable(records) {
+        tableBody.innerHTML = "";
+
+        if (!records || records.length === 0) {
+            tableBody.innerHTML = `<tr class="empty"><td colspan="7">No data available</td></tr>`;
+            return;
+        }
+
+        records.forEach(e => {
+            tableBody.innerHTML += `
         <tr>
             <td>${e.org_id}</td>
             <td>${e.org_name}</td>
@@ -361,44 +399,81 @@ function renderTable(records) {
             <td>${e.org_contact_no}</td>
             <td>${e.department_name}</td>
             <td>${e.users_id}</td>
-            <td>${e.organizer}</td>
+            <td>${e.status}</td>
             <td><button data-id="${e.org_id}">⌕ View</button></td>
         </tr>`;
-    });
-}
-
-tableBody.addEventListener("click", e => {
-    if (e.target.tagName === "BUTTON") {
-        org_id = e.target.dataset.id;
-        document.querySelector(".orgInfo-modal").style.display = "flex";
-        fetchOrganization(org_id);
+        });
     }
-});
 
-document.querySelector(".btnCloseModal").onclick = () => {
-    document.querySelector(".orgInfo-modal").style.display = "none";
-};
-
-async function fetchOrganization(id) {
-    const res = await fetch("backend/forBackendData/adminNorgs/manage/displayOrgs.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ org_id: id })
+    tableBody.addEventListener("click", e => {
+        if (e.target.tagName === "BUTTON") {
+            org_id = e.target.dataset.id;
+            console.log(org_id);
+            document.querySelector(".orgInfo-modal").style.display = "flex";
+            fetchOrganization(org_id);
+        }
     });
 
-    const d = await res.json();
+    document.querySelector(".btnCloseModal").onclick = () => {
+        document.querySelector(".orgInfo-modal").style.display = "none";
+    };
 
-    if (d.status === true) {
-        const rec = d.record;
+    async function fetchOrganization(id) {
+        const res = await fetch("backend/forBackendData/adminNorgs/manage/displayOrgs.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ org_id: id })
+        });
 
-        document.querySelector("#txtOrg_application_id").value = rec.org_id;
-        document.querySelector("#txtOrg_name").value = rec.org_name;
-        document.querySelector("#txtOrg_email").value = rec.org_email;
-        document.querySelector("#txtOrg_contact_no").value = rec.org_contact_no;
-        document.querySelector("#txtOrg_department_name").value = rec.department_name;
-        document.querySelector("#txtOrganizer_id").value = rec.users_id;
-        document.querySelector("#txtOrganizer_name").value = rec.organizer;
-        document.querySelector("#txtCreated_at").value = rec.created_at;
+        const d = await res.json();
+
+        if (d.status === true) {
+            const rec = d.record;
+
+            document.querySelector("#txtOrg_application_id").value = rec.org_id;
+            document.querySelector("#txtOrg_name").value = rec.org_name;
+            document.querySelector("#txtOrg_email").value = rec.org_email;
+            document.querySelector("#txtOrg_contact_no").value = rec.org_contact_no;
+            document.querySelector("#txtOrg_department_name").value = rec.department_name;
+            document.querySelector("#txtOrganizer_id").value = rec.users_id;
+            document.querySelector("#txtOrganizer_name").value = rec.organizer;
+            document.querySelector("#txtStatus").value = rec.status;
+            document.querySelector("#txtCreated_at").value = rec.created_at;
+
+            if (rec.status == "deactivated") {
+                btnActive.disabled = false;
+                btnActive.classList.remove("btnDisabled");
+                btnDeact.disabled = true;
+                btnDeact.classList.add("btnDisabled")
+            } else {
+                btnActive.disabled = true;
+                btnActive.classList.add("btnDisabled");
+                btnDeact.disabled = false;
+                btnDeact.classList.remove("btnDisabled");
+            }
+        }
     }
-}
+
+    async function updateStat(newStat, org_id) {
+        try {
+            const response = await fetch("backend/forBackendData/adminNorgs/manage/deact.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "newStatus": newStat,
+                    "org_id": org_id
+                })
+            });
+            const data = await response.json();
+            alert("Organization: " + org_id + " " + newStat + " successfuly!");
+            location.reload();
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    btnDeact.addEventListener("click", () => { updateStat("deactivated", org_id) });
+    btnActive.addEventListener("click", () => { updateStat("active", org_id) });
 </script>

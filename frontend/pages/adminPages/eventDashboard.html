@@ -257,9 +257,16 @@
         background-color: grey;
         cursor: not-allowed;
     }
+    .manage-events{
+        margin: 20px 0px;
+        font-size: 27px;
+        font-weight: 600;
+        color: rgba(0, 65, 156, 1);
+    }
 </style>
 
 <div class="orgsApply-container">
+    <p class="manage-events">Manage Events</p>
     <div class="utilities-container">
         <div class="field">
             <label for="sortByNewest">Sort By Date/Name</label>
@@ -287,13 +294,13 @@
     <table class="orgApplication-table">
         <thead>
             <tr>
-                <th>Application ID</th>
+                <th>Event Name</th>
                 <th>Org name</th>
-                <th>Org Email</th>
-                <th>Org Contact No.</th>
                 <th>Department Name</th>
-                <th>Organizer ID</th>
-                <th>Status</th>
+                <th>Location</th>
+                <th>Starting Date</th>
+                <th>Capacity</th>
+                <th>Approval Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -307,30 +314,51 @@
 </div>
 
 <div class="orgInfo-modal">
-    <h3 style="margin:20px">Application Review Panel</h3>
+    <h3 style="margin:20px">Event Review Panel</h3>
     <button class="btnCloseModal">✕</button>
 
     <div class="allOrgInfo-container">
-        <label>Application ID</label>
-        <input id="txtOrg_application_id" readonly>
+        <label>Event ID</label>
+        <input id="txtEvent_id" readonly>
 
-        <label>Organization Name</label>
+        <label>Event Name</label>
+        <input id="txtEvent_name" readonly>
+
+        <label>Description</label>
+        <input id="txtDescription" readonly>
+
+        <label>Location</label>
+        <input id="txtLocation" readonly>
+
+        <label>Start</label>
+        <input id="txtStart" readonly>
+
+        <label>End</label>
+        <input id="txtEnd" readonly>
+
+        <label>Registration Deadline</label>
+        <input id="txtDeadline" readonly>
+
+        <label>Capacity</label>
+        <input id="txtCapacity" readonly>
+
+        <label>Slots Taken</label>
+        <input id="txtSlots" readonly>
+
+        <label>Restrictions</label>
+        <input id="txtRestrictions" readonly>
+
+        <label>Organization</label>
         <input id="txtOrg_name" readonly>
 
-        <label>Organization Email</label>
+        <label>Email</label>
         <input id="txtOrg_email" readonly>
 
-        <label>Contact Number</label>
+        <label>Contact</label>
         <input id="txtOrg_contact_no" readonly>
 
         <label>Department</label>
-        <input id="txtOrg_department_name" readonly>
-
-        <label>Organizer ID</label>
-        <input id="txtOrganizer_id" readonly>
-
-        <label>Organizer Name</label>
-        <input id="txtOrganizer_name" readonly>
+        <input id="txtDepartment_name" readonly>
 
         <label>Submitted At</label>
         <input id="txtCreated_at" readonly>
@@ -338,12 +366,10 @@
         <label>Status</label>
         <input id="txtStatus" readonly>
 
-        <label>File Preview: </label>
+        <label>Event Image</label>
         <div class="file-preview">
-            <iframe></iframe>
+            <img id="eventImage" style="width:100%;height:100%;object-fit:cover;">
         </div>
-
-        <button class="btnDownload" onclick="downloadFile()">Download File</button>
     </div>
 
     <div class="approvalUtil-container">
@@ -352,203 +378,177 @@
         <button class="btnReject">Reject</button>
         <button class="btnCancel">Cancel</button>
     </div>
+</div>
 
-    <script>
-        const tableBody = document.querySelector(".orgApplication-table tbody");
-        const sortByNewest = document.querySelector("#sortByNewest");
-        const sortByStatus = document.querySelector("#sortByStatus");
-        const txtSearchbar = document.querySelector("#txtSearchbar");
+<script>
+    const tableBody = document.querySelector(".orgApplication-table tbody");
+    const sortByNewest = document.querySelector("#sortByNewest");
+    const sortByStatus = document.querySelector("#sortByStatus");
+    const txtSearchbar = document.querySelector("#txtSearchbar");
 
-        const modal = document.querySelector(".orgInfo-modal");
-        const btnCloseModal = document.querySelector(".btnCloseModal");
-        const btnCancelModal = document.querySelector(".btnCancel");
-        const btnApprove = document.querySelector(".btnApprove");
-        const btnReject = document.querySelector(".btnReject");
-        const statusText = document.querySelector(".approvalUtil-container p");
+    const modal = document.querySelector(".orgInfo-modal");
+    const btnCloseModal = document.querySelector(".btnCloseModal");
+    const btnCancelModal = document.querySelector(".btnCancel");
+    const btnApprove = document.querySelector(".btnApprove");
+    const btnReject = document.querySelector(".btnReject");
+    const statusText = document.querySelector(".approvalUtil-container p");
 
-        const iframe = document.querySelector(".file-preview iframe");
-        const btnDownload = document.querySelector(".btnDownload");
+    let selectedApp = {
+        id: null,
+        email: null,
+        orgName: null,
+        organizerName: null,
+        organizerId: null
+    };
 
-        const fileDirectory = "image_data/org_applications_docs/";
+    document.addEventListener("DOMContentLoaded", loadOrgApplications);
 
-        let selectedApp = {
-            id: null,
-            email: null,
-            orgName: null,
-            organizerName: null,
-            organizerId: null,
-            fileName: null
-        };
+    async function loadOrgApplications() {
+        const res = await fetch("backend/forBackendData/adminNevents/getEvents.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ event_id: null })
+        });
+        const data = await res.json();
+        renderTable(data.records);
+    }
 
-        document.addEventListener("DOMContentLoaded", loadOrgApplications);
-
-        async function loadOrgApplications() {
-            const res = await fetch("backend/forBackendData/adminNorgs/application/fetchOrgApplications.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ org_application_id: null })
-            });
-            const data = await res.json();
-            renderTable(data.record);
+    function renderTable(records) {
+        tableBody.innerHTML = "";
+        if (!records || records.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="8">No data available</td></tr>`;
+            return;
         }
-
-        function renderTable(records) {
-            tableBody.innerHTML = "";
-            if (!records || records.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="8">No data available</td></tr>`;
-                return;
-            }
-            records.forEach(e => {
-                tableBody.innerHTML += `
+        records.forEach(e => {
+            tableBody.innerHTML += `
         <tr>
-            <td>${e.org_apply_id}</td>
+            <td>${e.event_name}</td>
             <td>${e.org_name}</td>
-            <td style="word-break: break-all; max-width: 180px;">${e.org_email}</td>
-            <td>${e.org_contact_no}</td>
-            <td>${e.department_name}</td>
-            <td>${e.users_id}</td>
-            <td>${e.status}</td>
-            <td><button data-id="${e.org_apply_id}">⌕ View</button></td>
+            <td style="word-break: break-all; max-width: 180px;">${e.department_name}</td>
+            <td>${e.location}</td>
+            <td>${e.start_date} - ${e.end_date}</td>
+            <td>${e.slot_taken} / ${e.capacity}</td>
+            <td>${e.approval_status}</td>
+            <td><button data-id="${e.event_id}">⌕ View</button></td>
         </tr>`;
-            });
-        }
+        });
+    }
 
-        tableBody.addEventListener("click", e => {
-            if (e.target.tagName === "BUTTON") {
-                selectedApp.id = e.target.dataset.id;
-                modal.style.display = "flex";
-                fetchSpecificApplication(selectedApp.id);
-            }
+    tableBody.addEventListener("click", e => {
+        if (e.target.tagName === "BUTTON") {
+            selectedApp.id = e.target.dataset.id;
+            console.log(selectedApp.id);
+            modal.style.display = "flex";
+            fetchSpecificApplication(selectedApp.id);
+        }
+    });
+
+    btnCloseModal.onclick = () => modal.style.display = "none";
+    btnCancelModal.onclick = () => modal.style.display = "none";
+    btnApprove.onclick = () => updateStatus("approved");
+    btnReject.onclick = () => updateStatus("rejected");
+
+    async function fetchSpecificApplication(id) {
+        const res = await fetch("backend/forBackendData/adminNevents/getSpecificEvents.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ event_id: id })
         });
 
-        btnCloseModal.onclick = () => modal.style.display = "none";
-        btnCancelModal.onclick = () => modal.style.display = "none";
-        btnApprove.onclick = () => updateStatus("approved");
-        btnReject.onclick = () => updateStatus("rejected");
+        const d = await res.json();
+        const r = d.records;
 
-        async function fetchSpecificApplication(id) {
-            const res = await fetch("backend/forBackendData/adminNorgs/application/fetchOrgApplications.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ org_application_id: id })
-            });
+        txtEvent_id.value = r.event_id;
+        txtEvent_name.value = r.event_name;
+        txtDescription.value = r.description;
+        txtLocation.value = r.location;
+        txtStart.value = r.start_date + " " + r.start_time;
+        txtEnd.value = r.end_date + " " + r.end_time;
+        txtDeadline.value = r.registration_deadline;
+        txtCapacity.value = r.capacity;
+        txtSlots.value = r.slot_taken;
+        txtRestrictions.value = r.restrictions;
+        txtOrg_name.value = r.org_name;
+        txtOrg_email.value = r.org_email;
+        txtOrg_contact_no.value = r.org_contact_no;
+        txtDepartment_name.value = r.department_name;
+        txtCreated_at.value = r.event_created_at;
+        txtStatus.value = r.approval_status;
 
-            const d = await res.json();
-            const r = d.record;
+        document.querySelector("#eventImage").src = r.event_bg_picture;
 
-            txtOrg_application_id.value = r.org_apply_id;
-            txtOrg_name.value = r.org_name;
-            txtOrg_email.value = r.org_email;
-            txtOrg_contact_no.value = r.org_contact_no;
-            txtOrg_department_name.value = r.department_name;
-            txtOrganizer_id.value = r.users_id;
-            txtOrganizer_name.value = r.organizer;
-            txtCreated_at.value = r.created_at;
-            txtStatus.value = r.status;
+        selectedApp.email = r.org_email;
+        selectedApp.orgName = r.org_name;
 
-            selectedApp.email = r.org_email;
-            selectedApp.orgName = r.org_name;
-            selectedApp.organizerName = r.organizer;
-            selectedApp.organizerId = r.users_id;
+        const isPending = r.approval_status === "pending";
 
-            if (!r.additional_files) {
-                selectedApp.fileName = null;
-                iframe.src = "";
-                btnDownload.disabled = true;
-                btnDownload.classList.add("btnDownloadDisabled");
-            } else {
-                selectedApp.fileName = r.additional_files;
-                iframe.src = fileDirectory + r.additional_files;
-                btnDownload.disabled = false;
-                btnDownload.classList.remove("btnDownloadDisabled");
-            }
+        btnApprove.disabled = !isPending;
+        btnReject.disabled = !isPending;
 
-            const isPending = r.status === "pending";
+        btnApprove.classList.toggle("btnDisabled", !isPending);
+        btnReject.classList.toggle("btnDisabled", !isPending);
 
-            btnApprove.disabled = !isPending;
-            btnReject.disabled = !isPending;
+        statusText.style.visibility = isPending ? "hidden" : "visible";
+    }
 
-            btnApprove.classList.toggle("btnDisabled", !isPending);
-            btnReject.classList.toggle("btnDisabled", !isPending);
+    async function updateStatus(status) {
+        btnApprove.disabled = true;
+        btnReject.disabled = true;
+        btnApprove.classList.add("btnDisabled");
+        btnReject.classList.add("btnDisabled");
 
-            statusText.style.visibility = isPending ? "hidden" : "visible";
-        }
+        const response = await fetch("backend/forBackendData/adminNevents/updateEventStatus.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                status: status,
+                event_id: selectedApp.id
+            })
+        });
 
-        async function updateStatus(status) {
-            btnApprove.disabled = true;
-            btnReject.disabled = true;
-            btnApprove.classList.add("btnDisabled");
-            btnReject.classList.add("btnDisabled");
-            const response = await fetch("backend/forBackendData/adminNorgs/application/updateStatus.php", {
+        const data = await response.json();
+
+        await sendStatusToEmail(status);
+
+        alert(data.message);
+        location.reload();
+    }
+
+    async function fetchWithFilters() {
+        const res = await fetch("backend/forBackendData/adminNevents/utilitiesFetch.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                sortNewest: sortByNewest.value,
+                sortStatus: sortByStatus.value,
+                txtSearch: txtSearchbar.value
+            })
+        });
+        const data = await res.json();
+        renderTable(data.record);
+    }
+
+    sortByNewest.onchange = fetchWithFilters;
+    sortByStatus.onchange = fetchWithFilters;
+    txtSearchbar.oninput = fetchWithFilters;
+
+    async function sendStatusToEmail(status) {
+        try {
+            const response = await fetch("backend/forBackendData/adminNevents/sendStatsEmail.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    statusString: status,
-                    orgApplyID: selectedApp.id
+                    org_email: selectedApp.email,
+                    status: status,
+                    org_name: selectedApp.orgName
                 })
             });
 
             const data = await response.json();
+            if (data.status) console.log(data.message);
 
-            if (status === "approved") {
-                await fetch("backend/forBackendData/adminNorgs/application/transferApplications.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ applyID: selectedApp.id })
-                });
-            }
-
-            await sendStatusToEmail(status);
-
-            alert(`Org ID: ${data.applicationID} ${data.message}`);
-            location.reload();
+        } catch (error) {
+            alert("Error sending email");
         }
-
-        function downloadFile() {
-            if (!selectedApp.fileName) return;
-            const a = document.createElement("a");
-            a.href = fileDirectory + selectedApp.fileName;
-            a.download = "";
-            a.click();
-        }
-
-        async function fetchWithFilters() {
-            const res = await fetch("backend/forBackendData/adminNorgs/application/utilitiesFetch.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    sortNewest: sortByNewest.value,
-                    sortStatus: sortByStatus.value,
-                    txtSearch: txtSearchbar.value
-                })
-            });
-            const data = await res.json();
-            renderTable(data.record);
-        }
-
-        sortByNewest.onchange = fetchWithFilters;
-        sortByStatus.onchange = fetchWithFilters;
-        txtSearchbar.oninput = fetchWithFilters;
-
-        async function sendStatusToEmail(status) {
-            try {
-                const response = await fetch("backend/forBackendData/adminNorgs/application/sendStatsEmail.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        org_email: selectedApp.email,
-                        status: status,
-                        org_name: selectedApp.orgName,
-                        organizer_id: selectedApp.organizerId,
-                        organizer_name: selectedApp.organizerName
-                    })
-                });
-
-                const data = await response.json();
-                if (data.status) console.log(data.message);
-
-            } catch (error) {
-                alert("Error sending email");
-            }
-        }
-    </script>
+    }
+</script>
