@@ -1,5 +1,5 @@
 # Ignore a file in a subfolder
-backend/database/config.php
+#backend/database/config.php
 
 #ignore mysql file
 #event_system_g5.sql

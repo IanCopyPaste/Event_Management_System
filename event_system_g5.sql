@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2026 at 09:47 AM
+-- Generation Time: Apr 22, 2026 at 09:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -79,11 +79,20 @@ CREATE TABLE `events` (
   `registration_deadline` datetime DEFAULT NULL,
   `capacity` int(11) DEFAULT NULL,
   `slot_taken` int(11) DEFAULT NULL,
-  `status` enum('closed','open','ongoing''finished') DEFAULT 'closed',
-  `event_bg_picture` mediumblob DEFAULT NULL,
-  `approval_status` enum('pending','approval','rejected') DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL
+  `status` enum('closed','open','ongoing''finished') DEFAULT 'open',
+  `event_bg_picture` text DEFAULT NULL,
+  `approval_status` enum('pending','rejected','approved') DEFAULT 'pending',
+  `created_at` datetime DEFAULT current_timestamp(),
+  `restrictions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`restrictions`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`event_id`, `org_id`, `advertisement_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`) VALUES
+(3005, 1006, NULL, 'wsada', 'dsadasd', 'asdads', '2026-04-01', '2026-04-09', '20:14:00', '17:17:00', '2026-04-09 17:19:00', 123, NULL, 'open', NULL, 'rejected', '2026-04-20 17:15:13', '{\"year_level\":[\"1st\",\"3rd\",\"4th\"],\"programs\":[\"21\",\"24\",\"30\"]}'),
+(3011, 1006, NULL, 'sdadsa', 'dasdasd', '123', '2026-04-03', '2026-04-02', '17:25:00', '19:27:00', '2026-04-23 21:23:00', 123, NULL, 'open', NULL, 'pending', '2026-04-20 17:23:56', '{\"year_level\":[\"Alumni\"],\"programs\":[\"24\"]}');
 
 -- --------------------------------------------------------
 
@@ -102,23 +111,6 @@ CREATE TABLE `feedbacks` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `forms`
---
-
-CREATE TABLE `forms` (
-  `form_id` int(11) NOT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  `form_json_id` varchar(50) DEFAULT NULL,
-  `title` text DEFAULT NULL,
-  `description` longtext DEFAULT NULL,
-  `form_json_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`form_json_data`)),
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `org_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `organizations`
 --
 
@@ -132,17 +124,18 @@ CREATE TABLE `organizations` (
   `org_username` varchar(50) DEFAULT NULL,
   `org_password` varchar(255) DEFAULT NULL,
   `org_logo` mediumblob DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `status` enum('active','deactivated') DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `organizations`
 --
 
-INSERT INTO `organizations` (`org_id`, `users_id`, `department_id`, `org_name`, `org_email`, `org_contact_no`, `org_username`, `org_password`, `org_logo`, `created_at`) VALUES
-(1000, 20203, 10, 'THE KOLOKOY CLUB', 'kolokoyClub@gmail.com', '122', 'ian', 'ian', NULL, '2026-04-19 07:02:19'),
-(1003, 20202, 11, 'THE KOLOKOY CLUB', 'velasco.ezekieljohn.javellana@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJi', NULL, '2026-04-14 05:13:46'),
-(1006, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', NULL, '2026-04-19 07:28:21');
+INSERT INTO `organizations` (`org_id`, `users_id`, `department_id`, `org_name`, `org_email`, `org_contact_no`, `org_username`, `org_password`, `org_logo`, `created_at`, `status`) VALUES
+(1000, 20203, 10, 'THE KOLOKOY CLUB', 'kolokoyClub@gmail.com', '122', 'ian', 'ian', NULL, '2026-04-22 06:08:45', 'active'),
+(1003, 20202, 11, 'THE KOLOKOY CLUB', 'velasco.ezekieljohn.javellana@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJi', NULL, '2026-04-14 05:13:46', 'active'),
+(1006, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', NULL, '2026-04-22 05:56:16', 'deactivated');
 
 -- --------------------------------------------------------
 
@@ -173,6 +166,35 @@ INSERT INTO `org_application` (`org_apply_id`, `user_id`, `department_id`, `org_
 (16, 20203, 10, 'THE KOLOKOY CLUB', 'esteban.jamesbenedict.mabbayad.12@gmail.com', '122', '123', '$2y$10$qsSZ.s4k6FK3BHVmRl4FBuhV6sL/VwiGTySQM74tG4Ui105xSPj4K', 'approved', 'file_69dd026f8197a8.34277366.jpg', '2026-04-13 16:49:19'),
 (22, 20202, 11, 'THE KOLOKOY CLUB', 'adote.ronadrian.molleda@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJiy.7mY/W796', 'rejected', NULL, '2026-04-14 13:13:46'),
 (24, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', 'approved', NULL, '2026-04-19 09:19:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `programs`
+--
+
+CREATE TABLE `programs` (
+  `program_id` int(11) NOT NULL,
+  `program_name` text DEFAULT NULL,
+  `program_logo` text DEFAULT NULL,
+  `prog_abv` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `programs`
+--
+
+INSERT INTO `programs` (`program_id`, `program_name`, `program_logo`, `prog_abv`) VALUES
+(21, 'Bachelor of Science in Entrepreneurship', NULL, 'BSEntrep'),
+(22, 'Bachelor of Science in Accountancy', NULL, 'BSA'),
+(23, 'Bachelor of Science in Management Accounting', NULL, 'BSMA'),
+(24, 'Bachelor of Science in Information Technology', NULL, 'BSIT'),
+(25, 'Bachelor of Science in Information Systems', NULL, 'BSIS'),
+(26, 'Bachelor of Science in Computer Science', NULL, 'BSCS'),
+(27, 'Bachelor of Science in Computer Engineering', NULL, 'BSCpE'),
+(28, 'Bachelor of Science in Electronics Engineering', NULL, 'BSECE'),
+(29, 'Bachelor of Science in Industrial Engineering', NULL, 'BSIE'),
+(30, 'Bachelor of Secondary Education', NULL, 'BSEd');
 
 -- --------------------------------------------------------
 
@@ -226,18 +248,20 @@ CREATE TABLE `users` (
   `last_logged` date DEFAULT NULL,
   `status` enum('active','inactive') DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `password_hashed` varchar(50) DEFAULT NULL
+  `password_hashed` varchar(50) DEFAULT NULL,
+  `year_level` enum('1st','2nd','3rd','4th') DEFAULT NULL,
+  `program_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name`, `email`, `profile_pic`, `last_logged`, `status`, `created_at`, `password_hashed`) VALUES
-(20200, NULL, NULL, NULL, NULL, 'adote.ronadrian.molleda@gmail.com', NULL, NULL, 'active', '2026-04-10 02:37:42', 'null123'),
-(20202, 'client', 'John', 'Client', 'A.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-26', 'active', '2026-04-13 14:28:53', 'testpass'),
-(20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-04-13 14:28:53', 'mypassword'),
-(20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-04-13 14:28:53', 'letmein');
+INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name`, `email`, `profile_pic`, `last_logged`, `status`, `created_at`, `password_hashed`, `year_level`, `program_id`) VALUES
+(20200, NULL, NULL, NULL, NULL, 'adote.ronadrian.molleda@gmail.com', NULL, NULL, 'active', '2026-04-10 02:37:42', 'null123', NULL, NULL),
+(20202, 'client', 'John', 'Client', 'A.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-26', 'active', '2026-04-13 14:28:53', 'testpass', NULL, NULL),
+(20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-04-13 14:28:53', 'mypassword', NULL, NULL),
+(20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-04-13 14:28:53', 'letmein', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -274,14 +298,6 @@ ALTER TABLE `feedbacks`
   ADD KEY `users_id` (`users_id`);
 
 --
--- Indexes for table `forms`
---
-ALTER TABLE `forms`
-  ADD PRIMARY KEY (`form_id`),
-  ADD KEY `forms_ibfk_eventID` (`event_id`),
-  ADD KEY `org_id` (`org_id`);
-
---
 -- Indexes for table `organizations`
 --
 ALTER TABLE `organizations`
@@ -296,6 +312,12 @@ ALTER TABLE `org_application`
   ADD PRIMARY KEY (`org_apply_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `department_id` (`department_id`);
+
+--
+-- Indexes for table `programs`
+--
+ALTER TABLE `programs`
+  ADD PRIMARY KEY (`program_id`);
 
 --
 -- Indexes for table `responses`
@@ -316,7 +338,8 @@ ALTER TABLE `sponsorships`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`users_id`);
+  ADD PRIMARY KEY (`users_id`),
+  ADD KEY `program_id` (`program_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -338,13 +361,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3000;
-
---
--- AUTO_INCREMENT for table `forms`
---
-ALTER TABLE `forms`
-  MODIFY `form_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2000;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3012;
 
 --
 -- AUTO_INCREMENT for table `organizations`
@@ -357,6 +374,12 @@ ALTER TABLE `organizations`
 --
 ALTER TABLE `org_application`
   MODIFY `org_apply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `programs`
+--
+ALTER TABLE `programs`
+  MODIFY `program_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `responses`
@@ -396,14 +419,6 @@ ALTER TABLE `feedbacks`
   ADD CONSTRAINT `feedbacks_ibfk_2` FOREIGN KEY (`users_id`) REFERENCES `users` (`users_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `forms`
---
-ALTER TABLE `forms`
-  ADD CONSTRAINT `forms_ibfk_1` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`org_id`),
-  ADD CONSTRAINT `forms_ibfk_eventID` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `forms_ibfk_orgID` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`org_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `organizations`
 --
 ALTER TABLE `organizations`
@@ -422,8 +437,13 @@ ALTER TABLE `org_application`
 --
 ALTER TABLE `responses`
   ADD CONSTRAINT `responses_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`users_id`),
-  ADD CONSTRAINT `responses_ibfk_eventID` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `responses_ibfk_formID` FOREIGN KEY (`form_id`) REFERENCES `forms` (`form_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `responses_ibfk_eventID` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `programs` (`program_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
