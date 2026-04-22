@@ -377,179 +377,194 @@
 
 <script>
     const tableBody = document.querySelector(".orgApplication-table tbody");
-    const sortByNewest = document.querySelector("#sortByNewest");
-    const sortByStatus = document.querySelector("#sortByStatus");
-    const txtSearchbar = document.querySelector("#txtSearchbar");
+const sortByNewest = document.querySelector("#sortByNewest");
+const sortByStatus = document.querySelector("#sortByStatus");
+const txtSearchbar = document.querySelector("#txtSearchbar");
 
-    const modal = document.querySelector(".orgInfo-modal");
-    const btnCloseModal = document.querySelector(".btnCloseModal");
-    const btnCancelModal = document.querySelector(".btnCancel");
-    const btnApprove = document.querySelector(".btnApprove");
-    const btnReject = document.querySelector(".btnReject");
-    const statusText = document.querySelector(".approvalUtil-container p");
+const modal = document.querySelector(".orgInfo-modal");
+const btnCloseModal = document.querySelector(".btnCloseModal");
+const btnCancelModal = document.querySelector(".btnCancel");
+const btnApprove = document.querySelector(".btnApprove");
+const btnReject = document.querySelector(".btnReject");
+const statusText = document.querySelector(".approvalUtil-container p");
 
-    let selectedApp = {
-        id: null,
-        email: null,
-        orgName: null,
-        organizerName: null,
-        organizerId: null,
-        event_name: null
-    };
+let selectedApp = {
+    id: null,
+    email: null,
+    orgName: null,
+    organizerName: null,
+    organizerId: null,
+    event_name: null
+};
 
-    document.addEventListener("DOMContentLoaded", loadOrgApplications);
+function formatDateTime(dt) {
+    if (!dt) return "";
+    const d = new Date(dt);
+    return d.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
 
-    async function loadOrgApplications() {
-        const res = await fetch("backend/forBackendData/adminNevents/getEvents.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ event_id: null })
-        });
-        const data = await res.json();
-        renderTable(data.records);
+document.addEventListener("DOMContentLoaded", loadOrgApplications);
+
+async function loadOrgApplications() {
+    const res = await fetch("backend/forBackendData/adminNevents/getEvents.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event_id: null })
+    });
+    const data = await res.json();
+    renderTable(data.records);
+}
+
+function renderTable(records) {
+    tableBody.innerHTML = "";
+    if (!records || records.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="8">No data available</td></tr>`;
+        return;
     }
-
-    function renderTable(records) {
-        tableBody.innerHTML = "";
-        if (!records || records.length === 0) {
-            tableBody.innerHTML = `<tr><td colspan="8">No data available</td></tr>`;
-            return;
-        }
-        records.forEach(e => {
-            tableBody.innerHTML += `
+    records.forEach(e => {
+        tableBody.innerHTML += `
         <tr>
             <td>${e.event_name}</td>
             <td>${e.org_name}</td>
             <td style="word-break: break-all; max-width: 180px;">${e.department_name}</td>
             <td>${e.location}</td>
-            <td>${e.start_date} - ${e.end_date}</td>
+            <td>${formatDateTime(e.start_date)} - ${formatDateTime(e.end_date)}</td>
             <td>${e.slot_taken} / ${e.capacity}</td>
             <td>${e.approval_status}</td>
             <td><button data-id="${e.event_id}">⌕ View</button></td>
         </tr>`;
-        });
-    }
+    });
+}
 
-    tableBody.addEventListener("click", e => {
-        if (e.target.tagName === "BUTTON") {
-            selectedApp.id = e.target.dataset.id;
-            modal.style.display = "flex";
-            fetchSpecificApplication(selectedApp.id);
-        }
+tableBody.addEventListener("click", e => {
+    if (e.target.tagName === "BUTTON") {
+        selectedApp.id = e.target.dataset.id;
+        modal.style.display = "flex";
+        fetchSpecificApplication(selectedApp.id);
+    }
+});
+
+btnCloseModal.onclick = () => modal.style.display = "none";
+btnCancelModal.onclick = () => modal.style.display = "none";
+btnApprove.onclick = () => updateStatus("approved", selectedApp.id);
+btnReject.onclick = () => updateStatus("rejected");
+
+async function fetchSpecificApplication(id) {
+    const res = await fetch("backend/forBackendData/adminNevents/getSpecificEvents.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event_id: id })
     });
 
-    btnCloseModal.onclick = () => modal.style.display = "none";
-    btnCancelModal.onclick = () => modal.style.display = "none";
-    btnApprove.onclick = () => updateStatus("approved",selectedApp.id);
-    btnReject.onclick = () => updateStatus("rejected");
+    const d = await res.json();
+    const r = d.records;
 
-    async function fetchSpecificApplication(id) {
-        const res = await fetch("backend/forBackendData/adminNevents/getSpecificEvents.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ "event_id": id })
-        });
+    const restrictions = JSON.parse(r.restrictions);
+    const resYearLevel = restrictions.year_level;
 
-        const d = await res.json();
-        const r = d.records;
+    txtRestrictions.value = "";
 
-        const restrictions = JSON.parse(r.restrictions);
-        const resYearLevel = restrictions.year_level;
-        txtRestrictions.value = "";
+    txtEvent_id.value = r.event_id;
+    txtEvent_name.value = r.event_name;
+    txtDescription.value = r.description;
+    txtLocation.value = r.location;
+    txtStart.value = formatDateTime(r.start_date + " " + r.start_time);
+    txtEnd.value = formatDateTime(r.end_date + " " + r.end_time);
+    txtDeadline.value = formatDateTime(r.registration_deadline);
+    txtCapacity.value = r.capacity;
+    txtSlots.value = r.slot_taken;
 
-        txtEvent_id.value = r.event_id;
-        txtEvent_name.value = r.event_name;
-        txtDescription.value = r.description;
-        txtLocation.value = r.location;
-        txtStart.value = r.start_date + " " + r.start_time;
-        txtEnd.value = r.end_date + " " + r.end_time;
-        txtDeadline.value = r.registration_deadline;
-        txtCapacity.value = r.capacity;
-        txtSlots.value = r.slot_taken;
-        resYearLevel.forEach(element => {
-            txtRestrictions.value += element + " ";
-        });
-        txtOrg_name.value = r.org_name;
-        txtOrg_email.value = r.org_email;
-        txtOrg_contact_no.value = r.org_contact_no;
-        txtDepartment_name.value = r.department_name;
-        txtCreated_at.value = r.event_created_at;
-        txtStatus.value = r.approval_status;
+    resYearLevel.forEach(element => {
+        txtRestrictions.value += element + " ";
+    });
 
-        selectedApp.email = r.org_email;
-        selectedApp.orgName = r.org_name;
-        selectedApp.event_name = r.event_name;
+    txtOrg_name.value = r.org_name;
+    txtOrg_email.value = r.org_email;
+    txtOrg_contact_no.value = r.org_contact_no;
+    txtDepartment_name.value = r.department_name;
+    txtCreated_at.value = formatDateTime(r.event_created_at);
+    txtStatus.value = r.approval_status;
 
-        const isPending = r.approval_status === "pending";
+    selectedApp.email = r.org_email;
+    selectedApp.orgName = r.org_name;
+    selectedApp.event_name = r.event_name;
 
-        btnApprove.disabled = !isPending;
-        btnReject.disabled = !isPending;
+    const isPending = r.approval_status === "pending";
 
-        btnApprove.classList.toggle("btnDisabled", !isPending);
-        btnReject.classList.toggle("btnDisabled", !isPending);
+    btnApprove.disabled = !isPending;
+    btnReject.disabled = !isPending;
 
-        statusText.style.visibility = isPending ? "hidden" : "visible";
-    }
+    btnApprove.classList.toggle("btnDisabled", !isPending);
+    btnReject.classList.toggle("btnDisabled", !isPending);
 
-    async function updateStatus(status,event_id) {
-        btnApprove.disabled = true;
-        btnReject.disabled = true;
-        btnApprove.classList.add("btnDisabled");
-        btnReject.classList.add("btnDisabled");
+    statusText.style.visibility = isPending ? "hidden" : "visible";
+}
 
-        const response = await fetch("backend/forBackendData/adminNevents/updateEventsStatus.php", {
+async function updateStatus(status, event_id) {
+    btnApprove.disabled = true;
+    btnReject.disabled = true;
+    btnApprove.classList.add("btnDisabled");
+    btnReject.classList.add("btnDisabled");
+
+    const response = await fetch("backend/forBackendData/adminNevents/updateEventsStatus.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            status: status,
+            event_id: selectedApp.id
+        })
+    });
+
+    const data = await response.json();
+
+    await sendStatusToEmail(status);
+
+    alert(data.message);
+    location.reload();
+}
+
+async function fetchWithFilters() {
+    const res = await fetch("backend/forBackendData/adminNevents/utilitiesFetch.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            sortNewest: sortByNewest.value,
+            sortStatus: sortByStatus.value,
+            txtSearch: txtSearchbar.value
+        })
+    });
+    const data = await res.json();
+    renderTable(data.record);
+}
+
+sortByNewest.onchange = fetchWithFilters;
+sortByStatus.onchange = fetchWithFilters;
+txtSearchbar.oninput = fetchWithFilters;
+
+async function sendStatusToEmail(status) {
+    try {
+        const response = await fetch("backend/forBackendData/adminNevents/sendStatsEmail.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
+                org_email: selectedApp.email,
                 status: status,
-                event_id: selectedApp.id
+                org_name: selectedApp.orgName,
+                event_name: selectedApp.event_name
             })
         });
 
         const data = await response.json();
+        if (data.status) console.log(data.message);
 
-        await sendStatusToEmail(status);
-
-        alert(data.message);
-        //location.reload();
+    } catch (error) {
+        alert("Error sending email");
     }
-
-    async function fetchWithFilters() {
-        const res = await fetch("backend/forBackendData/adminNevents/utilitiesFetch.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                sortNewest: sortByNewest.value,
-                sortStatus: sortByStatus.value,
-                txtSearch: txtSearchbar.value
-            })
-        });
-        const data = await res.json();
-        renderTable(data.record);
-    }
-
-    sortByNewest.onchange = fetchWithFilters;
-    sortByStatus.onchange = fetchWithFilters;
-    txtSearchbar.oninput = fetchWithFilters;
-
-    async function sendStatusToEmail(status) {
-        try {
-            const response = await fetch("backend/forBackendData/adminNevents/sendStatsEmail.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    org_email: selectedApp.email,
-                    status: status,
-                    org_name: selectedApp.orgName,
-                    event_name: selectedApp.event_name
-                })
-            });
-
-            const data = await response.json();
-            if (data.status) console.log(data.message);
-
-        } catch (error) {
-            alert("Error sending email");
-        }
-    }
+}
 </script>
