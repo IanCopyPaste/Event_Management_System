@@ -45,11 +45,11 @@ $page = $_GET['page'] ?? 'login0';
             case 'confirmOTP':
                 include 'frontend/pages/logInPages/confirmOtp.php';
                 break;
-                
+
             case 'changePass':
                 include 'frontend/pages/logInPages/changePass.php';
                 break;
-            
+
             case 'orgForm0':
                 include 'frontend/pages/loginOrgPages/logOrgform.php';
                 break;

@@ -1,6 +1,7 @@
 <?php
 session_start();
 $page = $_GET['page'] ?? 'home';
+$eventPage = $_GET['eventPages'] ?? 'eventView';
 
 // Handle protected pages FIRST
 if ($page === "events" && !isset($_SESSION["users_id"])) {
@@ -48,7 +49,7 @@ if ($page === "org" && !isset($_SESSION["users_id"])) {
             break;
 
         case "events":
-            include("frontend/pages/index/events.php");
+            include("frontend/pages/index/eventsPages/events.php");
             break;
 
         case "calendar":
@@ -62,9 +63,21 @@ if ($page === "org" && !isset($_SESSION["users_id"])) {
         default:
             echo "Page not found";
     }
+
+    if (isset($eventPage)) {
+        switch ($eventPage) {
+            case 'eventView':
+                include('frontend/pages/index/eventsPages/eventViewing.php');
+                break;
+            default:
+                echo '';
+                break;
+        }
+    }
     ?>
 
     <?php include("frontend/pages/headerFooter/footer.php") ?>
 
 </body>
+
 </html>
