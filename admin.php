@@ -52,6 +52,9 @@ $page = $_GET["page"] ?? 'orgDash';
             case 'settingsDash':
                 include("frontend/pages/adminPages/settingDashboard.html");
                 break;
+            case 'departmentsDash':
+                include("frontend/pages/adminPages/departments.html");
+                break;
             default:
                 echo "Page not found";
                 break;
