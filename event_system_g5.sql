@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 22, 2026 at 05:36 PM
+-- Generation Time: Apr 29, 2026 at 07:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,21 +43,22 @@ CREATE TABLE `advertisement` (
 CREATE TABLE `department` (
   `department_id` int(11) NOT NULL,
   `department_name` varchar(255) DEFAULT NULL,
-  `department_logo` varchar(255) DEFAULT NULL
+  `department_logo` varchar(255) DEFAULT NULL,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `department`
 --
 
-INSERT INTO `department` (`department_id`, `department_name`, `department_logo`) VALUES
-(1, 'College of Computer Studies', NULL),
-(10, 'Department of Information Technology - College of Computing Studies', NULL),
-(11, 'Department of Computer Science - College of Computing Studies', NULL),
-(12, 'Department of Business Administration - College of Business and Management', NULL),
-(13, 'Department of Accountancy - College of Business and Management', NULL),
-(14, 'Department of Civil Engineering - College of Engineering', NULL),
-(15, 'Department of Psychology - College of Arts and Sciences', NULL);
+INSERT INTO `department` (`department_id`, `department_name`, `department_logo`, `status`) VALUES
+(1, 'College of Computer Studies', NULL, 'active'),
+(10, 'Department of Information Technology - College of Computing Studies', NULL, 'active'),
+(11, 'Department of Computer Science - College of Computing Studies', NULL, 'active'),
+(12, 'Department of Business Administration - College of Business and Management', NULL, 'active'),
+(13, 'Department of Accountancy - College of Business and Management', NULL, 'active'),
+(14, 'Department of Civil Engineering - College of Engineering', NULL, 'active'),
+(15, 'Department of Psychology - College of Arts and Sciences', NULL, 'active');
 
 -- --------------------------------------------------------
 
@@ -79,7 +80,7 @@ CREATE TABLE `events` (
   `registration_deadline` datetime DEFAULT NULL,
   `capacity` int(11) DEFAULT NULL,
   `slot_taken` int(11) DEFAULT 0,
-  `status` enum('closed','open','ongoing''finished') DEFAULT 'open',
+  `status` enum('open','closed','ongoing','finished') DEFAULT 'open',
   `event_bg_picture` text DEFAULT NULL,
   `approval_status` enum('pending','rejected','approved') DEFAULT 'pending',
   `created_at` datetime DEFAULT current_timestamp(),
@@ -91,8 +92,10 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`event_id`, `org_id`, `advertisement_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`) VALUES
-(3005, 1006, NULL, 'wsada', 'dsadasd', 'asdads', '2026-04-01', '2026-04-09', '20:14:00', '17:17:00', '2026-04-09 17:19:00', 123, 0, 'open', NULL, 'approved', '2026-04-20 17:15:13', '{\"year_level\":[\"1st\",\"3rd\",\"4th\"],\"programs\":[\"21\",\"24\",\"30\"]}'),
-(3011, 1006, NULL, 'sdadsa', 'dasdasd', '123', '2026-04-03', '2026-04-02', '17:25:00', '19:27:00', '2026-04-23 21:23:00', 123, 0, '', NULL, 'approved', '2026-04-20 17:23:56', '{\"year_level\":[\"Alumni\"],\"programs\":[\"24\"]}');
+(3012, 1007, NULL, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-28', '08:00:00', '17:00:00', '2026-04-28 04:00:00', 100, 0, 'ongoing', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\",\"22\"]}'),
+(3013, 1006, NULL, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-04-28 23:30:00', 150, 0, 'closed', 'event_69f06c468fe770.87522230.jpg', 'approved', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
+(3014, 1007, NULL, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-10', '13:00:00', '18:00:00', '2026-07-05 16:20:00', 80, 0, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}'),
+(3015, 1006, NULL, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-20', '2026-06-20', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 0, 'finished', 'event_69f0701b28f664.48043394.jpg', 'approved', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}');
 
 -- --------------------------------------------------------
 
@@ -135,7 +138,8 @@ CREATE TABLE `organizations` (
 INSERT INTO `organizations` (`org_id`, `users_id`, `department_id`, `org_name`, `org_email`, `org_contact_no`, `org_username`, `org_password`, `org_logo`, `created_at`, `status`) VALUES
 (1000, 20203, 10, 'THE KOLOKOY CLUB', 'kolokoyClub@gmail.com', '122', 'ian', 'ian', NULL, '2026-04-22 06:08:45', 'active'),
 (1003, 20202, 11, 'THE KOLOKOY CLUB', 'velasco.ezekieljohn.javellana@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJi', NULL, '2026-04-14 05:13:46', 'active'),
-(1006, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', NULL, '2026-04-22 05:56:16', 'deactivated');
+(1006, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', NULL, '2026-04-22 05:56:16', 'deactivated'),
+(1007, 30021, 15, 'Nexus Prime Society', 'adote.ronadrian.molleda@gmail.com', '090199191919', 'nexus123', '$2y$10$gRZzyYcBMACVii4Qh42y6.FYRBuBxmCbCks1DV1UCC1oQ3dwYFhAC', NULL, '2026-04-27 05:14:08', 'active');
 
 -- --------------------------------------------------------
 
@@ -165,7 +169,10 @@ INSERT INTO `org_application` (`org_apply_id`, `user_id`, `department_id`, `org_
 (1, 20200, 11, 'tbs genggeng', 'samonte.psalmamiel.tosoc@gmail.com', '09123456789', 'kolokoyKame', '$2y$10$HioSqCXfRumXPFdHT8tK2eJrNHMkpjJNtVpL0AwqGwumji/X7352y', 'rejected', 'pedo.pdf', '2026-04-10 04:39:33'),
 (16, 20203, 10, 'THE KOLOKOY CLUB', 'esteban.jamesbenedict.mabbayad.12@gmail.com', '122', '123', '$2y$10$qsSZ.s4k6FK3BHVmRl4FBuhV6sL/VwiGTySQM74tG4Ui105xSPj4K', 'approved', 'file_69dd026f8197a8.34277366.jpg', '2026-04-13 16:49:19'),
 (22, 20202, 11, 'THE KOLOKOY CLUB', 'adote.ronadrian.molleda@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJiy.7mY/W796', 'rejected', NULL, '2026-04-14 13:13:46'),
-(24, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', 'approved', NULL, '2026-04-19 09:19:19');
+(24, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', 'approved', NULL, '2026-04-19 09:19:19'),
+(25, 30012, 1, 'Apex Innovators Guild', 'adote.ronadrian.molleda@gmail.com', '0919191919191', 'apex123', '$2y$10$nMmfQyFrA3Pg84V3R.wmCueqFsNIAJp1GQL8WVavdIkbIGalbFs4y', 'pending', 'file_69eccff51fb305.92553214.jpg', '2026-04-25 16:30:13'),
+(27, 30020, 1, 'Quantum Leap Organization', 'adote.ronadrian.molleda@gmail.com', '123123123132', 'quantum123', '$2y$10$H.KMn8B7g6QllkWs3O0ctOIkt4BznYbo.PArBIX0eaH4y/W4W31oO', 'pending', 'file_69ecd295231046.94917915.jpg', '2026-04-25 16:41:25'),
+(28, 30021, 15, 'Nexus Prime Society', 'adote.ronadrian.molleda@gmail.com', '090199191919', 'nexus123', '$2y$10$gRZzyYcBMACVii4Qh42y6.FYRBuBxmCbCks1DV1UCC1oQ3dwYFhAC', 'approved', 'file_69ef45006f3d00.50135739.jpg', '2026-04-27 13:14:08');
 
 -- --------------------------------------------------------
 
@@ -204,11 +211,8 @@ INSERT INTO `programs` (`program_id`, `program_name`, `program_logo`, `prog_abv`
 
 CREATE TABLE `responses` (
   `response_id` int(11) NOT NULL,
-  `form_id` int(11) DEFAULT NULL,
   `event_id` int(11) DEFAULT NULL,
   `users_id` int(11) DEFAULT NULL,
-  `form_json_id` varchar(255) DEFAULT NULL,
-  `form_json_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`form_json_data`)),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -249,7 +253,7 @@ CREATE TABLE `users` (
   `status` enum('active','inactive') DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `password_hashed` varchar(50) DEFAULT NULL,
-  `year_level` enum('1st','2nd','3rd','4th') DEFAULT NULL,
+  `year_level` enum('1st','2nd','3rd','4th','Alumni','Irregular') DEFAULT NULL,
   `program_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -258,10 +262,40 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name`, `email`, `profile_pic`, `last_logged`, `status`, `created_at`, `password_hashed`, `year_level`, `program_id`) VALUES
-(20200, NULL, NULL, NULL, NULL, 'adote.ronadrian.molleda@gmail.com', NULL, NULL, 'active', '2026-04-10 02:37:42', 'null123', NULL, NULL),
+(20200, NULL, 'Roger', 'Lance', NULL, 'adote.ronadrian.molleda@gmail.com', NULL, NULL, 'active', '2026-04-29 07:54:44', 'null123', '2nd', 22),
 (20202, 'client', 'John', 'Client', 'A.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-26', 'active', '2026-04-13 14:28:53', 'testpass', NULL, NULL),
 (20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-04-13 14:28:53', 'mypassword', NULL, NULL),
-(20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-04-13 14:28:53', 'letmein', NULL, NULL);
+(20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-04-13 14:28:53', 'letmein', NULL, NULL),
+(30001, 'client', 'Lisa', 'Garcia', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-21', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 24),
+(30002, 'admin', 'Kevin', 'Cruz', 'B', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 22),
+(30003, 'client', 'Anna', 'Reyes', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-22', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 27),
+(30004, 'admin', 'John', 'Santos', 'C', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-24', 'active', '2026-04-27 11:12:43', 'password123', '1st', 23),
+(30005, 'admin', 'Anna', 'Santos', 'L', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-06', 'active', '2026-04-27 11:12:43', 'password123', '', 26),
+(30006, 'admin', 'John', 'Lopez', 'T', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-03', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 28),
+(30007, 'admin', 'Kevin', 'Lopez', 'C', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-09', 'active', '2026-04-27 11:12:43', 'password123', '', 27),
+(30008, 'admin', 'Kevin', 'Garcia', 'O', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-04', 'active', '2026-04-27 11:12:43', 'password123', '', 28),
+(30009, 'admin', 'Lisa', 'Santos', 'E', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-15', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 22),
+(30010, 'admin', 'Mark', 'Santos', 'E', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-20', 'active', '2026-04-27 11:12:43', 'password123', '', 28),
+(30011, 'admin', 'Anna', 'Cruz', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-24', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 27),
+(30012, 'client', 'Lisa', 'Lopez', 'O', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-03', 'active', '2026-04-27 11:12:43', 'password123', '1st', 21),
+(30013, 'admin', 'Anna', 'Cruz', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-31', 'active', '2026-04-27 11:12:43', 'password123', '', 23),
+(30014, 'admin', 'Anna', 'Cruz', 'E', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-30', 'active', '2026-04-27 11:12:43', 'password123', '', 21),
+(30015, 'admin', 'Lisa', 'Garcia', 'N', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 24),
+(30016, 'client', 'Kevin', 'Cruz', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-06', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 28),
+(30017, 'admin', 'Kevin', 'Lopez', 'V', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-04-27 11:12:43', 'password123', '', 26),
+(30018, 'client', 'Mark', 'Garcia', 'K', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-05', 'active', '2026-04-27 11:12:43', 'password123', '1st', 29),
+(30019, 'admin', 'Mark', 'Lopez', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-03', 'active', '2026-04-27 11:12:43', 'password123', '', 23),
+(30020, 'client', 'Anna', 'Cruz', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-01', 'active', '2026-04-27 11:12:43', 'password123', '', 24),
+(30021, 'client', 'John', 'Reyes', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-14', 'active', '2026-04-27 11:12:43', 'password123', '1st', 29),
+(30022, 'client', 'Lisa', 'Cruz', 'S', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-10', 'active', '2026-04-27 11:12:43', 'password123', '', 27),
+(30023, 'admin', 'Kevin', 'Garcia', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 29),
+(30024, 'admin', 'Anna', 'Garcia', 'Y', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '1st', 28),
+(30025, 'client', 'Lisa', 'Lopez', 'W', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-10', 'active', '2026-04-27 11:12:43', 'password123', '1st', 21),
+(30026, 'admin', 'Anna', 'Garcia', 'T', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 23),
+(30027, 'client', 'John', 'Cruz', 'O', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-15', 'active', '2026-04-27 11:12:43', 'password123', '1st', 22),
+(30028, 'client', 'Kevin', 'Santos', 'F', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-31', 'active', '2026-04-27 11:12:43', 'password123', '', 24),
+(30029, 'client', 'John', 'Santos', 'B', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-02', 'active', '2026-04-27 11:12:43', 'password123', '', 29),
+(30030, 'admin', 'Anna', 'Reyes', 'C', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-16', 'active', '2026-04-27 11:12:43', 'password123', '', 22);
 
 --
 -- Indexes for dumped tables
@@ -325,7 +359,6 @@ ALTER TABLE `programs`
 ALTER TABLE `responses`
   ADD PRIMARY KEY (`response_id`),
   ADD KEY `responses_ibfk_eventID` (`event_id`),
-  ADD KEY `responses_ibfk_formID` (`form_id`),
   ADD KEY `users_id` (`users_id`);
 
 --
@@ -361,19 +394,19 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3012;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3016;
 
 --
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `org_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1007;
+  MODIFY `org_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1008;
 
 --
 -- AUTO_INCREMENT for table `org_application`
 --
 ALTER TABLE `org_application`
-  MODIFY `org_apply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `org_apply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `programs`
@@ -385,7 +418,7 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3000;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3003;
 
 --
 -- AUTO_INCREMENT for table `sponsorships`
