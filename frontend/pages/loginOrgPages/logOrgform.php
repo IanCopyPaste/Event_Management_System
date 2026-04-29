@@ -18,7 +18,6 @@
     </div>
     <div class="btnLogin-container">
         <button id="btnLogin">Login</button>
-        <a href="loginLanding.php?page=resetPass">Forgot Password? Click Here</a>
     </div>
 </div>
 <div class="resultModal-container">

@@ -22,6 +22,8 @@ if($row = mysqli_fetch_assoc($result)){
         $_SESSION["users_fname"] = $row["first_name"];
         $_SESSION["users_mname"] = $row["middle_name"];
         $_SESSION["users_lname"] = $row["last_name"];
+        $_SESSION["users_year"] = $row["year_level"];
+        $_SESSION["users_program"] = $row["program_id"];
     }else{
         echo json_encode([
             "remarks" => false,

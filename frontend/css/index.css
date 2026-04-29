@@ -99,7 +99,7 @@ width:100%;
 }
 
 .nav-container button.active{
-color:rgb(0, 100, 214);;
+color:rgb(0, 100, 214);
 font-weight:bold;
 }
 
@@ -350,8 +350,15 @@ width:100%;
 }
 .footer-container {
     width: 100%;
-    padding: 10px;
-    background-color: aqua;
+    padding: 18px 24px;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Barlow', sans-serif;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 40px;
 }
 
 .pressedNav {

@@ -163,13 +163,32 @@
         <nav class="nav-container">
             <form action="index.php" method="GET">
                 <ul>
-                    <li><button name="page" value="home" class="<?= $page == 'home' ? 'active' : '' ?>">Home</button>
+                    <li>
+                        <button name="page" value="home" class="<?= $page == 'home' ? 'active' : '' ?>">
+                            Home
+                        </button>
                     </li>
-                    <li><button name="page" value="events"
-                            class="<?= $page == 'events' ? 'active' : '' ?>">Events</button></li>
-                    <li><button name="page" value="calendar" class="<?= $page == 'calendar' ? 'active' : '' ?>">My
-                            Calendar</button></li>
-                    <li><button name="page" value="org" class="<?= $page == 'org' ? 'active' : '' ?>">Create Organization</button></li>
+
+                    <li>
+                        <button name="page" value="events"
+                            class="<?= ($page == 'events' || $page == 'eventView') ? 'active' : '' ?>">
+                            Events
+                        </button>
+                    </li>
+
+                    <li>
+                        <button name="page" value="calendar"
+                            class="<?= $page == 'calendar' ? 'active' : '' ?>">
+                            My Calendar
+                        </button>
+                    </li>
+
+                    <li>
+                        <button name="page" value="org"
+                            class="<?= $page == 'org' ? 'active' : '' ?>">
+                            Create Organization
+                        </button>
+                    </li>
                 </ul>
             </form>
         </nav>
@@ -218,7 +237,7 @@
         async function getUserCredential() {
             const response = await fetch("backend/forBackendData/homePage/userDisplay.php");
             const data = await response.json();
-            profileName.textContent = data.last_name + ", " + data.first_name + " " + data.middle_name;
+            profileName.textContent = data.last_name + ", " + data.first_name + " " + (data.middle_name ?? '');
             profileUserid.textContent = "User ID: " + data.users_id;
         }
     });
