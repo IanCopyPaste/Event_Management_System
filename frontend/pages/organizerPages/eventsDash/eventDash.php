@@ -58,7 +58,7 @@ $page = $_GET["eventPages"]  ?? 'manageEvents';
     <?php
     switch ($page) {
         case 'manageEvents':
-            include("frontend/pages/organizerPages/eventsDash/manageEvents.html");
+            include("frontend/pages/organizerPages/eventsDash/manageEvents.php");
             break;
         case 'createEvents':
             include("frontend/pages/organizerPages/eventsDash/createEvents.html");
