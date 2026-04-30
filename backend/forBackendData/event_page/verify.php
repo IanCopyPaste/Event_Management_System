@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$query = "SELECT restrictions, status FROM events WHERE event_id=?";
+$query = "SELECT restrictions, status, slot_taken, capacity, registration_deadline FROM events WHERE event_id=?";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt,"i",$data["event_id"]);
 
@@ -21,7 +21,7 @@ if(mysqli_stmt_execute($stmt)){
     $isProgramAllowed = in_array($userProgram, $restrict["programs"]);
     $isYearAllowed = in_array($userYear, $restrict["year_level"]);
 
-    if($isProgramAllowed || $isYearAllowed || ($row["status"] == "ongoing") || ($row["status"] == "finished")){
+    if($isProgramAllowed || $isYearAllowed || ($row["status"] == "ongoing") || ($row["status"] == "finished") || ($row["slot_taken"] >= $row["capacity"]) || (time() > strtotime($row["registration_deadline"]))){
         echo json_encode([
             "status" => true,
             "message" => "user is restricted",

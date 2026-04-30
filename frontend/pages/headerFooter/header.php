@@ -212,6 +212,7 @@
     console.log("this is from the header bitch2");
 
     const btnToLogin = document.querySelector(".btnLog");
+    const btnLogOrg = document.querySelector(".btnLogOrg");
 
     document.addEventListener("DOMContentLoaded", async () => {
         const profileContainer = document.querySelector(".rightInfo-container");
@@ -245,5 +246,9 @@
 
     btnToLogin.addEventListener("click", () => {
         window.location.href = "loginLanding.php"
+    });
+
+    btnLogOrg.addEventListener("click",()=>{
+        window.location.href = "loginLanding.php?page=orgForm0"
     });
 </script>

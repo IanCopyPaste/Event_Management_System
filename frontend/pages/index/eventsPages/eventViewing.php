@@ -207,7 +207,7 @@
             <div class="value" id="slots"></div>
         </div>
         <div class="card">
-            <div class="label">Deadline</div>
+            <div class="label">Registration Deadline</div>
             <div class="value" id="deadline"></div>
         </div>
         <div class="card">
@@ -333,6 +333,9 @@
         if (isRestricted) {
             msg.style.display = "block";
             btn.disabled = true;
+            btnCancel.disabled = true;
+            btnCancel.style.opacity = "0.5"
+            btnCancel.style.cursor = "not-allowed"
             btn.style.opacity = "0.5";
             btn.style.cursor = "not-allowed";
         } else {
@@ -381,7 +384,7 @@
 
     btnCancel.addEventListener("click",async()=>{
         const response = await fetch("backend/forBackendData/event_page/cancel.php",{
-            method: "POST",
+            method: "POST", 
             headers:{
                 "Content-Type": "application/json"
             },

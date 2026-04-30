@@ -25,7 +25,6 @@ if ($page === "org" && !isset($_SESSION["users_id"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University of Kristian Evangelion Events</title>
     <link rel="stylesheet" href="frontend/css/index.css">
-    <link rel="stylesheet" href="frontend/css/calendar.css">
 
     <!--CALENDAR CONFIGS-->
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
