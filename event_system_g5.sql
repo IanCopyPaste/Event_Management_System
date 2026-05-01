@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2026 at 07:21 PM
+-- Generation Time: May 01, 2026 at 06:41 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -92,9 +92,9 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`event_id`, `org_id`, `advertisement_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`) VALUES
-(3012, 1007, NULL, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-28', '08:00:00', '17:00:00', '2026-04-28 04:00:00', 100, 0, 'ongoing', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\",\"22\"]}'),
-(3013, 1006, NULL, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-04-28 23:30:00', 150, 0, 'closed', 'event_69f06c468fe770.87522230.jpg', 'approved', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
-(3014, 1007, NULL, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-10', '13:00:00', '18:00:00', '2026-07-05 16:20:00', 80, 0, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}'),
+(3012, 1007, NULL, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-30', '08:00:00', '22:00:00', '2026-05-06 04:00:00', 100, 2, 'open', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\"]}'),
+(3013, 1006, NULL, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-06-10 23:30:00', 150, 0, 'open', 'event_69f06c468fe770.87522230.jpg', 'approved', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
+(3014, 1007, NULL, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-11', '13:00:00', '18:00:00', '2026-05-07 16:20:00', 80, 2, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}'),
 (3015, 1006, NULL, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-20', '2026-06-20', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 0, 'finished', 'event_69f0701b28f664.48043394.jpg', 'approved', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}');
 
 -- --------------------------------------------------------
@@ -216,6 +216,16 @@ CREATE TABLE `responses` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `responses`
+--
+
+INSERT INTO `responses` (`response_id`, `event_id`, `users_id`, `created_at`) VALUES
+(3008, 3014, 20202, '2026-04-30 04:35:49'),
+(3009, 3012, 20200, '2026-04-30 05:37:08'),
+(3010, 3012, 20203, '2026-04-30 16:59:08'),
+(3011, 3014, 20203, '2026-04-30 16:59:30');
+
 -- --------------------------------------------------------
 
 --
@@ -264,7 +274,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name`, `email`, `profile_pic`, `last_logged`, `status`, `created_at`, `password_hashed`, `year_level`, `program_id`) VALUES
 (20200, NULL, 'Roger', 'Lance', NULL, 'adote.ronadrian.molleda@gmail.com', NULL, NULL, 'active', '2026-04-29 07:54:44', 'null123', '2nd', 22),
 (20202, 'client', 'John', 'Client', 'A.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-26', 'active', '2026-04-13 14:28:53', 'testpass', NULL, NULL),
-(20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-04-13 14:28:53', 'mypassword', NULL, NULL),
+(20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-04-30 16:57:10', 'mypassword', 'Irregular', 21),
 (20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-04-13 14:28:53', 'letmein', NULL, NULL),
 (30001, 'client', 'Lisa', 'Garcia', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-21', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 24),
 (30002, 'admin', 'Kevin', 'Cruz', 'B', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 22),
@@ -418,7 +428,7 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3003;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3012;
 
 --
 -- AUTO_INCREMENT for table `sponsorships`
