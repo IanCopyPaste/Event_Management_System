@@ -2,7 +2,7 @@
 include("../../database/config.php");
 header("Content-Type: application/json");
 
-$query = "SELECT * FROM department";
+$query = "SELECT * FROM department WHERE status='active'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 

@@ -26,8 +26,7 @@ $page = $_GET['page'] ?? 'login0';
     <img src="frontend/assetsImages/login/shape1.svg" alt="Background Shape" id="rdmBg0">
     <section>
         <div class="logo-container">
-            <img src="frontend/assetsImages/login/Quezon_City.png" alt="">
-            <img src="frontend/assetsImages/login/qcCircle.png" alt="">
+            <img src="frontend/assetsImages/login/logoUKE.svg" alt="">
         </div>
         <?php
         switch ($page) {

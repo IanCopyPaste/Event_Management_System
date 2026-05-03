@@ -34,7 +34,9 @@ html{scrollbar-width:thin;}
 }
 .events-container{
     display:flex;
-    justify-content:center;
+    justify-content:start;
+    flex-wrap: wrap;
+    width: 100%;
     gap:40px;
     padding:40px;
 }

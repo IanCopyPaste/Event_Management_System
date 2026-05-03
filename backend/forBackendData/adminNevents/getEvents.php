@@ -15,6 +15,7 @@ $query = "SELECT
     e.capacity,
     e.slot_taken,
     e.event_bg_picture,
+    e.status,
     e.restrictions,
     e.approval_status,
     e.created_at AS event_created_at,
