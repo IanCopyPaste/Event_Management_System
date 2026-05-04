@@ -153,6 +153,9 @@
         height: auto;
         border-radius: 100px;
     }
+    .right-container .rightInfo-container img:hover {
+        cursor: pointer;
+    }
 </style>
 <header>
     <div class="upper-container">
@@ -214,6 +217,8 @@
     const btnToLogin = document.querySelector(".btnLog");
     const btnLogOrg = document.querySelector(".btnLogOrg");
 
+    const BtnprofileImg = document.querySelector(".rightInfo-container img");
+
     document.addEventListener("DOMContentLoaded", async () => {
         const profileContainer = document.querySelector(".rightInfo-container");
         const profileName = document.querySelector(".info-container .txtName");
@@ -250,5 +255,9 @@
 
     btnLogOrg.addEventListener("click",()=>{
         window.location.href = "loginLanding.php?page=orgForm0"
+    });
+    
+    BtnprofileImg.addEventListener("click",()=>{
+        window.location.href = "frontend/pages/headerFooter/userProfile.php"
     });
 </script>
