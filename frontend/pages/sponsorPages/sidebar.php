@@ -1,9 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION["users_id"])){
-    echo "page not found";
-    exit;
-}
+
 ?>
 <style>
     * {
@@ -76,7 +73,7 @@ if(!isset($_SESSION["users_id"])){
     <div class="adminProfile-container">
         <img src="frontend/assetsImages/univLogo.png" alt="NoProfile">
         <div class="adminInfo-container" >
-            <p class="adminName"><?=  $_SESSION["users_fname"] ." ". $_SESSION["users_lname"]?></p>
+            <p class="adminName"><?=  $_SESSION["sponsor_name"]?></p>
             <p class="adminID">Admin ID: <?=  $_SESSION["users_id"] ?></p>
         </div>
     </div>
@@ -84,9 +81,6 @@ if(!isset($_SESSION["users_id"])){
         <button name="page" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
         <button name="page" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
         <button name="page" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
-        <button name="page" value="departmentsDash" id="<?= $page == 'departmentsDash' ? 'admin-active' : ''?>">Departments</button>
-        <button name="page" value="sponsorDash" id="<?= $page =='sponsorDash' ? 'admin-active' : ''?>">Sponsorships</button>
-        <button name="page" value="settingsDash" id="<?= $page == 'settingsDash' ? 'admin-active' : ''?>">Settings</button>
     </form>
 </div>
 <script>

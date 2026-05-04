@@ -1,5 +1,5 @@
 <?php
-$page = $_GET["page"] ?? 'spon';
+$page = $_GET["page"] ?? 'sponsorApplications';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +7,7 @@ $page = $_GET["page"] ?? 'spon';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Sponsor Dashboard</title>
     <style>
         .admin-container {
             display: flex;
@@ -52,11 +52,11 @@ $page = $_GET["page"] ?? 'spon';
 </head>
 
 <body class="admin-container">
-    <?php include("frontend/pages/adminPages/adminSidebar.php") ?>
+    <?php include("frontend/pages/sponsorPages/sidebar.php") ?>
     <div class="page-container">
         <?php
         switch ($page) {
-            case 'sponsorApplcations':
+            case 'sponsorApplications':
                 include("frontend/pages/adminPages/orgDashboards/orgDashboard.php");
                 break;
             case 'sponsorCalendar':
