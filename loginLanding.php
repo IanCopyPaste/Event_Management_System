@@ -36,7 +36,12 @@ $page = $_GET['page'] ?? 'login0';
             case 'login1':
                 include('frontend/pages/logInPages/login1.php');
                 break;
-
+            case 'sponsorForm0':
+                include('frontend/pages/logInPages/loginSponsor.php');
+                break;
+            case 'sponsorForm1':
+                include('frontend/pages/logInPages/createSponsor.php');
+                break;
             case 'resetPass':
                 include 'frontend/pages/logInPages/resetPass.php';
                 break;
