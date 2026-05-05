@@ -74,7 +74,7 @@ if (isset($_GET["eventPages"])) {
                 include("frontend/pages/adminPages/sponsorDashboard.html");
                 break;
             case 'settingsDash':
-                include("frontend/pages/organizerPages/settings.html");
+                include("frontend/pages/organizerPages/settings.php");
                 break;
             default:
                 echo "Page not found";

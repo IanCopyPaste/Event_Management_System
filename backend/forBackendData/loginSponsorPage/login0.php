@@ -21,8 +21,9 @@ try {
                 $records[] = $row;
 
                 $_SESSION["sponsor_id"] = $row["sponsor_id"];
-                $_SESSION["sponsor_name"] = $row["sponsor_name"];
-                $_SESSION["sponsor_desc"] = $row["description"];
+                $_SESSION["sponsor_name"] = $row["company_name"];
+                $_SESSION["sponsor_address"] = $row["company_address"];
+                //$_SESSION["sponsor_desc"] = $row["description"];
                 $_SESSION["sponsor_logo"] = $row["sponsor_logo"];
                 $_SESSION["sponsor_email"] = $row["sponsor_email"];
                 $_SESSION["sponsor_contact"] = $row["sponsor_contact_no"];
@@ -33,7 +34,7 @@ try {
 
                 echo json_encode([
                     "status" => true,
-                    "message" => "Welcome! " . $row["sponsor_name"],
+                    "message" => "Welcome! " . $row["company_name"],
                     "records" => $records
                 ]);
             } else {

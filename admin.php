@@ -69,7 +69,7 @@ $page = $_GET["page"] ?? 'orgDash';
                 include("frontend/pages/adminPages/sponsorDashboard.html");
                 break;
             case 'settingsDash':
-                include("frontend/pages/adminPages/settingDashboard.html");
+                include("frontend/pages/adminPages/settingDashboard.php");
                 break;
             case 'departmentsDash':
                 include("frontend/pages/adminPages/departments.html");

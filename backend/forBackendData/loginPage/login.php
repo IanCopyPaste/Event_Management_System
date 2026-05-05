@@ -4,7 +4,7 @@ include("../../database/config.php");
 header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
 
-$query = "SELECT * FROM users WHERE users_id=?";
+$query = "SELECT * FROM users u LEFT JOIN programs p ON u.program_id = p.program_id  WHERE users_id=?";
 $stmt = mysqli_prepare($conn,$query);
 mysqli_stmt_bind_param($stmt,"s",$data["users_id"]);
 mysqli_stmt_execute($stmt);
@@ -23,7 +23,10 @@ if($row = mysqli_fetch_assoc($result)){
         $_SESSION["users_mname"] = $row["middle_name"];
         $_SESSION["users_lname"] = $row["last_name"];
         $_SESSION["users_year"] = $row["year_level"];
-        $_SESSION["users_program"] = $row["program_id"];
+        $_SESSION["users_program"] = $row["program_name"];
+        $_SESSION["users_pic"] = $row["profile_pic"];
+        $_SESSION["users_status"] = $row["status"];
+        $_SESSION["created_at"] = $row["created_at"];
     }else{
         echo json_encode([
             "remarks" => false,

@@ -4,8 +4,8 @@ include("../../database/config.php");
 header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
 
-$query = "SELECT * FROM organizations o 
-JOIN users u ON o.users_id = u.users_id
+$query = "SELECT o.org_id, o.org_name, o.org_email, o.org_contact_no, o.org_username, o.org_logo, u.first_name, u.middle_name, u.last_name, o.created_at, dpt.department_name, o.status, o.org_password FROM organizations o 
+JOIN users u ON o.users_id=u.users_id
 JOIN department dpt ON dpt.department_id = o.department_id 
 WHERE o.org_username=?";
 $stmt = mysqli_prepare($conn,$query);
@@ -30,6 +30,8 @@ if($row = mysqli_fetch_assoc($result)){
         $_SESSION["organizer_lname"] = $row["last_name"];
         $_SESSION["org_created_at"] = $row["created_at"];
         $_SESSION["org_dept_name"] = $row["department_name"];
+        $_SESSION["org_password"] = $row["org_password"];
+        $_SESSION["org_status"] = $row["status"];
     }else{
         echo json_encode([
             "remarks" => false,

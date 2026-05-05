@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Barlow', sans-serif;
             background-color: #f9fafb;
             color: #111827;
             line-height: 1.5;
@@ -53,7 +54,7 @@
             justify-content: center;
             overflow: hidden;
             border: 4px solid white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .avatar-circle i {
@@ -70,7 +71,7 @@
             padding: 0.375rem;
             border-radius: 9999px;
             border: 1px solid #e5e7eb;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             cursor: pointer;
         }
 
@@ -119,7 +120,7 @@
             border: 1px solid #d1d5db;
             border-radius: 0.75rem;
             padding: 2rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
             max-width: 1152px;
             margin: 1rem auto 0;
         }
@@ -139,12 +140,29 @@
             align-items: center;
         }
 
-        .col-2 { grid-column: span 2; }
-        .col-3 { grid-column: span 3; }
-        .col-4 { grid-column: span 4; }
-        .col-6 { grid-column: span 6; }
-        .col-7 { grid-column: span 7; }
-        .col-10 { grid-column: span 10; }
+        .col-2 {
+            grid-column: span 2;
+        }
+
+        .col-3 {
+            grid-column: span 3;
+        }
+
+        .col-4 {
+            grid-column: span 4;
+        }
+
+        .col-6 {
+            grid-column: span 6;
+        }
+
+        .col-7 {
+            grid-column: span 7;
+        }
+
+        .col-10 {
+            grid-column: span 10;
+        }
 
         .label {
             text-align: right;
@@ -230,6 +248,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="back-nav-container">
@@ -257,13 +276,19 @@
 
             <div class="form-grid">
                 <div class="label col-2">First Name:</div>
-                <div class="col-2"><div class="field-box"></div></div>
+                <div class="col-2">
+                    <div class="field-box"></div>
+                </div>
 
                 <div class="label col-2">Last Name:</div>
-                <div class="col-2"><div class="field-box"></div></div>
+                <div class="col-2">
+                    <div class="field-box"></div>
+                </div>
 
                 <div class="label col-2">Middle Name:</div>
-                <div class="col-2"><div class="field-box"></div></div>
+                <div class="col-2">
+                    <div class="field-box"></div>
+                </div>
 
                 <div class="label col-2">Year Level:</div>
                 <div class="field-container col-3">
@@ -316,11 +341,19 @@
             window.location.href = "../../../index.php";
         });
 
-        document.getElementById("logOutBtn").addEventListener("click", () => {
-            window.location.href = "loginLanding.php?page=loginForm0";
-        });
-
         lucide.createIcons();
+
+        document.querySelector(".btn-logout").addEventListener("click", async () => {
+            try {
+                const response = await fetch("../../../backend/forBackendData/logout.php");
+                const data = await response.json();
+                alert(data.message);
+                window.location.href = "../../../loginLanding.php?page=login0";
+            } catch (error) {
+                console.error(error);
+            }
+        });
     </script>
 </body>
+
 </html>

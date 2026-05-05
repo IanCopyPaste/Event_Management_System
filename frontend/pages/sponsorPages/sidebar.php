@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+$page = $_GET["SponPage"] ?? "sponsorApplications";
 ?>
 <style>
     * {
@@ -74,13 +74,13 @@ session_start();
         <img src="frontend/assetsImages/univLogo.png" alt="NoProfile">
         <div class="adminInfo-container" >
             <p class="adminName"><?=  $_SESSION["sponsor_name"]?></p>
-            <p class="adminID">Admin ID: <?=  $_SESSION["users_id"] ?></p>
+            <p class="adminID">Sponsor ID: <?=  $_SESSION["sponsor_id"] ?></p>
         </div>
     </div>
-    <form action="admin.php" method="GET">
-        <button name="page" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
-        <button name="page" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
-        <button name="page" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
+    <form action="sponsor.php" method="GET">
+        <button name="SponPage" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
+        <button name="SponPage" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
+        <button name="SponPage" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
     </form>
 </div>
 <script>

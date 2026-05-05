@@ -1,5 +1,5 @@
 <?php
-$page = $_GET["page"] ?? 'sponsorApplications';
+$page = $_GET["SponPage"] ?? 'sponsorApplications';
 ?>
 <!DOCTYPE html>
 <html lang="en">

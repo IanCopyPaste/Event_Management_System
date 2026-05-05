@@ -8,7 +8,7 @@
     <div class="input-container">
         <div class="txtBoxes-container">
             <input type="text" id="txtUsername" name="username" placeholder=" ">
-            <label for="txtUsername">Enter Sponsor Name</label>
+            <label for="txtUsername">Enter Username</label>
         </div>
 
         <div class="txtBoxes-container">
@@ -43,12 +43,12 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    "users_id": school_ID,
+                    "username": school_ID,
                     "password": password
                 })
             });
             const data = await response.json();
-            if (data.remarks == true) {
+            if (data.status == true) {
                 notifModal.classList.remove("wrongPass");
                 notifModal.classList.add("correctPass");
 
@@ -63,7 +63,7 @@
                         notifModal_message.textContent = data.message + " Redirecting in " + count + "s";
                     } else {
                         clearInterval(interval);
-                        location.href = ""
+                        location.href = "sponsor.php"
                     }
                 }, 1000); // runs every 1 second
             } else {

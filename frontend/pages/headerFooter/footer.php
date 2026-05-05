@@ -38,21 +38,4 @@
         <div class="footer-title">Event System</div>
         <div>© 2026 All rights reserved</div>
     </div>
-
-    <button id="logout" class="logout-btn">Log out</button>
 </footer>
-
-<script>
-const btnLogout = document.querySelector("#logout");
-
-btnLogout.addEventListener("click", async () => {
-    try {
-        const response = await fetch("backend/forBackendData/logout.php");
-        const data = await response.json();
-        alert(data.message);
-        window.location.href = "loginLanding.php?page=login0";
-    } catch (error) {
-        console.error(error);
-    }
-});
-</script>
