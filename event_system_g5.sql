@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 03, 2026 at 05:53 PM
+-- Generation Time: May 05, 2026 at 05:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -59,7 +59,7 @@ INSERT INTO `department` (`department_id`, `department_name`, `department_logo`,
 (13, 'Department of Accountancy - College of Business and Management', '3.svg', 'active'),
 (14, 'Department of Civil Engineering - College of Engineering', '2.svg', 'active'),
 (15, 'Department of Psychology - College of Arts and Sciences', '5.svg', 'active'),
-(21, 'Department of Digital Innovation and Cyber Systems', 'dept_69f745be75bf57.29624869.svg', 'active');
+(21, 'Department of Digital Innovation and Cyber Systems', 'dept_69f76faa8a04c6.06693127.svg', 'inactive');
 
 -- --------------------------------------------------------
 
@@ -238,16 +238,24 @@ INSERT INTO `responses` (`response_id`, `event_id`, `users_id`, `created_at`) VA
 
 CREATE TABLE `sponsorships` (
   `sponsor_id` int(11) NOT NULL,
-  `sponsor_name` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `sponsor_logo` mediumblob DEFAULT NULL,
-  `ad_link` text DEFAULT NULL,
+  `sponsor_logo` text DEFAULT NULL,
   `sponsor_email` varchar(255) DEFAULT NULL,
   `sponsor_contact_no` varchar(100) DEFAULT NULL,
-  `additional_documents` mediumblob DEFAULT NULL,
   `status` enum('pending','approved','rejected') DEFAULT 'pending',
-  `created_at` datetime DEFAULT NULL
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `username` text DEFAULT NULL,
+  `password` text DEFAULT NULL,
+  `company_name` text DEFAULT NULL,
+  `company_address` text DEFAULT NULL,
+  `additional_documents` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sponsorships`
+--
+
+INSERT INTO `sponsorships` (`sponsor_id`, `sponsor_logo`, `sponsor_email`, `sponsor_contact_no`, `status`, `created_at`, `username`, `password`, `company_name`, `company_address`, `additional_documents`) VALUES
+(6000, NULL, 'adote.ronadrian.molleda@gmail.com', '09123456789', 'pending', '2026-05-04 16:48:38', 'NoBudgetCEO', '$2y$10$HgKH78InI1ax7PrL0WnFLeT0PHUe3HlreFXXL.Xk5mzznPMMrhdPS', 'Slightly Legit Enterprises', '123 Bahala Na Street, Somewhere Near 7-Eleven, Philippines', 'doc_69f8cde65606a7.55827417.pdf');
 
 -- --------------------------------------------------------
 
@@ -279,7 +287,7 @@ INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name
 (20200, NULL, 'Roger', 'Lance', NULL, 'adote.ronadrian.molleda@gmail.com', NULL, NULL, 'active', '2026-04-29 07:54:44', 'null123', '2nd', 22),
 (20202, 'client', 'John', 'Client', 'A.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-26', 'active', '2026-04-13 14:28:53', 'testpass', NULL, NULL),
 (20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-04-30 16:57:10', 'mypassword', 'Irregular', 21),
-(20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-04-13 14:28:53', 'letmein', NULL, NULL),
+(20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-05-04 13:38:11', 'letmein', '2nd', 22),
 (30001, 'client', 'Lisa', 'Garcia', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-21', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 24),
 (30002, 'admin', 'Kevin', 'Cruz', 'B', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 22),
 (30003, 'client', 'Anna', 'Reyes', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-22', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 27),
@@ -432,13 +440,13 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3013;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3016;
 
 --
 -- AUTO_INCREMENT for table `sponsorships`
 --
 ALTER TABLE `sponsorships`
-  MODIFY `sponsor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6000;
+  MODIFY `sponsor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6001;
 
 --
 -- Constraints for dumped tables
