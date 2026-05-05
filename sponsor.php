@@ -56,7 +56,7 @@ $page = $_GET["SponPage"] ?? 'sponsorApplications';
     <div class="page-container">
         <?php
         switch ($page) {
-            case 'sponsorApplications':
+            case 'manageOrg':
                 include("frontend/pages/adminPages/orgDashboards/orgDashboard.php");
                 break;
             case 'sponsorCalendar':
@@ -64,6 +64,9 @@ $page = $_GET["SponPage"] ?? 'sponsorApplications';
                 break;
             case 'sponsorDetails':
                 include("frontend/pages/adminPages/eventDashboard.html");
+                break;
+            case 'settings':
+                include("frontend/pages/sponsorPages/settings.html");
                 break;
             default:
                 echo "Page not found";

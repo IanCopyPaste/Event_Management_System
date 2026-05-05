@@ -81,6 +81,7 @@ $page = $_GET["SponPage"] ?? "sponsorApplications";
         <button name="SponPage" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
         <button name="SponPage" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
         <button name="SponPage" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
+        <button name="SponPage" value="settings" id="<?= $page == 'settings' ? 'admin-active' : ''?>">Profile</button>
     </form>
 </div>
 <script>

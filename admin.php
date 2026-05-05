@@ -1,5 +1,13 @@
 <?php
-$page = $_GET["page"] ?? 'orgDash';
+$adminPages = $_GET["adminPages"] ?? null;
+
+if ($adminPages == 'manageSpon' || $adminPages == 'applySpon') {
+    $page = 'sponsorDash';
+} elseif ($adminPages == 'manageOrg' || $adminPages == 'applyOrg') {
+    $page = 'orgDash';
+} else {
+    $page = $_GET["page"] ?? 'orgDash';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,7 +74,7 @@ $page = $_GET["page"] ?? 'orgDash';
                 include("frontend/pages/adminPages/eventDashboard.html");
                 break;
             case 'sponsorDash':
-                include("frontend/pages/adminPages/sponsorDashboard.html");
+                include("frontend/pages/adminPages/sponsorDashboards/sponsorDashboard.php");
                 break;
             case 'settingsDash':
                 include("frontend/pages/adminPages/settingDashboard.php");

@@ -17,6 +17,14 @@ try {
 
             $row = mysqli_fetch_assoc($result);
 
+            if($row["status"] != "active"){
+                echo json_encode([
+                   "status" => false,
+                   "message" => "Your Sponsor Account has been Deactivated, Please Contact Admin for Further Assistance" 
+                ]);
+                die;
+            }
+
             if ($data["username"] == $row["username"] && password_verify($data["password"], $row["password"])) {
                 $records[] = $row;
 
