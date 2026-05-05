@@ -1,6 +1,9 @@
 <?php
 session_start();
-$page = $_GET["SponPage"] ?? "sponsorApplications";
+if(!isset($_SESSION["sponsor_id"])){
+    echo "page not found";
+    exit;
+}
 ?>
 <style>
     * {
@@ -78,10 +81,10 @@ $page = $_GET["SponPage"] ?? "sponsorApplications";
         </div>
     </div>
     <form action="sponsor.php" method="GET">
-        <button name="SponPage" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
-        <button name="SponPage" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
-        <button name="SponPage" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
-        <button name="SponPage" value="settings" id="<?= $page == 'settings' ? 'admin-active' : ''?>">Profile</button>
+        <button name="SponPage" value="applications" id="<?= $sponPage == 'applications' ? 'admin-active' : ''?>">Applications</button>
+        <button name="SponPage" value="packages" id="<?= $sponPage == 'packages' ? 'admin-active' : ''?>">Packages</button>
+        <button name="SponPage" value="eventDash" id="<?= $sponPage == 'eventDash' ? 'admin-active' : ''?>">Events</button>
+        <button name="SponPage" value="settings" id="<?= $sponPage == 'settings' ? 'admin-active' : ''?>">Profile</button>
     </form>
 </div>
 <script>

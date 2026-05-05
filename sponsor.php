@@ -1,5 +1,5 @@
 <?php
-$page = $_GET["SponPage"] ?? 'sponsorApplications';
+$sponPage = $_GET["SponPage"] ?? 'applications';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,18 +55,18 @@ $page = $_GET["SponPage"] ?? 'sponsorApplications';
     <?php include("frontend/pages/sponsorPages/sidebar.php") ?>
     <div class="page-container">
         <?php
-        switch ($page) {
+        switch ($sponPage) {
             case 'manageOrg':
                 include("frontend/pages/adminPages/orgDashboards/orgDashboard.php");
                 break;
-            case 'sponsorCalendar':
-                include("frontend/pages/adminPages/userDasboard.html");
+            case 'packages':
+                include("frontend/pages/sponsorPages/packages.php");
                 break;
             case 'sponsorDetails':
                 include("frontend/pages/adminPages/eventDashboard.html");
                 break;
             case 'settings':
-                include("frontend/pages/sponsorPages/settings.html");
+                include("frontend/pages/sponsorPages/settings.php");
                 break;
             default:
                 echo "Page not found";

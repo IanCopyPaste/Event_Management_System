@@ -17,10 +17,10 @@ try {
 
             $row = mysqli_fetch_assoc($result);
 
-            if($row["status"] != "active"){
+            if(($row["status"] != "active") || ($row["approval_status"] != "approved")){
                 echo json_encode([
                    "status" => false,
-                   "message" => "Your Sponsor Account has been Deactivated, Please Contact Admin for Further Assistance" 
+                   "message" => "Your Sponsor Account cannot be logged in, Please Contact Admin for Further Assistance" 
                 ]);
                 die;
             }

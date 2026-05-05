@@ -280,7 +280,7 @@
     </div>
 
     <div class="approvalUtil-container">
-        <button class="btnUpdate" style="background-color: green; color: white;">Save</button>
+        <button class="btnUpdate">Save Active</button>
         <button class="btnCancel">Close</button>
     </div>
 </div>
