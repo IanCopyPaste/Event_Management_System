@@ -56,14 +56,11 @@ $sponPage = $_GET["SponPage"] ?? 'applications';
     <div class="page-container">
         <?php
         switch ($sponPage) {
-            case 'manageOrg':
-                include("frontend/pages/adminPages/orgDashboards/orgDashboard.php");
+            case 'applications':
+                include("frontend/pages/sponsorPages/orgApplications/orgs.php");
                 break;
             case 'packages':
                 include("frontend/pages/sponsorPages/packages.php");
-                break;
-            case 'sponsorDetails':
-                include("frontend/pages/adminPages/eventDashboard.html");
                 break;
             case 'settings':
                 include("frontend/pages/sponsorPages/settings.php");

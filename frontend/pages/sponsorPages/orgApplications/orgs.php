@@ -58,10 +58,10 @@ $packPages = $_GET["packPages"]  ?? 'packManage';
     <?php
     switch ($packPages) {
         case 'packManage':
-            include("frontend\pages\sponsorPages\packagesPages\manage.php");
+            include("frontend/pages/sponsorPages/orgApplications/manage.php");
             break;
         case 'packApply':
-            include("frontend\pages\sponsorPages\packagesPages\applications.php");
+            include("frontend/pages/sponsorPages/orgApplications/applications.php");
             break;
         default:
             echo "page not found";

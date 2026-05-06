@@ -1,1 +1,1 @@
-<h1>This is manage packages</h1>
+<h1>This is manage org_events</h1>

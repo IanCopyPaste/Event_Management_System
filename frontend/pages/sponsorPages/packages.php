@@ -220,6 +220,11 @@ $packPath = "image_data/package_bg/";
         background-position: right 12px center;
         background-size: 14px
     }
+    .title-modal{
+        position: sticky;
+        top: 0px;
+        background-color: white;
+    }
 </style>
 
 <div class="orgsApply-container">

@@ -1,1 +1,1 @@
-<h1>This is application packages</h1>
+<h1>This is orhg_events application </h1>
