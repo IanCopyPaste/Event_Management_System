@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2026 at 04:59 PM
+-- Generation Time: May 06, 2026 at 10:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,11 +28,21 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `advertisement` (
-  `adverstisement_id` int(11) NOT NULL,
+  `advertisement_id` int(11) NOT NULL,
   `event_id` int(11) DEFAULT NULL,
-  `sponsor_id` int(11) DEFAULT NULL,
-  `status` enum('pending','approved','rejected') DEFAULT 'pending'
+  `package_id` int(11) DEFAULT NULL,
+  `additional_files` text DEFAULT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `advertisement`
+--
+
+INSERT INTO `advertisement` (`advertisement_id`, `event_id`, `package_id`, `additional_files`, `status`, `created_at`) VALUES
+(7001, 3015, 2, '1778098077_MMW QUIZ.pdf', 'pending', '2026-05-07 04:07:57'),
+(7002, 3013, 2, '1778098107_Annex-Basic-Education-Enrollment-Form.pdf', 'pending', '2026-05-07 04:08:27');
 
 -- --------------------------------------------------------
 
@@ -70,7 +80,6 @@ INSERT INTO `department` (`department_id`, `department_name`, `department_logo`,
 CREATE TABLE `events` (
   `event_id` int(11) NOT NULL,
   `org_id` int(11) DEFAULT NULL,
-  `advertisement_id` int(11) DEFAULT NULL,
   `event_name` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
@@ -85,19 +94,20 @@ CREATE TABLE `events` (
   `event_bg_picture` text DEFAULT NULL,
   `approval_status` enum('pending','rejected','approved') DEFAULT 'pending',
   `created_at` datetime DEFAULT current_timestamp(),
-  `restrictions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`restrictions`))
+  `restrictions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`restrictions`)),
+  `advertisement_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`event_id`, `org_id`, `advertisement_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`) VALUES
-(3012, 1007, NULL, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-30', '08:00:00', '22:00:00', '2026-05-06 04:00:00', 100, 2, 'open', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\"]}'),
-(3013, 1006, NULL, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-06-10 23:30:00', 150, 0, 'open', 'event_69f06c468fe770.87522230.jpg', 'approved', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
-(3014, 1007, NULL, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-11', '13:00:00', '18:00:00', '2026-05-07 16:20:00', 80, 3, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}'),
-(3015, 1006, NULL, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-20', '2026-06-20', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 0, 'finished', 'event_69f0701b28f664.48043394.jpg', 'approved', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}'),
-(3016, 1008, NULL, 'Tech Innovators Summit 2026', 'sa dasdasda sdasdas dasdasdsd adasda sdasdas das', 'UKE Main Auditorium', '2026-05-04', '2026-05-04', '07:30:00', '17:00:00', '2026-05-03 00:35:00', 100, 0, 'open', 'event_69f57f5a01eeb3.42529704.jpg', 'approved', '2026-05-02 12:36:42', '{\"year_level\":[\"1st\",\"Alumni\"],\"programs\":[\"21\",\"22\"]}');
+INSERT INTO `events` (`event_id`, `org_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`, `advertisement_id`) VALUES
+(3012, 1007, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-30', '08:00:00', '22:00:00', '2026-05-06 04:00:00', 100, 2, 'open', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\"]}', NULL),
+(3013, 1006, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-06-10 23:30:00', 150, 0, 'open', 'event_69f06c468fe770.87522230.jpg', 'approved', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}', NULL),
+(3014, 1007, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-11', '13:00:00', '18:00:00', '2026-05-07 16:20:00', 80, 3, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}', NULL),
+(3015, 1006, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-20', '2026-06-20', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 0, 'open', 'event_69f0701b28f664.48043394.jpg', 'approved', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}', NULL),
+(3016, 1008, 'Tech Innovators Summit 2026', 'sa dasdasda sdasdas dasdasdsd adasda sdasdas das', 'UKE Main Auditorium', '2026-05-04', '2026-05-04', '07:30:00', '17:00:00', '2026-05-03 00:35:00', 100, 0, 'open', 'event_69f57f5a01eeb3.42529704.jpg', 'approved', '2026-05-02 12:36:42', '{\"year_level\":[\"1st\",\"Alumni\"],\"programs\":[\"21\",\"22\"]}', NULL);
 
 -- --------------------------------------------------------
 
@@ -182,6 +192,32 @@ INSERT INTO `org_application` (`org_apply_id`, `user_id`, `department_id`, `org_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `packages`
+--
+
+CREATE TABLE `packages` (
+  `package_id` int(11) NOT NULL,
+  `sponsor_id` int(11) DEFAULT NULL,
+  `package_name` text DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT 0.00,
+  `benefits` text DEFAULT NULL,
+  `package_bg` text DEFAULT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `packages`
+--
+
+INSERT INTO `packages` (`package_id`, `sponsor_id`, `package_name`, `description`, `price`, `benefits`, `package_bg`, `status`, `created_at`) VALUES
+(2, 6001, 'Jollibee', 'Standard sponsorship package with strong event visibility and online promotion.', 4500.00, '[\"Logo on backdrop\",\"Social media mention (2 posts)\",\"Booth space\",\"Thank-you mention during program\"]', '1778085566_jabiiiiiiii.jpg', 'active', '2026-05-06 16:39:26'),
+(3, 6001, 'Greenwich Pizza', 'Greenwich Pizza is a popular fast-food pizza chain in the Philippines, known for “Filipino-style” pizzas (sweeter sauce, generous toppings).', 5000.00, '[\"Food Sponsorship\",\"Event Support\",\"Branding / Exposure\",\"Promotional Giveaways\"]', '1778085949_greenwich.jpg', 'active', '2026-05-06 16:45:49');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `programs`
 --
 
@@ -258,7 +294,8 @@ CREATE TABLE `sponsorships` (
 --
 
 INSERT INTO `sponsorships` (`sponsor_id`, `sponsor_logo`, `sponsor_email`, `sponsor_contact_no`, `created_at`, `username`, `password`, `company_name`, `company_address`, `additional_documents`, `approval_status`, `status`) VALUES
-(6000, NULL, 'adote.ronadrian.molleda@gmail.com', '09123456789', '2026-05-05 14:50:53', 'NoBudgetCEO', '$2y$10$HgKH78InI1ax7PrL0WnFLeT0PHUe3HlreFXXL.Xk5mzznPMMrhdPS', 'Slightly Legit Enterprises', '123 Bahala Na Street, Somewhere Near 7-Eleven, Philippines', 'doc_69f8cde65606a7.55827417.pdf', 'approved', 'active');
+(6000, NULL, 'adote.ronadrian.molleda@gmail.com', '09123456789', '2026-05-05 14:50:53', 'NoBudgetCEO', '$2y$10$HgKH78InI1ax7PrL0WnFLeT0PHUe3HlreFXXL.Xk5mzznPMMrhdPS', 'Slightly Legit Enterprises', '123 Bahala Na Street, Somewhere Near 7-Eleven, Philippines', 'doc_69f8cde65606a7.55827417.pdf', 'approved', 'active'),
+(6001, NULL, 'adote.ronadrian.molleda@gmail.com', '9703416913', '2026-05-05 17:52:37', 'mamade123', '$2y$10$lBSMmNL3G8FQOPlGz0rTN.2jZU9JWge3mbpUXvr4aCG.jnmqc5ld2', 'Heidi\'s Peanut Butter', '142 - Almodovar Comp. Quirino Highway Basesa Q.C', 'doc_69fa2dcbd99378.53590440.jpg', 'approved', 'active');
 
 -- --------------------------------------------------------
 
@@ -330,9 +367,9 @@ INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name
 -- Indexes for table `advertisement`
 --
 ALTER TABLE `advertisement`
-  ADD PRIMARY KEY (`adverstisement_id`),
-  ADD KEY `event_id` (`event_id`),
-  ADD KEY `sponsor_id` (`sponsor_id`);
+  ADD PRIMARY KEY (`advertisement_id`),
+  ADD KEY `ibfk_sponsor_id` (`package_id`),
+  ADD KEY `ibfk_event_id` (`event_id`);
 
 --
 -- Indexes for table `department`
@@ -346,7 +383,7 @@ ALTER TABLE `department`
 ALTER TABLE `events`
   ADD PRIMARY KEY (`event_id`),
   ADD KEY `events_ibfk_orgID` (`org_id`),
-  ADD KEY `events_ibfk_adID` (`advertisement_id`);
+  ADD KEY `ibfk_ad_id` (`advertisement_id`);
 
 --
 -- Indexes for table `feedbacks`
@@ -371,6 +408,13 @@ ALTER TABLE `org_application`
   ADD PRIMARY KEY (`org_apply_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `department_id` (`department_id`);
+
+--
+-- Indexes for table `packages`
+--
+ALTER TABLE `packages`
+  ADD PRIMARY KEY (`package_id`),
+  ADD KEY `sponsor_id` (`sponsor_id`);
 
 --
 -- Indexes for table `programs`
@@ -407,7 +451,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `advertisement`
 --
 ALTER TABLE `advertisement`
-  MODIFY `adverstisement_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `advertisement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7003;
 
 --
 -- AUTO_INCREMENT for table `department`
@@ -434,6 +478,12 @@ ALTER TABLE `org_application`
   MODIFY `org_apply_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
+-- AUTO_INCREMENT for table `packages`
+--
+ALTER TABLE `packages`
+  MODIFY `package_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
@@ -449,7 +499,7 @@ ALTER TABLE `responses`
 -- AUTO_INCREMENT for table `sponsorships`
 --
 ALTER TABLE `sponsorships`
-  MODIFY `sponsor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6001;
+  MODIFY `sponsor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6002;
 
 --
 -- Constraints for dumped tables
@@ -459,15 +509,15 @@ ALTER TABLE `sponsorships`
 -- Constraints for table `advertisement`
 --
 ALTER TABLE `advertisement`
-  ADD CONSTRAINT `advertisement_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `advertisement_ibfk_2` FOREIGN KEY (`sponsor_id`) REFERENCES `sponsorships` (`sponsor_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `ibfk_event_id` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`),
+  ADD CONSTRAINT `ibfk_sponsor_id` FOREIGN KEY (`package_id`) REFERENCES `packages` (`package_id`);
 
 --
 -- Constraints for table `events`
 --
 ALTER TABLE `events`
-  ADD CONSTRAINT `events_ibfk_adID` FOREIGN KEY (`advertisement_id`) REFERENCES `advertisement` (`adverstisement_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `events_ibfk_orgID` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`org_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `events_ibfk_orgID` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`org_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `ibfk_ad_id` FOREIGN KEY (`advertisement_id`) REFERENCES `advertisement` (`advertisement_id`);
 
 --
 -- Constraints for table `feedbacks`
@@ -489,6 +539,12 @@ ALTER TABLE `organizations`
 ALTER TABLE `org_application`
   ADD CONSTRAINT `org_application_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`users_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `org_application_ibfk_2` FOREIGN KEY (`department_id`) REFERENCES `department` (`department_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `packages`
+--
+ALTER TABLE `packages`
+  ADD CONSTRAINT `packages_ibfk_1` FOREIGN KEY (`sponsor_id`) REFERENCES `sponsorships` (`sponsor_id`);
 
 --
 -- Constraints for table `responses`
