@@ -1,3 +1,6 @@
+<?php
+$packPath = "image_data/package_bg/";
+?>
 <style>
     * {
         margin: 0;
@@ -29,19 +32,8 @@
         padding: 0 10px
     }
 
-    .field {
-        display: flex;
-        flex-direction: column;
-        gap: 4px
-    }
-
-    .field label {
-        font-size: 12px;
-        font-weight: 600
-    }
-
-    .utilities-container select,
-    .utilities-container input {
+    .utilities-container input,
+    .utilities-container select {
         padding: 10px 12px;
         border: 1px solid #cfe8ff;
         border-radius: 6px;
@@ -83,25 +75,6 @@
         color: #fff
     }
 
-    .orgApplication-table tbody tr:hover {
-        background: #f0f8ff
-    }
-
-    .orgApplication-table td button {
-        padding: 5px 10px;
-        background: rgba(0, 65, 156, 1);
-        color: #fff;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        margin-right: 5px
-    }
-
-    .empty {
-        text-align: center;
-        color: #60a5fa
-    }
-
     .add-btn {
         margin: 10px;
         padding: 10px 15px;
@@ -117,22 +90,21 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        height: 70vh;
-        width: 50%;
+        height: 75vh;
+        width: 55%;
         background: #fff;
         border-radius: 14px;
-        border: 1px solid rgba(83, 155, 255, .3);
-        box-shadow: 0 20px 40px rgba(0, 65, 156, .2);
         display: none;
-        flex-direction: column
+        flex-direction: column;
+        overflow-y: auto
     }
 
     .btnCloseModal {
         position: absolute;
         top: 10px;
         right: 15px;
-        background: transparent;
         border: none;
+        background: transparent;
         font-size: 18px;
         cursor: pointer
     }
@@ -141,28 +113,59 @@
         padding: 20px;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 10px
+        gap: 40px
     }
 
-    .allOrgInfo-container input {
+    .allOrgInfo-container input,
+    .allOrgInfo-container select,
+    textarea {
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 6px
     }
 
-    .logo-upload {
+    .bg-preview {
         grid-column: span 2;
-        display: flex;
-        flex-direction: column;
-        gap: 8px
-    }
-
-    .logo-upload img {
-        width: 120px;
-        height: 120px;
+        width: 100%;
+        height: 180px;
         object-fit: cover;
         border-radius: 10px;
         border: 1px solid #ddd
+    }
+
+    .benefit-box {
+        grid-column: span 2
+    }
+
+    .benefit-item {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 8px
+    }
+
+    .benefit-item input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px
+    }
+
+    .benefit-item button {
+        background: red;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer
+    }
+
+    .add-benefit {
+        margin-top: 5px;
+        padding: 6px 10px;
+        background: green;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px
     }
 
     .approvalUtil-container {
@@ -181,106 +184,112 @@
         cursor: pointer
     }
 
-    .btnApprove {
-        background: green;
-        color: #fff
+    .btn-edit {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #00419c, #2f80ed);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        margin-right: 5px
     }
 
-    .btnReject {
-        background: red;
-        color: #fff
+    .btn-delete {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #ff3b3b, #ff6b6b);
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer
     }
 
-    .btnCancel {
-        background: #ddd
+    #txtStatus {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #cfe8ff;
+        border-radius: 10px;
+        background: #fff;
+        font-size: 14px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300419c' viewBox='0 0 16 16'%3E%3Cpath d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 14px
     }
-    #txtDept_status {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #cfe8ff;
-    border-radius: 8px;
-    background: #fff;
-    font-size: 14px;
-    color: #000000;
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300419c' viewBox='0 0 16 16'%3E%3Cpath d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 14px;
-    transition: all 0.2s ease;
-}
-
-#txtDept_status:focus {
-    border-color: grey;
-    box-shadow: 0 0 0 3px rgba(0, 65, 156, 0.15);
-}
 </style>
 
 <div class="orgsApply-container">
-    <p class="manage-events">Manage Departments</p>
+    <p class="manage-events">Manage Sponsorship Packages</p>
 
     <div class="utilities-container">
-        <div class="field">
-            <label>Filter</label>
-            <select id="filterStatus">
-                <option value="all">All</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-            </select>
-        </div>
-
-        <input type="text" id="txtSearchbar" placeholder="Search department...">
+        <select id="filterStatus">
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+        <input type="text" id="txtSearchbar" placeholder="Search package...">
     </div>
 
-    <button id="btnAddDept" class="add-btn">+ Add Department</button>
+    <button id="btnAddDept" class="add-btn">+ Add Package</button>
 
     <div class="table-wrapper">
         <table class="orgApplication-table">
             <thead>
                 <tr>
-                    <th>Logo</th>
-                    <th>Department ID</th>
-                    <th>Department Name</th>
+                    <th>BG</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </div>
 
-<div class="orgInfo-modal" id="deptModal">
-    <button class="btnCloseModal">✕</button>
-    <h3 style="margin:20px">Department Details</h3>
+<div class="orgInfo-modal">
+    <div class="title-modal">
+        <h3 style="padding:10px">Package Details</h3>
+        <button class="btnCloseModal">✕</button>
+    </div>
 
     <div class="allOrgInfo-container">
-        <div class="logo-upload">
-            <label>Department Logo</label>
-            <img id="logoPreview">
-            <input type="file" id="logoInput">
+
+        <img id="bgPreview" class="bg-preview" src="<?= $packPath . "nothing.jpg" ?>">
+        <label>Background</label>
+        <input type="file" id="bgInput">
+
+        <label>Package Name</label>
+        <input id="txtPackage_name" placeholder="Gold Package">
+
+        <label>Description</label>
+        <textarea id="txtDescription" rows="4" placeholder="Describe package..."></textarea>
+
+        <label>Price</label>
+        <input id="txtPrice" type="number" placeholder="50000">
+
+        <div class="benefit-box">
+            <label>Offered</label>
+            <div id="benefitContainer"></div>
+            <button type="button" class="add-benefit" id="addBenefit">+ Add Offer</button>
         </div>
 
-        <label>ID</label>
-        <input id="txtDept_id" readonly>
-
-        <label>Name</label>
-        <input id="txtDept_name">
-
         <label>Status</label>
-        <select id="txtDept_status">
+        <select id="txtStatus">
             <option value="active">active</option>
             <option value="inactive">inactive</option>
         </select>
+
     </div>
 
     <div class="approvalUtil-container">
-        <button class="btnUpdate">Save Active</button>
+        <button class="btnUpdate" style="background:#00419c;color:#fff">Save</button>
         <button class="btnCancel">Close</button>
     </div>
 </div>
@@ -288,186 +297,143 @@
 <script>
     const tableBody = document.querySelector("tbody")
     const modal = document.querySelector(".orgInfo-modal")
+    const btnAdd = document.getElementById("btnAddDept")
     const btnClose = document.querySelector(".btnCloseModal")
     const btnCancel = document.querySelector(".btnCancel")
     const btnUpdate = document.querySelector(".btnUpdate")
-    const btnAdd = document.getElementById("btnAddDept")
-    const logoInput = document.getElementById("logoInput")
-    const logoPreview = document.getElementById("logoPreview")
-    const txtId = document.getElementById("txtDept_id")
-    const txtName = document.getElementById("txtDept_name")
-    const txtStatus = document.getElementById("txtDept_status")
-    const search = document.getElementById("txtSearchbar")
+    const txtName = document.getElementById("txtPackage_name")
+    const txtDescription = document.getElementById("txtDescription")
+    const txtPrice = document.getElementById("txtPrice")
+    const txtStatus = document.getElementById("txtStatus")
+    const bgInput = document.getElementById("bgInput")
+    const bgPreview = document.getElementById("bgPreview")
+    const benefitContainer = document.getElementById("benefitContainer")
+    const addBenefitBtn = document.getElementById("addBenefit")
+    const searchInput = document.getElementById("txtSearchbar")
     const filterStatus = document.getElementById("filterStatus")
-    const sort = document.getElementById("sortByDept")
 
-    const path = "image_data/department_logo/";
-    let logo = null;
+    const path = "image_data/package_bg/"
+    let packages = []
+    let editId = null
 
-    let selectedId = null
-    let departments = [];
-
-    document.addEventListener("DOMContentLoaded", async () => {
-        getDepartments();
-    });
-
-    async function getDepartments() {
-        const response = await fetch("backend/forBackendData/adminNdepartments/getDepartments.php");
-        const data = await response.json();
-        const d = data.records;
-        departments = d;
-        render(departments);
+    function addBenefit(v = "") {
+        const d = document.createElement("div")
+        d.className = "benefit-item"
+        d.innerHTML = `<input value="${v}" placeholder="Offer"><button type="button" style="border-radius:200px;">X</button>`
+        d.querySelector("button").onclick = () => d.remove()
+        benefitContainer.appendChild(d)
     }
 
-    function render(dept) {
+    addBenefitBtn.onclick = () => addBenefit()
+
+    function getBenefits() {
+        return [...benefitContainer.querySelectorAll("input")].map(i => i.value.trim()).filter(Boolean)
+    }
+
+    function applyFilters() {
+        const s = (searchInput.value || "").toLowerCase()
+        const st = filterStatus.value
+        const f = packages.filter(p => {
+            const name = (p.package_name || "").toLowerCase()
+            const status = (p.status || "").toLowerCase()
+            return name.includes(s) && (st === "all" || status === st)
+        })
+        render(f)
+    }
+
+    async function getPackages() {
+        const r = await fetch("backend/forBackendData/sponsor_pages/getPackages.php")
+        const d = await r.json()
+        packages = d.records || []
+        applyFilters()
+    }
+
+    function render(data) {
         tableBody.innerHTML = ""
-        dept.forEach(d => {
+        data.forEach(p => {
             tableBody.innerHTML += `
 <tr>
-<td><img src="${d.department_logo ? path + d.department_logo : path + 'logoUKE.svg'}" width="35" height="35"></td>
-<td>${d.department_id}</td>
-<td>${d.department_name}</td>
-<td>${d.status}</td>
+<td><img src="${p.package_bg?path+p.package_bg:path+'default.png'}" width="40" height="40"></td>
+<td>${p.package_id}</td>
+<td>${p.package_name}</td>
+<td>${p.price}</td>
+<td>${p.status}</td>
 <td>
-<button class="edit" data-id="${d.department_id}">Edit</button>
-<button class="del" data-id="${d.department_id}">Delete</button>
+<button class="btn-edit" onclick="edit(${p.package_id})">Edit</button>
+<button class="btn-delete" onclick="del(${p.package_id})">Delete</button>
 </td>
 </tr>`
         })
     }
 
-    function filters() {
-        const status = filterStatus.value
-        const searchVal = search.value.toLowerCase()
-
-        tableBody.innerHTML = ``
-
-        departments.forEach(d => {
-            const matchStatus = status === "all" || d.status === status
-            const matchSearch = d.department_name.toLowerCase().includes(searchVal)
-
-            if (matchStatus && matchSearch) {
-                tableBody.innerHTML += `
-<tr>
-<td><img src="${d.department_logo ? path + d.department_logo : 'image_data/department_logo/logoUKE.svg'}" width="35" height="35"></td>
-<td>${d.department_id}</td>
-<td>${d.department_name}</td>
-<td>${d.status}</td>
-<td>
-<button class="edit" data-id="${d.department_id}">Edit</button>
-<button class="del" data-id="${d.department_id}">Delete</button>
-</td>
-</tr>`
-            }
-        })
+    btnAdd.onclick = () => {
+        editId = null
+        txtName.value = ""
+        txtDescription.value = ""
+        txtPrice.value = ""
+        txtStatus.value = "active"
+        bgInput.value = ""
+        bgPreview.src = ""
+        benefitContainer.innerHTML = ""
+        addBenefit()
+        modal.style.display = "flex"
     }
 
-    filterStatus.addEventListener("change", filters)
-    search.addEventListener("input", filters)
+    btnClose.onclick = btnCancel.onclick = () => modal.style.display = "none"
 
-    tableBody.addEventListener("click", e => {
-        const btn = e.target.closest("button")
-        const btnDel = e.target.closest(".del")
-        if (!btn) return
-
-        const id = btn.dataset.id
-
-        if (btn.classList.contains("edit")) {
-            modal.style.display = "flex"
-
-            const dpt = departments.find(d => d.department_id == id)
-
-            if (dpt) {
-                logo = dpt.department_logo;
-                logoPreview.src = dpt.department_logo
-                    ? path + dpt.department_logo
-                    : path + "logoUKE.svg"
-
-                txtId.value = dpt.department_id
-                txtName.value = dpt.department_name
-                txtStatus.value = dpt.status
-                console.log(logo);
-            }
-        }
-
-        if (btn.classList.contains("del")) {
-            const result = confirm("Are you to delete Department ID: " + id);
-            if (result) {
-                deleteDept(id);
-            } else {
-                console.log("not deleted", id);
-            }
-        }
-    });
-
-    btnCancel.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
-    btnClose.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
-    btnUpdate.addEventListener("click", async () => {
-        const formData = new FormData()
-
-        formData.append("dept_name", txtName.value)
-        formData.append("dept_status", txtStatus.value)
-
-        if (logoInput.files[0]) {
-            formData.append("dept_logo", logoInput.files[0])
-        }
-
-        if (txtId.value !== "Auto" && txtId.value !== "") {
-            formData.append("dept_id", txtId.value)
-
-            var url = "backend/forBackendData/adminNdepartments/updateDept.php"
-        } else {
-            var url = "backend/forBackendData/adminNdepartments/insertDept.php"
-        }
-
-        const response = await fetch(url, {
+    btnUpdate.onclick = async () => {
+        const fd = new FormData()
+        fd.append("package_name", txtName.value)
+        fd.append("description", txtDescription.value)
+        fd.append("price", txtPrice.value)
+        fd.append("status", txtStatus.value)
+        fd.append("benefits", JSON.stringify(getBenefits()))
+        if (bgInput.files[0]) fd.append("package_bg", bgInput.files[0])
+        if (editId) fd.append("package_id", editId)
+        const url = editId ?
+            "backend/forBackendData/sponsor_pages/updatePacks.php" :
+            "backend/forBackendData/sponsor_pages/insertPacks.php"
+        const r = await fetch(url, {
             method: "POST",
-            body: formData
+            body: fd
         })
+        const d = await r.json()
+        if (d.status) location.reload()
+    }
 
-        const data = await response.json()
+    window.edit = (id) => {
+        const p = packages.find(x => x.package_id == id)
+        editId = id
+        txtName.value = p.package_name
+        txtDescription.value = p.description
+        txtPrice.value = p.price
+        txtStatus.value = p.status
+        bgPreview.src = p.package_bg ? path + p.package_bg : path + "default.png"
+        benefitContainer.innerHTML = ""
+        let b = []
+        try {
+            b = JSON.parse(p.benefits || "[]")
+        } catch (e) {}
+        b.length ? b.forEach(x => addBenefit(x)) : addBenefit()
+        modal.style.display = "flex"
+    }
 
-        if (data.status) {
-            alert("Saved Successfully")
-            location.reload()
-        } else {
-            console.error("save failed")
-        }
-    });
-
-    async function deleteDept(dept_id) {
-        const r = await fetch("backend/forBackendData/adminNdepartments/deleteDept.php", {
+    window.del = async (id) => {
+        if (!confirm("Delete?")) return
+        const r = await fetch("backend/forBackendData/sponsor_pages/delete.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "dept_id": dept_id
+                package_id: id
             })
-        });
-        const d = await r.json();
-        if (d.status === true) {
-            //alert("Department ID: " + dept_id + " Deleted");
-            location.reload();
-        } else {
-            alert("something occured");
-        }
+        })
+        const d = await r.json()
+        if (d.status) location.reload()
     }
 
-    btnAdd.addEventListener("click", () => {
-        modal.style.display = "flex"
-
-        txtId.value = "Auto"
-        txtName.value = ""
-        txtStatus.value = "active"
-        logoPreview.src = ""
-        logoInput.value = ""
-        logo = null
-
-        selectedId = null
-    })
+    searchInput.oninput = applyFilters
+    filterStatus.onchange = applyFilters
+    getPackages()
 </script>

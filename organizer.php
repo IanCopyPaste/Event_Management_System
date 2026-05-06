@@ -71,7 +71,10 @@ if (isset($_GET["eventPages"])) {
                 include("frontend/pages/organizerPages/eventsDash/eventDash.php");
                 break;
             case 'sponsorDash':
-                include("frontend/pages/adminPages/sponsorDashboard.html");
+                include("frontend/pages/organizerPages/sponsorDash/SponsorDisplay.html");
+                break;
+            case 'sponsorApply':
+                include("frontend/pages/organizerPages/sponsorDash/sponsorApply.php");
                 break;
             case 'settingsDash':
                 include("frontend/pages/organizerPages/settings.php");

@@ -85,7 +85,7 @@ $path = "image_data/org_logo/";
     <form action="organizer.php" method="GET">
         <button name="organizerPages" value="analyticsDash" id="<?= $page == 'analyticsDash' ? 'org-active' : ''?>">Analytics Dashboard</button>
         <button name="organizerPages" value="eventsDash" id="<?= $page == 'eventsDash' ? 'org-active' : ''?>">Events</button>
-        <button name="organizerPages" value="sponsorDash" id="<?= $page == 'sponsorDash' ? 'org-active' : ''?>">Sponsorships</button>
+        <button name="organizerPages" value="sponsorDash" id="<?= ($page == 'sponsorDash' || $page == 'sponsorApply') ? 'org-active' : ''?>">Sponsorships</button>
         <button name="organizerPages" value="settingsDash" id="<?= $page =='settingsDash' ? 'org-active' : ''?>">Org Settings</button>
     </form>
 </div>
