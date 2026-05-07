@@ -3,7 +3,7 @@ include("../../database/config.php");
 header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"), true);
 
-$query = "SELECT * FROM advertisement WHERE event_id=? AND package_id=?";
+$query = "SELECT * FROM advertisement WHERE event_id=? AND package_id=? AND status = 'pending'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "ii", $data["event_id"], $data["pack_id"]);
 

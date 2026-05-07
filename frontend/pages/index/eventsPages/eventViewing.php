@@ -203,7 +203,7 @@
             <div class="value" id="capacity"></div>
         </div>
         <div class="card">
-            <div class="label">Slots</div>
+            <div class="label">Registered Count</div>
             <div class="value" id="slots"></div>
         </div>
         <div class="card">

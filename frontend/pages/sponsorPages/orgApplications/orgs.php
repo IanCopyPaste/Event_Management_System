@@ -51,8 +51,8 @@ $packPages = $_GET["packPages"]  ?? 'packManage';
     }
 </style>
 <form action="sponsor.php" method="GET" class="orgPage-container">
-    <button name="packPages" value="packManage" class="<?= $packPages == 'packManage' ? 'org-active' : '' ?>">Manage Packages</button>
-    <button name="packPages" value="packApply" class="<?= $packPages == 'packApply' ? 'org-active' : '' ?>">Create Packages</button>
+    <button name="packPages" value="packManage" class="<?= $packPages == 'packManage' ? 'org-active' : '' ?>">Manage Sponsorships</button>
+    <button name="packPages" value="packApply" class="<?= $packPages == 'packApply' ? 'org-active' : '' ?>">Sponsorship Aplications</button>
 </form>
 <div class="orgDash-container">
     <?php
