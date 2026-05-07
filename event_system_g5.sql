@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2026 at 10:12 PM
+-- Generation Time: May 07, 2026 at 10:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -33,16 +33,20 @@ CREATE TABLE `advertisement` (
   `package_id` int(11) DEFAULT NULL,
   `additional_files` text DEFAULT NULL,
   `status` enum('pending','approved','rejected') DEFAULT 'pending',
-  `created_at` datetime DEFAULT current_timestamp()
+  `created_at` datetime DEFAULT current_timestamp(),
+  `agreement_status` enum('On Hold','Ongoing') DEFAULT 'Ongoing'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `advertisement`
 --
 
-INSERT INTO `advertisement` (`advertisement_id`, `event_id`, `package_id`, `additional_files`, `status`, `created_at`) VALUES
-(7001, 3015, 2, '1778098077_MMW QUIZ.pdf', 'pending', '2026-05-07 04:07:57'),
-(7002, 3013, 2, '1778098107_Annex-Basic-Education-Enrollment-Form.pdf', 'pending', '2026-05-07 04:08:27');
+INSERT INTO `advertisement` (`advertisement_id`, `event_id`, `package_id`, `additional_files`, `status`, `created_at`, `agreement_status`) VALUES
+(7001, 3015, 2, '1778098077_MMW QUIZ.pdf', 'approved', '2026-05-07 04:07:57', 'Ongoing'),
+(7002, 3013, 2, '1778098107_Annex-Basic-Education-Enrollment-Form.pdf', 'approved', '2026-05-07 04:08:27', 'On Hold'),
+(7003, 3012, 3, '1778131102_website.pdf', 'approved', '2026-05-07 13:18:22', 'Ongoing'),
+(7004, 3015, 2, NULL, 'pending', '2026-05-07 16:03:07', 'Ongoing'),
+(7005, 3012, 5, '1778141178_IMG_0732.jpg', 'approved', '2026-05-07 16:06:18', 'Ongoing');
 
 -- --------------------------------------------------------
 
@@ -94,20 +98,19 @@ CREATE TABLE `events` (
   `event_bg_picture` text DEFAULT NULL,
   `approval_status` enum('pending','rejected','approved') DEFAULT 'pending',
   `created_at` datetime DEFAULT current_timestamp(),
-  `restrictions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`restrictions`)),
-  `advertisement_id` int(11) DEFAULT NULL
+  `restrictions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`restrictions`))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`event_id`, `org_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`, `advertisement_id`) VALUES
-(3012, 1007, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-30', '08:00:00', '22:00:00', '2026-05-06 04:00:00', 100, 2, 'open', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\"]}', NULL),
-(3013, 1006, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-06-10 23:30:00', 150, 0, 'open', 'event_69f06c468fe770.87522230.jpg', 'approved', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}', NULL),
-(3014, 1007, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-11', '13:00:00', '18:00:00', '2026-05-07 16:20:00', 80, 3, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}', NULL),
-(3015, 1006, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-20', '2026-06-20', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 0, 'open', 'event_69f0701b28f664.48043394.jpg', 'approved', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}', NULL),
-(3016, 1008, 'Tech Innovators Summit 2026', 'sa dasdasda sdasdas dasdasdsd adasda sdasdas das', 'UKE Main Auditorium', '2026-05-04', '2026-05-04', '07:30:00', '17:00:00', '2026-05-03 00:35:00', 100, 0, 'open', 'event_69f57f5a01eeb3.42529704.jpg', 'approved', '2026-05-02 12:36:42', '{\"year_level\":[\"1st\",\"Alumni\"],\"programs\":[\"21\",\"22\"]}', NULL);
+INSERT INTO `events` (`event_id`, `org_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`) VALUES
+(3012, 1007, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-30', '08:00:00', '22:00:00', '2026-05-06 04:00:00', 100, 2, 'open', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\"]}'),
+(3013, 1006, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-06-10 23:30:00', 150, 1, 'open', 'event_69f06c468fe770.87522230.jpg', 'approved', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
+(3014, 1007, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-11', '13:00:00', '18:00:00', '2026-05-07 16:20:00', 80, 3, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}'),
+(3015, 1006, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-20', '2026-06-20', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 0, 'open', 'event_69f0701b28f664.48043394.jpg', 'approved', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}'),
+(3016, 1008, 'Tech Innovators Summit 2026', 'sa dasdasda sdasdas dasdasdsd adasda sdasdas das', 'UKE Main Auditorium', '2026-05-04', '2026-05-04', '07:30:00', '17:00:00', '2026-05-03 00:35:00', 100, 0, 'open', 'event_69f57f5a01eeb3.42529704.jpg', 'approved', '2026-05-02 12:36:42', '{\"year_level\":[\"1st\",\"Alumni\"],\"programs\":[\"21\",\"22\"]}');
 
 -- --------------------------------------------------------
 
@@ -212,8 +215,9 @@ CREATE TABLE `packages` (
 --
 
 INSERT INTO `packages` (`package_id`, `sponsor_id`, `package_name`, `description`, `price`, `benefits`, `package_bg`, `status`, `created_at`) VALUES
-(2, 6001, 'Jollibee', 'Standard sponsorship package with strong event visibility and online promotion.', 4500.00, '[\"Logo on backdrop\",\"Social media mention (2 posts)\",\"Booth space\",\"Thank-you mention during program\"]', '1778085566_jabiiiiiiii.jpg', 'active', '2026-05-06 16:39:26'),
-(3, 6001, 'Greenwich Pizza', 'Greenwich Pizza is a popular fast-food pizza chain in the Philippines, known for “Filipino-style” pizzas (sweeter sauce, generous toppings).', 5000.00, '[\"Food Sponsorship\",\"Event Support\",\"Branding / Exposure\",\"Promotional Giveaways\"]', '1778085949_greenwich.jpg', 'active', '2026-05-06 16:45:49');
+(2, 6001, 'Jollibee', 'Standard sponsorship package with strong event visibility and online promotion.', 4500.00, '[\"Social media mention (2 posts)\",\"Thank-you mention during program\"]', '1778085566_jabiiiiiiii.jpg', 'active', '2026-05-06 16:39:26'),
+(3, 6001, 'Greenwich Pizza', 'Greenwich Pizza is a popular fast-food pizza chain in the Philippines, known for “Filipino-style” pizzas (sweeter sauce, generous toppings).', 5000.00, '[\"Food Sponsorship\",\"Event Support\",\"Branding / Exposure\",\"Promotional Giveaways\"]', '1778085949_greenwich.jpg', 'active', '2026-05-06 16:45:49'),
+(5, 6001, 'Femboy Package', 'BUrat burat burat ', 69.00, '[\"2 Pops No cd\",\"Unli Pops yes to BJ, CIM, CIF\",\"Pwede Lunok\"]', '1778141134_file_69eccff51fb305.92553214.jpg', 'active', '2026-05-07 08:05:34');
 
 -- --------------------------------------------------------
 
@@ -266,7 +270,8 @@ INSERT INTO `responses` (`response_id`, `event_id`, `users_id`, `created_at`) VA
 (3010, 3012, 20203, '2026-04-30 16:59:08'),
 (3011, 3014, 20203, '2026-04-30 16:59:30'),
 (3012, 3012, 20200, '2026-05-02 04:30:05'),
-(3016, 3014, 20200, '2026-05-05 03:55:56');
+(3016, 3014, 20200, '2026-05-05 03:55:56'),
+(3017, 3013, 20200, '2026-05-07 06:41:56');
 
 -- --------------------------------------------------------
 
@@ -295,7 +300,7 @@ CREATE TABLE `sponsorships` (
 
 INSERT INTO `sponsorships` (`sponsor_id`, `sponsor_logo`, `sponsor_email`, `sponsor_contact_no`, `created_at`, `username`, `password`, `company_name`, `company_address`, `additional_documents`, `approval_status`, `status`) VALUES
 (6000, NULL, 'adote.ronadrian.molleda@gmail.com', '09123456789', '2026-05-05 14:50:53', 'NoBudgetCEO', '$2y$10$HgKH78InI1ax7PrL0WnFLeT0PHUe3HlreFXXL.Xk5mzznPMMrhdPS', 'Slightly Legit Enterprises', '123 Bahala Na Street, Somewhere Near 7-Eleven, Philippines', 'doc_69f8cde65606a7.55827417.pdf', 'approved', 'active'),
-(6001, NULL, 'adote.ronadrian.molleda@gmail.com', '9703416913', '2026-05-05 17:52:37', 'mamade123', '$2y$10$lBSMmNL3G8FQOPlGz0rTN.2jZU9JWge3mbpUXvr4aCG.jnmqc5ld2', 'Heidi\'s Peanut Butter', '142 - Almodovar Comp. Quirino Highway Basesa Q.C', 'doc_69fa2dcbd99378.53590440.jpg', 'approved', 'active');
+(6001, NULL, 'adote.ronadrian.molleda@gmail.com', '9703416913', '2026-05-07 04:14:19', 'mamade123', '$2y$10$lBSMmNL3G8FQOPlGz0rTN.2jZU9JWge3mbpUXvr4aCG.jnmqc5ld2', 'Heidi\'s Peanut Butter', '142 - Almodovar Comp. Quirino Highway Basesa Q.C', 'doc_69fa2dcbd99378.53590440.jpg', 'approved', 'active');
 
 -- --------------------------------------------------------
 
@@ -382,8 +387,7 @@ ALTER TABLE `department`
 --
 ALTER TABLE `events`
   ADD PRIMARY KEY (`event_id`),
-  ADD KEY `events_ibfk_orgID` (`org_id`),
-  ADD KEY `ibfk_ad_id` (`advertisement_id`);
+  ADD KEY `events_ibfk_orgID` (`org_id`);
 
 --
 -- Indexes for table `feedbacks`
@@ -451,7 +455,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `advertisement`
 --
 ALTER TABLE `advertisement`
-  MODIFY `advertisement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7003;
+  MODIFY `advertisement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7006;
 
 --
 -- AUTO_INCREMENT for table `department`
@@ -481,7 +485,7 @@ ALTER TABLE `org_application`
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `package_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `package_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `programs`
@@ -493,7 +497,7 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3017;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3018;
 
 --
 -- AUTO_INCREMENT for table `sponsorships`
@@ -516,8 +520,7 @@ ALTER TABLE `advertisement`
 -- Constraints for table `events`
 --
 ALTER TABLE `events`
-  ADD CONSTRAINT `events_ibfk_orgID` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`org_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `ibfk_ad_id` FOREIGN KEY (`advertisement_id`) REFERENCES `advertisement` (`advertisement_id`);
+  ADD CONSTRAINT `events_ibfk_orgID` FOREIGN KEY (`org_id`) REFERENCES `organizations` (`org_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `feedbacks`
