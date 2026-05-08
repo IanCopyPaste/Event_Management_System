@@ -294,12 +294,11 @@
         <thead>
             <tr>
                 <th>Event Name</th>
-                <th>Org name</th>
                 <th>Department Name</th>
                 <th>Location</th>
                 <th>Starting Date</th>
                 <th>Capacity</th>
-                <th>Approval Status</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -344,8 +343,11 @@
         <label>Slots Taken</label>
         <input id="txtSlots" readonly>
 
-        <label>Restrictions</label>
+        <label>Restrictied Year Levels:</label>
         <input id="txtRestrictions" readonly>
+
+        <label>Restrictied Programs:</label>
+        <input id="txtPrograms" readonly>
 
         <label>Organization</label>
         <input id="txtOrg_name" readonly>
@@ -411,7 +413,7 @@ function formatDateTime(dt) {
 document.addEventListener("DOMContentLoaded", loadOrgApplications);
 
 async function loadOrgApplications() {
-    const res = await fetch("backend/forBackendData/adminNevents/getEvents.php", {
+    const res = await fetch("backend/forBackendData/organizerNevents/manage/getEvents.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ event_id: null })
@@ -430,12 +432,11 @@ function renderTable(records) {
         tableBody.innerHTML += `
         <tr>
             <td>${e.event_name}</td>
-            <td>${e.org_name}</td>
             <td style="word-break: break-all; max-width: 180px;">${e.department_name}</td>
             <td>${e.location}</td>
             <td>${formatDateTime(e.start_date)} - ${formatDateTime(e.end_date)}</td>
             <td>${e.slot_taken} / ${e.capacity}</td>
-            <td>${e.approval_status}</td>
+            <td>${e.status}</td>
             <td><button data-id="${e.event_id}">⌕ View</button></td>
         </tr>`;
     });
@@ -455,7 +456,8 @@ btnApprove.onclick = () => updateStatus("approved", selectedApp.id);
 btnReject.onclick = () => updateStatus("rejected");
 
 async function fetchSpecificApplication(id) {
-    const res = await fetch("backend/forBackendData/adminNevents/getSpecificEvents.php", {
+    const txtProgram = document.getElementById("txtPrograms");
+    const res = await fetch("backend/forBackendData/organizerNevents/manage/getSpecificEvent.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ event_id: id })
@@ -479,15 +481,14 @@ async function fetchSpecificApplication(id) {
     txtCapacity.value = r.capacity;
     txtSlots.value = r.slot_taken;
 
-    resYearLevel.forEach(element => {
-        txtRestrictions.value += element + " ";
-    });
+    txtRestrictions.value = resYearLevel.join(", ") || "None";
+    txtProgram.value = r.program_names.join(", ") || "None";
 
     txtOrg_name.value = r.org_name;
     txtOrg_email.value = r.org_email;
     txtOrg_contact_no.value = r.org_contact_no;
     txtDepartment_name.value = r.department_name;
-    txtCreated_at.value = formatDateTime(r.event_created_at);
+    txtCreated_at.value = r.created_at; 
     txtStatus.value = r.approval_status;
 
     selectedApp.email = r.org_email;

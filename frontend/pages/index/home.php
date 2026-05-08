@@ -84,7 +84,7 @@
         <button class="box" id="box3"
             style="background:url(frontend/assetsImages/campus_map.jpg); background-repeat: no-repeat; background-size: cover;">
             <input type="hidden" name="page" value="org">
-            <h1 id="txtMap">Create Organization</h1>
+            <h1 id="txtMap">Home</h1>
         </button>
     </form>
 </section>

@@ -219,8 +219,12 @@
             <div class="value" id="endDate"></div>
         </div>
         <div class="card">
-            <div class="label">Approval</div>
-            <div class="value" id="approval"></div>
+            <div class="label">Restricted Year Level</div>
+            <div class="value" id="restrictedYear"></div>
+        </div>
+        <div class="card">
+            <div class="label">Restricted Programs</div>
+            <div class="value" id="restrictedProg"></div>
         </div>
     </div>
 
@@ -232,70 +236,99 @@
 </div>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const eventID = params.get("eventID");
+const params = new URLSearchParams(window.location.search);
+const eventID = params.get("eventID");
 
-    const btnRegister = document.querySelector(".register-btn");
-    const btnCancel = document.querySelector(".cancel-btn");
+const btnRegister = document.querySelector(".register-btn");
+const btnCancelGlobal = document.querySelector(".cancel-btn");
 
-    let isRestricted = true;
-    let isRegistered = true;
+let isRestricted = true;
+let isRegistered = true;
 
-    const fmtDate = d => d ? new Date(d).toLocaleDateString("en-PH", {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-    }) : "N/A";
-    const fmtText = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : "N/A";
-    const fmtNum = n => n ? Number(n).toLocaleString() : "0";
-    const safe = v => v || "N/A";
+const fmtDate = d => d ? new Date(d).toLocaleDateString("en-PH", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+}) : "N/A";
 
-    function getStatusClass(s) {
-        switch ((s || "").toLowerCase()) {
-            case "open":
-                return "status-open";
-            case "closed":
-                return "status-closed";
-            case "ongoing":
-                return "status-ongoing";
-            case "finished":
-                return "status-finished";
-            default:
-                return "status-open";
-        }
+const fmtText = t => t ? t.charAt(0).toUpperCase() + t.slice(1) : "N/A";
+const fmtNum = n => n ? Number(n).toLocaleString() : "0";
+const safe = v => v || "N/A";
+
+function getStatusClass(s) {
+    switch ((s || "").toLowerCase()) {
+        case "open": return "status-open";
+        case "closed": return "status-closed";
+        case "ongoing": return "status-ongoing";
+        case "finished": return "status-finished";
+        default: return "status-open";
     }
+}
 
-    async function verifyRestriction(event_id) {
-        const res = await fetch("backend/forBackendData/event_page/verify.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                event_id
-            })
-        });
-        const data = await res.json();
-        isRestricted = data.status === true;
-    }
+/* -----------------------------
+   VERIFY RESTRICTIONS
+------------------------------*/
+async function verifyRestriction(event_id) {
+    const res = await fetch("backend/forBackendData/event_page/verify.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event_id })
+    });
 
-    async function loadEvent() {
+    const data = await res.json();
+    isRestricted = data.status === true;
+}
+
+/* -----------------------------
+   VERIFY REGISTRATION
+------------------------------*/
+async function verifyRegistration() {
+    const response = await fetch("backend/forBackendData/event_page/verifyRegs.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event_id: eventID })
+    });
+
+    const data = await response.json();
+    isRegistered = data.status === true;
+}
+
+/* -----------------------------
+   LOAD EVENT (FIXED)
+------------------------------*/
+async function loadEvent() {
+    try {
         const res = await fetch("backend/forBackendData/event_page/loadOneEvent.php", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                event_id: eventID
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ event_id: eventID })
         });
 
-        const {
-            record: [r]
-        } = await res.json();
-        const restrict = JSON.parse(r.restrictions || "{}");
+        const data = await res.json();
 
-        document.getElementById("eventImg").src = "image_data/event_bg_picture/" + (r.event_bg_picture || "nothing.48043394.jpg");
+        if (!data || !data.records) {
+            console.error("Invalid backend response:", data);
+            return;
+        }
+
+        // SAFE: supports object OR array
+        const r = Array.isArray(data.records)
+            ? data.records[0]
+            : data.records;
+
+        if (!r) {
+            console.error("No event record found");
+            return;
+        }
+
+        const restrict =
+    typeof r.restrictions === "string"
+        ? JSON.parse(r.restrictions)
+        : (r.restrictions || {});
+
+        document.getElementById("eventImg").src =
+            "image_data/event_bg_picture/" + (r.event_bg_picture || "nothing.48043394.jpg");
+
         document.getElementById("eventName").textContent = safe(r.event_name);
 
         const statusEl = document.getElementById("eventStatus");
@@ -313,8 +346,8 @@
         document.getElementById("deadline").textContent = fmtDate(r.registration_deadline);
         document.getElementById("startDate").textContent = fmtDate(r.start_date);
         document.getElementById("endDate").textContent = fmtDate(r.end_date);
-        document.getElementById("approval").textContent = fmtText(r.approval_status);
-
+        document.getElementById("restrictedYear").textContent = r.restrictions.year_level.join(", ") || "None";
+        document.getElementById("restrictedProg").textContent = r.program_names.join(", ") || "None";
         await verifyRestriction(eventID);
         await verifyRegistration();
 
@@ -322,6 +355,9 @@
         const btn = document.getElementById("registerBtn");
         const btnCancel = document.getElementById("cancelBtn");
 
+        /* -------------------------
+           REGISTERED STATE UI
+        --------------------------*/
         if (isRegistered) {
             btn.style.display = "none";
             btnCancel.style.display = "inline-block";
@@ -330,74 +366,76 @@
             btnCancel.style.display = "none";
         }
 
+        /* -------------------------
+           RESTRICTION UI LOCK
+        --------------------------*/
         if (isRestricted) {
             msg.style.display = "block";
+
             btn.disabled = true;
             btnCancel.disabled = true;
-            btnCancel.style.opacity = "0.5"
-            btnCancel.style.cursor = "not-allowed"
+
             btn.style.opacity = "0.5";
             btn.style.cursor = "not-allowed";
+
+            btnCancel.style.opacity = "0.5";
+            btnCancel.style.cursor = "not-allowed";
         } else {
             msg.style.display = "none";
+
             btn.disabled = false;
             btn.style.opacity = "1";
             btn.style.cursor = "pointer";
         }
+
+    } catch (err) {
+        console.error("Load event error:", err);
     }
+}
 
-    if (eventID) loadEvent();
+/* -----------------------------
+   REGISTER BUTTON
+------------------------------*/
+btnRegister.addEventListener("click", async () => {
+    const response = await fetch("backend/forBackendData/event_page/register.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event_id: eventID })
+    });
 
-    async function verifyRegistration() {
-        const response = await fetch("backend/forBackendData/event_page/verifyRegs.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "event_id": eventID
-            })
-        });
-        const data = await response.json();
-        isRegistered = data.status === true;
-        console.log(data.message);
+    const data = await response.json();
+
+    if (data.status === true) {
+        alert("You Registered Successfully!");
+        location.reload();
+    } else {
+        alert("Registration went wrong :(");
     }
+});
 
-    btnRegister.addEventListener("click",async()=>{
-        const response = await fetch("backend/forBackendData/event_page/register.php",{
-            method: "POST",
-            headers:{
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "event_id": eventID
-            })
-        });
-        const data = await response.json();
-        if(data.status === true){
-            alert("You Registered Successfully!");
-            location.reload();
-        }else{
-            alert("Registration went wrong :(");
-        }
-    })
+/* -----------------------------
+   CANCEL BUTTON
+------------------------------*/
+btnCancelGlobal.addEventListener("click", async () => {
+    const response = await fetch("backend/forBackendData/event_page/cancel.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event_id: eventID })
+    });
 
-    btnCancel.addEventListener("click",async()=>{
-        const response = await fetch("backend/forBackendData/event_page/cancel.php",{
-            method: "POST", 
-            headers:{
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "event_id": eventID
-            })
-        });
-        const data = await response.json();
-        if(data.status === true){
-            alert("You Canceled Your Registration");
-            location.reload();
-        }else{
-            alert("Canceling went wrong :(");
-        }
-    })
+    const data = await response.json();
+
+    if (data.status === true) {
+        alert("You Canceled Your Registration");
+        location.reload();
+    } else {
+        alert("Canceling went wrong :(");
+    }
+});
+
+/* -----------------------------
+   INIT
+------------------------------*/
+if (eventID) loadEvent();
+
 </script>

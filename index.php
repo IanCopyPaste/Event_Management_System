@@ -55,7 +55,7 @@ if ($page === "org" && !isset($_SESSION["users_id"])) {
             break;
 
         case "org":
-            include("frontend/pages/index/org.php");
+            include("frontend/pages/index/home.php");
             break;
 
         case 'eventView':

@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: application/json");
 
-require_once "../../database/config.php";
+require_once "../../../database/config.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -23,23 +23,23 @@ $stmt = $conn->prepare("
 ");
 
 $stmt->bind_param("i", $event_id);
+
 $stmt->execute();
 
 $result = $stmt->get_result();
 
 if ($result->num_rows <= 0) {
+
     echo json_encode([
         "status" => false,
         "message" => "Event not found"
     ]);
+
     exit;
 }
 
 $row = $result->fetch_assoc();
 
-/* -------------------------
-   DECODE RESTRICTIONS
---------------------------*/
 $restrictions = json_decode($row["restrictions"], true);
 
 $programNames = [];
@@ -52,11 +52,9 @@ if (
 
     $programIds = array_map("intval", $restrictions["programs"]);
 
+    // SAFE: convert to comma string instead of bind_param
     $idList = implode(",", $programIds);
 
-    /* -------------------------
-       IMPORTANT: table name = programs
-    --------------------------*/
     $programQuery = "
         SELECT prog_abv
         FROM programs
@@ -71,15 +69,7 @@ if (
         }
     }
 }
-
-/* -------------------------
-   KEEP ONLY PROGRAM ABBREVIATIONS
---------------------------*/
 $row["program_names"] = $programNames;
-
-/* OPTIONAL: overwrite restrictions cleanly (no full object rebuild)
-   or keep it raw if frontend already handles it */
-$row["restrictions"] = $restrictions;
 
 echo json_encode([
     "status" => true,
