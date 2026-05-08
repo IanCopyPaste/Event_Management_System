@@ -43,14 +43,14 @@
         box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
     }
 
-    #txtSearchbar {
-        margin-left: auto;
-        width: 240px;
-    }
-
     .utilities-container select:hover,
     .utilities-container input:hover {
         border-color: #b0b0b0;
+    }
+
+    #txtSearchbar {
+        margin-left: auto;
+        width: 240px;
     }
 
     .table-wrapper {
@@ -58,10 +58,10 @@
         overflow-x: auto;
         border-radius: 12px;
         border: 1px solid #cfe8ff;
+        margin-top: 10px;
     }
 
     .orgApplication-table {
-        margin-top: 20px;
         width: 100%;
         border-collapse: collapse;
         background: #ffffff;
@@ -69,11 +69,6 @@
 
     .orgApplication-table thead {
         background: rgba(0, 65, 156, 1);
-    }
-
-    .orgApplication-table tbody {
-        overflow-y: auto;
-        scrollbar-width: thin;
     }
 
     .orgApplication-table th {
@@ -98,10 +93,6 @@
         color: white;
         border: none;
         border-radius: 3px;
-        outline: none;
-    }
-
-    .orgApplication-table td button:hover {
         cursor: pointer;
     }
 
@@ -115,6 +106,26 @@
         padding: 20px;
     }
 
+    /* Status badges */
+    .badge {
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .badge-active {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .badge-inactive {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    /* Modals */
     .orgInfo-modal {
         position: fixed;
         top: 50%;
@@ -129,6 +140,7 @@
         display: none;
         flex-direction: column;
         overflow: hidden;
+        z-index: 1000;
     }
 
     .btnCloseModal {
@@ -139,10 +151,10 @@
         background: transparent;
         border: none;
         color: rgba(0, 65, 156, 1);
+        cursor: pointer;
     }
 
     .btnCloseModal:hover {
-        cursor: pointer;
         opacity: 0.7;
     }
 
@@ -155,42 +167,13 @@
         scrollbar-width: thin;
     }
 
-    .allOrgInfo-container input {
+    .allOrgInfo-container input,
+    .allOrgInfo-container select {
         padding: 10px 12px;
         border-radius: 6px;
         border: 1px solid rgba(117, 117, 117, 0.3);
         background: #ffffff;
-        color: rgb(0, 0, 0);
         font-size: 13px;
-    }
-
-    .file-preview {
-        grid-column: span 2;
-        height: 600px;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid rgba(83, 155, 255, 0.3);
-    }
-
-    .file-preview iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-
-    .btnDownload {
-        grid-column: span 2;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        background: rgba(83, 155, 255, 1);
-        color: white;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    .btnDownload:hover {
-        background: rgba(0, 65, 156, 1);
     }
 
     .approvalUtil-container {
@@ -209,12 +192,6 @@
         cursor: pointer;
     }
 
-    .approvalUtil-container p {
-        color: red;
-        margin-right: 10px;
-        visibility: hidden;
-    }
-
     .btnApprove {
         background: rgb(77, 160, 0);
         color: white;
@@ -227,14 +204,11 @@
 
     .btnCancel {
         background: white;
-        border: 1px solid rgba(83, 155, 255, 0.5);
-        color: rgb(0, 0, 0);
+        border: 1px solid rgba(83, 155, 255, 0.5) !important;
+        color: #000;
     }
 
-    .btnApprove:hover {
-        opacity: 0.9;
-    }
-
+    .btnApprove:hover,
     .btnReject:hover {
         opacity: 0.9;
     }
@@ -243,51 +217,51 @@
         background: rgba(83, 155, 255, 0.1);
     }
 
-    .btnDownloadDisabled {
-        grid-column: span 2;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        font-weight: 600;
-        background-color: grey;
-        color: black;
-    }
-
     .btnDisabled {
-        background-color: grey;
-        color: black;
-        cursor: not-allowed;
+        background-color: grey !important;
+        color: black !important;
+        cursor: not-allowed !important;
+        opacity: 0.6;
     }
 
-    .btn-container button {
-        padding: 10px 18px;
-        border-radius: 8px;
-        border: none;
-        font-weight: 600;
-        cursor: pointer;
+    .form-error {
+        grid-column: span 2;
+        color: red;
+        font-size: 12px;
+        visibility: hidden;
+    }
+
+    /* Overlay */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 999;
+    }
+
+    /* Add org button */
+    #btnAddOrg {
+        padding: 10px 16px;
+        background: rgba(0, 65, 156, 1);
         color: white;
-    }
-    .btn-container button:disabled {
-        padding: 10px 18px;
-        border-radius: 8px;
         border: none;
+        border-radius: 6px;
+        font-size: 13px;
         font-weight: 600;
         cursor: pointer;
-        color: black;
-        background-color: grey;
     }
 
-    .btn-container .btnDeact {
-        background-color: rgb(237, 0, 0);
-    }
-
-    .btn-container .btnActive {
-        background-color: rgb(19, 191, 0);
+    #btnAddOrg:hover {
+        opacity: 0.85;
     }
 </style>
 
+<!-- ───────────── MAIN TABLE ───────────── -->
 <div class="orgsApply-container">
     <div class="utilities-container">
+        <button id="btnAddOrg" onclick="openAddModal()">+ Add Organization</button>
+
         <div class="field">
             <label for="sortByNewest">Sort By Date/Name</label>
             <select id="sortByNewest">
@@ -301,122 +275,235 @@
         <input type="text" id="txtSearchbar" placeholder="Search...">
     </div>
 
-    <table class="orgApplication-table">
-        <thead>
-            <tr>
-                <th>Application ID</th>
-                <th>Org name</th>
-                <th>Org Email</th>
-                <th>Org Contact No.</th>
-                <th>Department Name</th>
-                <th>Organizer ID</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="empty">
-                <td colspan="9">No data available</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="table-wrapper">
+        <table class="orgApplication-table">
+            <thead>
+                <tr>
+                    <th>Org ID</th>
+                    <th>Org Name</th>
+                    <th>Email</th>
+                    <th>Contact No.</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="empty">
+                    <td colspan="7">No data available</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<div class="orgInfo-modal">
+<!-- ───────────── OVERLAY ───────────── -->
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- ───────────── VIEW / MANAGE MODAL ───────────── -->
+<div class="orgInfo-modal" id="viewOrgModal">
     <h3 style="margin:20px">Organization Preview Panel</h3>
-    <button class="btnCloseModal">✕</button>
+    <button class="btnCloseModal" onclick="closeViewModal()">✕</button>
 
     <div class="allOrgInfo-container">
-        <label>Application ID</label>
-        <input id="txtOrg_application_id" readonly>
-
-        <label>Organization Name</label>
-        <input id="txtOrg_name" readonly>
-
-        <label>Organization Email</label>
-        <input id="txtOrg_email" readonly>
-
-        <label>Contact Number</label>
-        <input id="txtOrg_contact_no" readonly>
-
-        <label>Department</label>
-        <input id="txtOrg_department_name" readonly>
-
-        <label>Organizer ID</label>
-        <input id="txtOrganizer_id" readonly>
-
-        <label>Organizer Name</label>
-        <input id="txtOrganizer_name" readonly>
-
-        <label>Organization Status</label>
-        <input id="txtStatus" readonly>
-
-        <label>Created At</label>
-        <input id="txtCreated_at" readonly>
-
-        <div class="btn-container">
-            <button class="btnDeact">Deactivate</button>
-            <button class="btnActive">Activate</button>
+        <div class="field">
+            <label>Org ID</label>
+            <input id="txtOrg_id" readonly>
         </div>
+        <div class="field">
+            <label>Organization Name</label>
+            <input id="txtOrg_name" readonly>
+        </div>
+        <div class="field">
+            <label>Email</label>
+            <input id="txtOrg_email" readonly>
+        </div>
+        <div class="field">
+            <label>Contact No.</label>
+            <input id="txtOrg_contact_no" readonly>
+        </div>
+        <div class="field">
+            <label>Department</label>
+            <input id="txtOrg_department_name" readonly>
+        </div>
+        <div class="field">
+            <label>Username</label>
+            <input id="txtOrg_username" readonly>
+        </div>
+        <div class="field">
+            <label>Status</label>
+            <input id="txtOrg_status" readonly>
+        </div>
+        <div class="field">
+            <label>Created At</label>
+            <input id="txtOrg_created_at" readonly>
+        </div>
+    </div>
+
+    <div class="approvalUtil-container">
+        <button class="btnApprove" id="btnActivate" onclick="updateStatus('active')">Activate</button>
+        <button class="btnReject" id="btnDeactivate" onclick="updateStatus('deactivated')">Deactivate</button>
+        <button class="btnCancel" onclick="closeViewModal()">Close</button>
+    </div>
+</div>
+
+<!-- ───────────── ADD ORG MODAL ───────────── -->
+<div class="orgInfo-modal" id="addOrgModal">
+    <h3 style="margin:20px">Add Organization</h3>
+    <button class="btnCloseModal" onclick="closeAddModal()">✕</button>
+
+    <div class="allOrgInfo-container">
+        <div class="field">
+            <label>Organization Name <span style="color:red">*</span></label>
+            <input type="text" id="add_org_name" placeholder="e.g. Computer Society">
+        </div>
+        <div class="field">
+            <label>Email <span style="color:red">*</span></label>
+            <input type="email" id="add_org_email" placeholder="org@email.com">
+        </div>
+        <div class="field">
+            <label>Contact No. <span style="color:red">*</span></label>
+            <input type="text" id="add_org_contact_no" placeholder="+63 9XX XXX XXXX">
+        </div>
+        <div class="field">
+            <label>Department <span style="color:red">*</span></label>
+            <select id="add_department_id">
+                <option value="">-- Select Department --</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>Username <span style="color:red">*</span></label>
+            <input type="text" id="add_org_username" placeholder="org_username">
+        </div>
+        <div class="field">
+            <label>Password <span style="color:red">*</span></label>
+            <input type="password" id="add_org_password" placeholder="••••••••">
+        </div>
+
+        <div class="field">
+            <label>Confirm Password <span style="color:red">*</span></label>
+            <input type="password" id="add_org_confirm_password" placeholder="••••••••">
+        </div>
+        <div class="field">
+            <label>Account Status</label>
+            <select id="add_org_status">
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+            </select>
+        </div>
+        <div class="field" style="grid-column:span 2;">
+            <label>Organization Logo</label>
+            <input type="file" id="add_org_logo" accept="image/*" style="padding:8px 12px;">
+        </div>
+        <p class="form-error" id="addOrgError">Please fill in all required fields.</p>
+    </div>
+
+    <div class="approvalUtil-container">
+        <button class="btnApprove" onclick="submitAddOrg()">Save Organization</button>
+        <button class="btnCancel" onclick="closeAddModal()">Cancel</button>
     </div>
 </div>
 
 <script>
     const tableBody = document.querySelector(".orgApplication-table tbody");
-    let org_id = null;
+    const searchInput = document.getElementById("txtSearchbar");
+    const sortSelect = document.getElementById("sortByNewest");
+    const overlay = document.getElementById("modalOverlay");
 
-    const btnDeact = document.querySelector(".btnDeact");
-    const btnActive = document.querySelector(".btnActive");
+    let currentOrgId = null;
+    let allData = [];
 
-    document.addEventListener("DOMContentLoaded", loadOrganizations);
+    document.addEventListener("DOMContentLoaded", () => {
+        loadOrganizations();
+        loadDepartments();
+        overlay.onclick = () => { closeViewModal(); closeAddModal(); };
+    });
 
+    // ── Load & Render ──────────────────────────────────────
     async function loadOrganizations() {
         const res = await fetch("backend/forBackendData/adminNorgs/manage/displayOrgs.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ org_id: null })
         });
-
         const data = await res.json();
-        renderTable(data.record);
+        allData = data.record || [];
+        applyFilters();
+    }
+
+    async function loadDepartments() {
+        const res = await fetch("backend/forBackendData/adminNorgs/manage/getDepartments.php");
+        const data = await res.json();
+        const sel = document.getElementById("add_department_id");
+        (data.departments || []).forEach(d => {
+            const opt = document.createElement("option");
+            opt.value = d.department_id;
+            opt.textContent = d.department_name;
+            sel.appendChild(opt);
+        });
+    }
+
+    function applyFilters() {
+        const val = searchInput.value.toLowerCase();
+        const sort = sortSelect.value;
+
+        let filtered = allData.filter(e =>
+            e.org_name.toLowerCase().includes(val) ||
+            e.org_email.toLowerCase().includes(val)
+        );
+
+        filtered.sort((a, b) => {
+            if (sort === "newest") return new Date(b.created_at) - new Date(a.created_at);
+            if (sort === "oldest") return new Date(a.created_at) - new Date(b.created_at);
+            if (sort === "az") return a.org_name.localeCompare(b.org_name);
+            if (sort === "za") return b.org_name.localeCompare(a.org_name);
+        });
+
+        renderTable(filtered);
     }
 
     function renderTable(records) {
         tableBody.innerHTML = "";
-
-        if (!records || records.length === 0) {
+        if (!records || !records.length) {
             tableBody.innerHTML = `<tr class="empty"><td colspan="7">No data available</td></tr>`;
             return;
         }
-
         records.forEach(e => {
+            const badgeClass = e.status === "active" ? "badge-active" : "badge-inactive";
             tableBody.innerHTML += `
         <tr>
             <td>${e.org_id}</td>
             <td>${e.org_name}</td>
-            <td style="word-break: break-all; max-width: 180px;">${e.org_email}</td>
+            <td style="word-break:break-all;">${e.org_email}</td>
             <td>${e.org_contact_no}</td>
             <td>${e.department_name}</td>
-            <td>${e.users_id}</td>
-            <td>${e.status}</td>
+            <td><span class="badge ${badgeClass}">${e.status}</span></td>
             <td><button data-id="${e.org_id}">⌕ View</button></td>
         </tr>`;
         });
     }
 
+    searchInput.oninput = applyFilters;
+    sortSelect.onchange = applyFilters;
+
     tableBody.addEventListener("click", e => {
         if (e.target.tagName === "BUTTON") {
-            org_id = e.target.dataset.id;
-            console.log(org_id);
-            document.querySelector(".orgInfo-modal").style.display = "flex";
-            fetchOrganization(org_id);
+            currentOrgId = e.target.dataset.id;
+            openViewModal(currentOrgId);
         }
     });
 
-    document.querySelector(".btnCloseModal").onclick = () => {
-        document.querySelector(".orgInfo-modal").style.display = "none";
-    };
+    // ── View Modal ─────────────────────────────────────────
+    function openViewModal(id) {
+        document.getElementById("viewOrgModal").style.display = "flex";
+        overlay.style.display = "block";
+        fetchOrganization(id);
+    }
+
+    function closeViewModal() {
+        document.getElementById("viewOrgModal").style.display = "none";
+        overlay.style.display = "none";
+    }
 
     async function fetchOrganization(id) {
         const res = await fetch("backend/forBackendData/adminNorgs/manage/displayOrgs.php", {
@@ -424,56 +511,148 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ org_id: id })
         });
-
         const d = await res.json();
+        if (!d.status) return;
+        const r = d.record;
 
-        if (d.status === true) {
-            const rec = d.record;
+        document.getElementById("txtOrg_id").value = r.org_id;
+        document.getElementById("txtOrg_name").value = r.org_name;
+        document.getElementById("txtOrg_email").value = r.org_email;
+        document.getElementById("txtOrg_contact_no").value = r.org_contact_no;
+        document.getElementById("txtOrg_department_name").value = r.department_name;
+        document.getElementById("txtOrg_username").value = r.org_username;
+        document.getElementById("txtOrg_status").value = r.status;
+        document.getElementById("txtOrg_created_at").value = r.created_at;
 
-            document.querySelector("#txtOrg_application_id").value = rec.org_id;
-            document.querySelector("#txtOrg_name").value = rec.org_name;
-            document.querySelector("#txtOrg_email").value = rec.org_email;
-            document.querySelector("#txtOrg_contact_no").value = rec.org_contact_no;
-            document.querySelector("#txtOrg_department_name").value = rec.department_name;
-            document.querySelector("#txtOrganizer_id").value = rec.users_id;
-            document.querySelector("#txtOrganizer_name").value = rec.organizer;
-            document.querySelector("#txtStatus").value = rec.status;
-            document.querySelector("#txtCreated_at").value = rec.created_at;
+        const btnAct = document.getElementById("btnActivate");
+        const btnDeac = document.getElementById("btnDeactivate");
 
-            if (rec.status == "deactivated") {
-                btnActive.disabled = false;
-                btnActive.classList.remove("btnDisabled");
-                btnDeact.disabled = true;
-                btnDeact.classList.add("btnDisabled")
-            } else {
-                btnActive.disabled = true;
-                btnActive.classList.add("btnDisabled");
-                btnDeact.disabled = false;
-                btnDeact.classList.remove("btnDisabled");
-            }
+        if (r.status === "active") {
+            btnAct.classList.add("btnDisabled");
+            btnAct.disabled = true;
+            btnDeac.classList.remove("btnDisabled");
+            btnDeac.disabled = false;
+        } else {
+            btnDeac.classList.add("btnDisabled");
+            btnDeac.disabled = true;
+            btnAct.classList.remove("btnDisabled");
+            btnAct.disabled = false;
         }
     }
 
-    async function updateStat(newStat, org_id) {
-        try {
-            const response = await fetch("backend/forBackendData/adminNorgs/manage/deact.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "newStatus": newStat,
-                    "org_id": org_id
-                })
+    // ── Update Status ──────────────────────────────────────
+    async function updateStatus(newStatus) {
+        const res = await fetch("backend/forBackendData/adminNorgs/manage/updateOrgStatus.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ org_id: currentOrgId, status: newStatus })
+        });
+        const data = await res.json();
+        if (data.success) {
+            alert(`Organization has been set to ${newStatus}.`);
+            closeViewModal();
+            loadOrganizations();
+        } else {
+            alert("Error: " + (data.message || "Could not update status."));
+        }
+    }
+
+    // ── Add Modal ──────────────────────────────────────────
+    function openAddModal() {
+        clearAddForm();
+        document.getElementById("addOrgModal").style.display = "flex";
+        overlay.style.display = "block";
+    }
+
+    function closeAddModal() {
+        document.getElementById("addOrgModal").style.display = "none";
+        overlay.style.display = "none";
+    }
+
+    function clearAddForm() {
+        ["add_org_name", "add_org_email", "add_org_contact_no",
+            "add_org_username", "add_org_password"].forEach(id => {
+                document.getElementById(id).value = "";
             });
-            const data = await response.json();
-            alert("Organization: " + org_id + " " + newStat + " successfuly!");
-            location.reload();
-        } catch (error) {
-            alert(error);
-        }
+        document.getElementById("add_department_id").value = "";
+        document.getElementById("add_org_status").value = "active";
+        document.getElementById("add_org_logo").value = "";
+        document.getElementById("addOrgError").style.visibility = "hidden";
     }
 
-    btnDeact.addEventListener("click", () => { updateStat("deactivated", org_id) });
-    btnActive.addEventListener("click", () => { updateStat("active", org_id) });
+    async function submitAddOrg() {
+
+    const password        = document.getElementById("add_org_password").value.trim();
+    const confirmPassword = document.getElementById("add_org_confirm_password").value.trim();
+
+    const fields = {
+        org_name:       document.getElementById("add_org_name").value.trim(),
+        org_email:      document.getElementById("add_org_email").value.trim(),
+        org_contact_no: document.getElementById("add_org_contact_no").value.trim(),
+        department_id:  document.getElementById("add_department_id").value,
+        org_username:   document.getElementById("add_org_username").value.trim(),
+        org_password:   password,
+    };
+
+    if (Object.values(fields).some(v => !v) || !confirmPassword) {
+        document.getElementById("addOrgError").textContent = "Please fill in all required fields.";
+        document.getElementById("addOrgError").style.visibility = "visible";
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        document.getElementById("addOrgError").textContent = "Passwords do not match.";
+        document.getElementById("addOrgError").style.visibility = "visible";
+        return;
+    }
+
+    document.getElementById("addOrgError").style.visibility = "hidden";
+
+    const formData = new FormData();
+
+    Object.entries(fields).forEach(([k, v]) => {
+        formData.append(k, v);
+    });
+
+    formData.append(
+        "status",
+        document.getElementById("add_org_status").value
+    );
+
+    const logoFile = document.getElementById("add_org_logo").files[0];
+
+    if (logoFile) {
+        formData.append("org_logo", logoFile);
+    }
+
+    try {
+
+        const res = await fetch(
+            "backend/forBackendData/adminNorgs/manage/addOrg.php",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        const data = await res.json();
+
+        if (data.success) {
+
+            alert("Organization added successfully!");
+
+            closeAddModal();
+
+            loadOrganizations();
+
+        } else {
+
+            alert("Error: " + (data.message || "Something went wrong."));
+        }
+
+    } catch (err) {
+
+        alert("Request failed: " + err.message);
+    }
+}
 </script>

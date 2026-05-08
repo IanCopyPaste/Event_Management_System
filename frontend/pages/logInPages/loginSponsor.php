@@ -18,7 +18,7 @@
     </div>
     <div class="btnLogin-container">
         <button id="btnLogin">Login</button>
-        <a href="loginLanding.php?page=sponsorForm1">No Account Yet? Click Here</a>
+        <!--<a href="loginLanding.php?page=sponsorForm1">No Account Yet? Click Here</a>-->
     </div>
 </div>
 <div class="resultModal-container">

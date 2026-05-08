@@ -17,7 +17,7 @@ try {
 
             $row = mysqli_fetch_assoc($result);
 
-            if(($row["status"] != "active") || ($row["approval_status"] != "approved")){
+            if(($row["status"] != "activated") || ($row["approval_status"] != "approved")){
                 echo json_encode([
                    "status" => false,
                    "message" => "Your Sponsor Account cannot be logged in, Please Contact Admin for Further Assistance" 

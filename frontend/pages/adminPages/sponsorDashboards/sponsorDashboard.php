@@ -52,7 +52,7 @@ $adminPages = $_GET["adminPages"] ?? 'manageSpon';
 </style>
 <form action="admin.php" method="GET" class="orgPage-container">
     <button name="adminPages" value="manageSpon" class="<?= $adminPages == 'manageSpon' ? 'org-active' : '' ?>">Manage Sponsors</button>
-    <button name="adminPages" value="applySpon" class="<?= $adminPages == 'applySpon' ? 'org-active' : '' ?>">Sponsor Applications</button>
+    <!--<button name="adminPages" value="applySpon" class="<//?= $adminPages == 'applySpon' ? 'org-active' : '' ?>">Sponsor Applications</button>-->
 </form>
 <div class="orgDash-container">
     <?php

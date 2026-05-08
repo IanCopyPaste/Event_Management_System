@@ -133,9 +133,12 @@
 
     .eventsChoice {
         padding: 5px;
-        border-radius: 5px;
         font-size: 1rem;
         width: 100%;
+        border-top: 1px black;
+        border-left: 1px black;
+        border-right: 1px black;
+        outline: none;
     }
 </style>
 <div class="container">
@@ -302,6 +305,7 @@
 
         const data = await res.json();
         if (data.status) location.reload();
+        alert("Application Pending!")
     }
 
     async function cancelApp() {

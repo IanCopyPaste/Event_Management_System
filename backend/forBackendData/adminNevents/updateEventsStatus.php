@@ -1,24 +1,55 @@
 <?php
-include("../../database/config.php");
 header("Content-Type: application/json");
+
+require_once "../../../database/config.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$query = "UPDATE events SET approval_status=? WHERE event_id=?";
-$stmt = mysqli_prepare($conn, $query);
+$status   = trim($data["status"] ?? "");
+$event_id = intval($data["event_id"] ?? 0);
 
-mysqli_stmt_bind_param($stmt, "si", $data["status"], $data["event_id"]);
-mysqli_stmt_execute($stmt);
+if (!$status || !$event_id) {
 
-if (mysqli_stmt_affected_rows($stmt) > 0) {
-    echo json_encode([
-        "status" => true,
-        "message" => "event status updated successfully"
-    ]);
-} else {
     echo json_encode([
         "status" => false,
-        "message" => "event status updated unsuccessful"
+        "message" => "Missing required fields"
+    ]);
+
+    exit;
+}
+
+$allowed = ["approved", "pending", "rejected"];
+
+if (!in_array($status, $allowed)) {
+
+    echo json_encode([
+        "status" => false,
+        "message" => "Invalid status"
+    ]);
+
+    exit;
+}
+
+$stmt = $conn->prepare("
+    UPDATE events
+    SET approval_status = ?
+    WHERE event_id = ?
+");
+
+$stmt->bind_param("si", $status, $event_id);
+
+if ($stmt->execute()) {
+
+    echo json_encode([
+        "status" => true,
+        "message" => "Event status updated successfully"
+    ]);
+
+} else {
+
+    echo json_encode([
+        "status" => false,
+        "message" => "Failed to update event"
     ]);
 }
 ?>

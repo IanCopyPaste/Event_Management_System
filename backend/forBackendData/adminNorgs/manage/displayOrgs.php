@@ -1,76 +1,63 @@
 <?php
-include("../../../database/config.php");
 header("Content-Type: application/json");
+
+require_once "../../../database/config.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-try {
+$org_id = isset($data["org_id"]) ? intval($data["org_id"]) : null;
 
-    if (!empty($data["org_id"])) {
-        $query = "SELECT 
-            o.org_id,
-            o.users_id,
-            o.org_name,
-            o.org_email,
-            o.org_contact_no,
-            o.status,
-            CONCAT(u.first_name,' ',u.middle_name,' ',u.last_name) AS organizer,
-            dpt.department_name,
-            o.created_at
+if ($org_id) {
+
+    $stmt = $conn->prepare("
+        SELECT 
+            o.*,
+            d.department_name
         FROM organizations o
-        JOIN department dpt ON o.department_id = dpt.department_id
-        JOIN users u ON o.users_id = u.users_id
-        WHERE o.org_id = ?";
+        LEFT JOIN department d
+            ON o.department_id = d.department_id
+        WHERE o.org_id = ?
+    ");
 
-        $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "i", $data["org_id"]);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+    $stmt->bind_param("i", $org_id);
+    $stmt->execute();
 
-        if (mysqli_num_rows($result) > 0) {
-            echo json_encode([
-                "status" => true,
-                "record" => mysqli_fetch_assoc($result)
-            ]);
-        } else {
-            echo json_encode([
-                "status" => false,
-                "message" => "not found"
-            ]);
-        }
-    } else {
-        $query = "SELECT 
-            o.org_id,
-            o.users_id,
-            o.org_name,
-            o.org_email,
-            o.org_contact_no,
-            o.status,
-            dpt.department_name,
-            CONCAT(u.first_name,' ',u.middle_name,' ',u.last_name) AS organizer,
-            o.created_at
-        FROM organizations o
-        JOIN department dpt ON o.department_id = dpt.department_id
-        JOIN users u ON o.users_id = u.users_id";
+    $result = $stmt->get_result();
 
-        $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-
-        $output = [];
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $output[] = $row;
-        }
-
+    if ($result->num_rows > 0) {
         echo json_encode([
             "status" => true,
-            "record" => $output
+            "record" => $result->fetch_assoc()
+        ]);
+    } else {
+        echo json_encode([
+            "status" => false,
+            "message" => "Organization not found"
         ]);
     }
-} catch (\Throwable $th) {
+
+} else {
+
+    $query = "
+        SELECT 
+            o.*,
+            d.department_name
+        FROM organizations o
+        LEFT JOIN department d
+            ON o.department_id = d.department_id
+    ";
+
+    $result = $conn->query($query);
+
+    $records = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $records[] = $row;
+    }
+
     echo json_encode([
-        "status" => false,
-        "message" => "error occured fetching"
+        "status" => true,
+        "record" => $records
     ]);
 }
+?>

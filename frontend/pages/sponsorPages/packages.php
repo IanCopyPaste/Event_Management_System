@@ -358,7 +358,7 @@ $packPath = "image_data/package_bg/";
         data.forEach(p => {
             tableBody.innerHTML += `
 <tr>
-<td><img src="${p.package_bg?path+p.package_bg:path+'default.png'}" width="40" height="40"></td>
+<td><img src="${p.package_bg?path+p.package_bg:path+'nothing.jpg'}" width="40" height="40"></td>
 <td>${p.package_id}</td>
 <td>${p.package_name}</td>
 <td>${p.price}</td>
@@ -413,7 +413,7 @@ $packPath = "image_data/package_bg/";
         txtDescription.value = p.description
         txtPrice.value = p.price
         txtStatus.value = p.status
-        bgPreview.src = p.package_bg ? path + p.package_bg : path + "default.png"
+        bgPreview.src = p.package_bg ? path + p.package_bg : path + "nothing.jpg"
         benefitContainer.innerHTML = ""
         let b = []
         try {

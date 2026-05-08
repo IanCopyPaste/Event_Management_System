@@ -186,12 +186,12 @@
                         </button>
                     </li>
 
-                    <li>
+                    <!--<li>
                         <button name="page" value="org"
-                            class="<?= $page == 'org' ? 'active' : '' ?>">
+                            class="<//?= $page == 'org' ? 'active' : '' ?>">
                             Create Organization
                         </button>
-                    </li>
+                    </li>-->
                 </ul>
             </form>
         </nav>

@@ -184,14 +184,10 @@ $path = "image_data/org_logo/";
                 <input type="file" id="imgUpload" hidden accept="image/*">
             </div>
             <h2 class="org-name"><?= $_SESSION["org_name"]?></h2>
-            <p class="org-id"><?= $_SESSION["org_id"]?></p>
+            <p class="org-id">Organization ID: <?= $_SESSION["org_id"]?></p>
         </div>
 
         <div class="info-list">
-            <div class="info-row">
-                <span class="label">Organizer:</span>
-                <span class="value"><?= $_SESSION["organizer_fname"]. " " . ($_SESSION["organizer_mname"] ?? '') . " " . $_SESSION["organizer_lname"]?></span>
-            </div>
             <div class="info-row">
                 <span class="label">Username:</span>
                 <span class="value"><?= $_SESSION["org_username"]?></span>

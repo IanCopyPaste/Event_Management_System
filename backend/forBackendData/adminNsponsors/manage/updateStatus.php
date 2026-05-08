@@ -1,22 +1,77 @@
 <?php
-include("../../../database/config.php");
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
 
-$data = json_decode(file_get_contents("php://input"), true);
+require_once "../../../database/config.php";
 
-$query = "UPDATE sponsorships SET status=? WHERE sponsor_id=?";
-$stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt,"si",$data["status"],$data["sponsor_id"]);
+$input = json_decode(file_get_contents("php://input"), true);
 
-if(mysqli_stmt_execute($stmt)){
+$sponsor_id = isset($input["sponsor_id"]) ? intval($input["sponsor_id"]) : 0;
+$status = trim($input["status"] ?? "");
+
+if (!$sponsor_id) {
     echo json_encode([
-        "status" => true,
-        "message" => "status updated successfuly",
+        "success" => false,
+        "message" => "Invalid sponsor ID."
     ]);
-}else{
+    exit;
+}
+
+$allowed = ["activated", "deactivated"];
+
+if (!in_array($status, $allowed)) {
     echo json_encode([
-        "status" => false,
-        "message" => "status updated not successful"
+        "success" => false,
+        "message" => "Invalid status value."
+    ]);
+    exit;
+}
+
+$check = $conn->prepare("
+    SELECT sponsor_id 
+    FROM sponsorships 
+    WHERE sponsor_id = ?
+");
+
+$check->bind_param("i", $sponsor_id);
+$check->execute();
+$check->store_result();
+
+if ($check->num_rows === 0) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Sponsor not found."
+    ]);
+
+    exit;
+}
+
+$check->close();
+
+$stmt = $conn->prepare("
+    UPDATE sponsorships
+    SET status = ?
+    WHERE sponsor_id = ?
+");
+
+$stmt->bind_param("si", $status, $sponsor_id);
+
+if ($stmt->execute()) {
+
+    echo json_encode([
+        "success" => true,
+        "message" => "Status updated successfully.",
+        "status" => $status
+    ]);
+
+} else {
+
+    echo json_encode([
+        "success" => false,
+        "message" => $stmt->error
     ]);
 }
-?>
+
+$stmt->close();
+$conn->close();

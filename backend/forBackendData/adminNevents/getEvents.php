@@ -1,56 +1,73 @@
 <?php
-include("../../database/config.php");
 header("Content-Type: application/json");
 
-$query = "SELECT 
-    e.event_id,
-    e.event_name,
-    e.description,
-    e.location,
-    e.start_date,
-    e.end_date,
-    e.start_time,
-    e.end_time,
-    e.registration_deadline,
-    e.capacity,
-    e.slot_taken,
-    e.event_bg_picture,
-    e.status,
-    e.restrictions,
-    e.approval_status,
-    e.created_at AS event_created_at,
+require_once "../../database/config.php";
 
-    o.org_name,
-    o.org_email,
-    o.org_contact_no,
-    o.org_logo,
+$data = json_decode(file_get_contents("php://input"), true);
 
-    d.department_name,
-    d.department_logo
+$event_id = $data["event_id"] ?? null;
 
-FROM events e
-JOIN organizations o ON e.org_id = o.org_id
-JOIN department d ON o.department_id = d.department_id
-ORDER BY e.created_at DESC;";
-$stmt = mysqli_prepare($conn, $query);
-if (mysqli_stmt_execute($stmt)) {
+if ($event_id) {
 
-    $result = mysqli_stmt_get_result($stmt);
+    $stmt = $conn->prepare("
+        SELECT
+            e.*,
+            o.org_name,
+            d.department_name
+        FROM events e
+        INNER JOIN organizations o
+            ON e.org_id = o.org_id
+        INNER JOIN department d
+            ON o.department_id = d.department_id
+        WHERE e.event_id = ?
+    ");
+
+    $stmt->bind_param("i", $event_id);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+
+        echo json_encode([
+            "status" => true,
+            "records" => $result->fetch_assoc()
+        ]);
+
+    } else {
+
+        echo json_encode([
+            "status" => false,
+            "message" => "No event found"
+        ]);
+    }
+
+} else {
+
+    $query = "
+        SELECT
+            e.*,
+            o.org_name,
+            d.department_name
+        FROM events e
+        INNER JOIN organizations o
+            ON e.org_id = o.org_id
+        INNER JOIN department d
+            ON o.department_id = d.department_id
+        ORDER BY e.created_at DESC
+    ";
+
+    $result = $conn->query($query);
 
     $records = [];
 
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = $result->fetch_assoc()) {
         $records[] = $row;
     }
 
     echo json_encode([
         "status" => true,
-        "message" => "event info fetched successful",
         "records" => $records
     ]);
-}else{
-    echo json_encode([
-        "status" => false,
-        "message" => "event info fetched unsuccessful"
-    ]);
 }
+?>

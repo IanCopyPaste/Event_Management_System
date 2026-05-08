@@ -1,52 +1,78 @@
 <?php
-include("../../database/config.php");
 header("Content-Type: application/json");
-$data = json_decode(file_get_contents("php://input"),true);
 
-$query = "SELECT 
-    e.event_id,
-    e.event_name,
-    e.description,
-    e.location,
-    e.start_date,
-    e.end_date,
-    e.start_time,
-    e.end_time,
-    e.registration_deadline,
-    e.capacity,
-    e.slot_taken,
-    e.event_bg_picture,
-    e.restrictions,
-    e.approval_status,
-    e.created_at AS event_created_at,
+require_once "../../database/config.php";
 
-    o.org_name,
-    o.org_email,
-    o.org_contact_no,
-    o.org_logo,
+$data = json_decode(file_get_contents("php://input"), true);
 
-    d.department_name,
-    d.department_logo
+$event_id = intval($data["event_id"] ?? 0);
 
-FROM events e
-JOIN organizations o ON e.org_id = o.org_id
-JOIN department d ON o.department_id = d.department_id
-WHERE e.event_id=?
-ORDER BY e.created_at DESC";
-$stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt,"i",$data["event_id"]);
-if (mysqli_stmt_execute($stmt)) {
+$stmt = $conn->prepare("
+    SELECT
+        e.*,
+        o.org_name,
+        o.org_email,
+        o.org_contact_no,
+        d.department_name
+    FROM events e
+    INNER JOIN organizations o
+        ON e.org_id = o.org_id
+    INNER JOIN department d
+        ON o.department_id = d.department_id
+    WHERE e.event_id = ?
+");
 
-    $result = mysqli_stmt_get_result($stmt);
-    echo json_encode([
-        "status" => true,
-        "message" => "event info fetched successful",
-        "records" => mysqli_fetch_assoc($result),
-        "id" => $data["event_id"]
-    ]);
-}else{
+$stmt->bind_param("i", $event_id);
+
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+if ($result->num_rows <= 0) {
+
     echo json_encode([
         "status" => false,
-        "message" => "event info fetched unsuccessful"
+        "message" => "Event not found"
     ]);
+
+    exit;
 }
+
+$row = $result->fetch_assoc();
+
+$restrictions = json_decode($row["restrictions"], true);
+
+$programNames = [];
+
+if (
+    isset($restrictions["programs"]) &&
+    is_array($restrictions["programs"]) &&
+    count($restrictions["programs"]) > 0
+) {
+
+    $programIds = array_map("intval", $restrictions["programs"]);
+
+    // SAFE: convert to comma string instead of bind_param
+    $idList = implode(",", $programIds);
+
+    $programQuery = "
+        SELECT prog_abv
+        FROM programs
+        WHERE program_id IN ($idList)
+    ";
+
+    $progResult = $conn->query($programQuery);
+
+    if ($progResult) {
+        while ($prog = $progResult->fetch_assoc()) {
+            $programNames[] = $prog["prog_abv"];
+        }
+    }
+}
+$row["program_names"] = $programNames;
+
+echo json_encode([
+    "status" => true,
+    "message" => "hi",
+    "records" => $row
+]);

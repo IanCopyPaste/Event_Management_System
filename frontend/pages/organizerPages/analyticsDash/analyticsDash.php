@@ -96,7 +96,7 @@
         </div>
 
         <div class="st1box" id="ongoingEvents">
-            <p class="label">Total Registration</p>
+            <p class="label">Event Count</p>
             <p class="value">3</p>
         </div>
 
