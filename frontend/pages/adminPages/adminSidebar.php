@@ -81,8 +81,8 @@ if(!isset($_SESSION["users_id"])){
         </div>
     </div>
     <form action="admin.php" method="GET">
-        <button name="page" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Organizations</button>
-        <button name="page" value="userDash" id="<?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>
+        <button name="page" value="orgDash" id="<?= $page == 'orgDash' ? 'admin-active' : ''?>">Event Organizers</button>
+        <!--<button name="page" value="userDash" id="<//?= $page == 'userDash' ? 'admin-active' : ''?>">Users</button>-->
         <button name="page" value="eventDash" id="<?= $page == 'eventDash' ? 'admin-active' : ''?>">Events</button>
         <button name="page" value="departmentsDash" id="<?= $page == 'departmentsDash' ? 'admin-active' : ''?>">Departments</button>
         <button name="page" value="sponsorDash" id="<?= $page =='sponsorDash' ? 'admin-active' : ''?>">Sponsorships</button>

@@ -26,7 +26,7 @@ try {
             ]);
         }
     } else {
-        $query = "SELECT * FROM sponsorships WHERE approval_status='approved'";
+        $query = "SELECT * FROM sponsorships";
         $stmt = mysqli_prepare($conn, $query);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);

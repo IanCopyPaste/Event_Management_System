@@ -524,11 +524,6 @@
                     <input id="txtPackage_name" readonly>
                 </div>
 
-                <div class="input-group">
-                    <label>Price</label>
-                    <input id="txtPrice" readonly>
-                </div>
-
                 <div class="input-group full-span">
                     <label>Benefits</label>
                     <ul class="beauty-list" id="benefitsList"></ul>
@@ -785,9 +780,6 @@
 
         txtPackage_name.value = r.package_name;
 
-        txtPrice.value =
-            "₱" + Number(r.price).toLocaleString();
-
         const benefitsList =
             document.querySelector("#benefitsList");
 
@@ -874,6 +866,18 @@
             );
         }
 
+        if (r.agreement_status == "Ongoing") {
+            btnReject.classList.remove("btnDisabled");
+            btnApprove.classList.add("btnDisabled");
+            btnReject.disabled = false;
+            btnApprove.disabled = true;
+        } else {
+            btnApprove.classList.remove("btnDisabled");
+            btnReject.classList.add("btnDisabled");
+            btnApprove.disabled = false;
+            btnReject.disabled = true;
+        }
+
         /*const isPending =
             r.application_status === "pending";
 
@@ -893,29 +897,49 @@
         statusText.style.visibility =
             isPending ? "hidden" : "visible";*/
     }
-
-    async function updateStatus(status) {
-        btnApprove.disabled = true;
-        btnReject.disabled = true;
-        btnApprove.classList.add("btnDisabled");
-        btnReject.classList.add("btnDisabled");
-
-        const response = await fetch("backend/forBackendData/sponsor_pages/applications/updateAgreement.php", {
+    async function sendStatusToEmail(appStatus) {
+        const r = await fetch("backend/forBackendData/sponsor_pages/applications/email.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                agreement_status: status,
-                advertisement_id: selectedApp.id
+                org_email: selectedApp.email,
+                org_name: selectedApp.orgName,
+                approval_status: appStatus
             })
         });
 
+        const d = await r.json();
+        return d;
+    }
+
+    async function updateStatus(status) {
+        btnApprove.disabled = true;
+        btnReject.disabled = true;
+
+        btnApprove.classList.add("btnDisabled");
+        btnReject.classList.add("btnDisabled");
+
+        const response = await fetch(
+            "backend/forBackendData/sponsor_pages/applications/updateAgreement.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    agreement_status: status,
+                    advertisement_id: selectedApp.id
+                })
+            }
+        );
+
         const data = await response.json();
 
-        //await sendStatusToEmail(status);
+        await sendStatusToEmail(status);
 
         alert(`Advertisement ID: ${data.advertisement_id} ${data.message}`);
+
         location.reload();
     }
 
@@ -930,22 +954,4 @@
     sortByNewest.onchange = applyFilters;
     sortByStatus.onchange = applyFilters;
     txtSearchbar.oninput = applyFilters;
-
-    async function sendStatusToEmail(status) {
-        const r = await fetch("backend/forBackendData/sponsor_pages/applications/email.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "org_email": selectedApp.email,
-                "org_name": selectedApp.orgName,
-                "approval_status": status
-            })
-        });
-        const d = await r.json();
-        if (d.status == true) {
-            console.log("email sent");
-        }
-    }
 </script>

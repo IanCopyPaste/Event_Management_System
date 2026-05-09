@@ -712,7 +712,6 @@
     // UPDATE STATUS
     // ─────────────────────────────────────────────
     async function updateStatus(status, event_id) {
-
         try {
 
             btnApprove.disabled = true;
@@ -739,7 +738,7 @@
 
             if (data.status) {
 
-                await sendStatusToEmail(status);
+                //await sendStatusToEmail(status);
 
                 alert(data.message);
 

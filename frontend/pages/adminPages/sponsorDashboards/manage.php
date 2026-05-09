@@ -295,14 +295,6 @@
             <input type="password" id="add_password" placeholder="••••••••">
         </div>
         <div class="field">
-            <label>Approval Status</label>
-            <select id="add_approval_status">
-                <option value="pending">Pending</option>
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-            </select>
-        </div>
-        <div class="field">
             <label>Account Status</label>
             <select id="add_status">
                 <option value="activated">Activated</option>
@@ -464,7 +456,6 @@ function clearAddForm() {
      "add_company_address","add_username","add_password"].forEach(id => {
         document.getElementById(id).value = "";
     });
-    document.getElementById("add_approval_status").value = "pending";
     document.getElementById("add_status").value          = "activated";
     document.getElementById("add_sponsor_logo").value    = "";
     document.getElementById("addFormError").style.visibility = "hidden";
@@ -504,6 +495,7 @@ async function submitAddSponsor() {
             alert("Sponsor added successfully!");
             closeAddModal();
             loadSponsors();
+            location.reload();
         } else {
             alert("Error: " + (data.message || "Something went wrong."));
         }

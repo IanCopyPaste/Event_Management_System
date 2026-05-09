@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2026 at 06:20 PM
+-- Generation Time: May 09, 2026 at 02:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,11 +44,14 @@ CREATE TABLE `advertisement` (
 INSERT INTO `advertisement` (`advertisement_id`, `event_id`, `package_id`, `additional_files`, `status`, `created_at`, `agreement_status`) VALUES
 (7001, 3015, 2, '1778098077_MMW QUIZ.pdf', 'approved', '2026-05-07 04:07:57', 'Ongoing'),
 (7003, 3012, 3, '1778131102_website.pdf', 'approved', '2026-05-07 13:18:22', 'Ongoing'),
-(7004, 3015, 2, NULL, 'pending', '2026-05-07 16:03:07', 'Ongoing'),
+(7004, 3015, 2, NULL, 'approved', '2026-05-07 16:03:07', 'Ongoing'),
 (7005, 3012, NULL, '1778141178_IMG_0732.jpg', 'approved', '2026-05-07 16:06:18', 'Ongoing'),
 (7007, 3017, 2, NULL, 'approved', '2026-05-08 11:17:23', 'Ongoing'),
 (7010, 3013, 2, '1778244663_1778098107_Annex-Basic-Education-Enrollment-Form.pdf', 'approved', '2026-05-08 20:51:03', 'Ongoing'),
-(7011, 3015, 6, NULL, 'approved', '2026-05-08 21:05:04', 'Ongoing');
+(7011, 3015, 6, NULL, 'approved', '2026-05-08 21:05:04', 'Ongoing'),
+(7012, 3013, 6, NULL, 'approved', '2026-05-09 12:25:55', 'Ongoing'),
+(7013, 3013, 2, NULL, 'approved', '2026-05-09 13:22:43', 'Ongoing'),
+(7014, 3013, 2, NULL, 'pending', '2026-05-09 16:13:49', 'Ongoing');
 
 -- --------------------------------------------------------
 
@@ -68,14 +71,17 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`department_id`, `department_name`, `department_logo`, `status`) VALUES
-(1, 'College of Computer Studies', '2.svg', 'active'),
+(1, 'College of Computer Studies', '2.svg', 'inactive'),
 (10, 'Department of Information Technology - College of Computing Studies', 'dept_69f7384c0bef06.47169091.svg', 'active'),
 (11, 'Department of Computer Science - College of Computing Studies', '5.svg', 'active'),
 (12, 'Department of Business Administration - College of Business and Management', '5.svg', 'active'),
 (13, 'Department of Accountancy - College of Business and Management', '3.svg', 'active'),
 (14, 'Department of Civil Engineering - College of Engineering', '2.svg', 'active'),
 (15, 'Department of Psychology - College of Arts and Sciences', '5.svg', 'active'),
-(21, 'Department of Digital Innovation and Cyber Systems', 'dept_69f76faa8a04c6.06693127.svg', 'inactive');
+(21, 'Department of Digital Innovation and Cyber Systems', 'dept_69f76faa8a04c6.06693127.svg', 'inactive'),
+(22, 'cookiesaurus ', NULL, 'active'),
+(23, 'CSS', 'dept_69feabe795c972.35790806.png', 'active'),
+(24, 'College of Computer Studies', 'dept_69fec6234ba881.48050623.jpg', 'active');
 
 -- --------------------------------------------------------
 
@@ -113,7 +119,9 @@ INSERT INTO `events` (`event_id`, `org_id`, `event_name`, `description`, `locati
 (3014, 1007, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-11', '13:00:00', '18:00:00', '2026-05-07 16:20:00', 80, 3, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}'),
 (3015, 1006, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-20', '2026-06-20', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 1, 'open', 'event_69f0701b28f664.48043394.jpg', 'approved', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}'),
 (3016, 1008, 'Tech Innovators Summit 2026', 'sa dasdasda sdasdas dasdasdsd adasda sdasdas das', 'UKE Main Auditorium', '2026-05-04', '2026-05-04', '07:30:00', '17:00:00', '2026-05-03 00:35:00', 100, 0, 'open', 'event_69f57f5a01eeb3.42529704.jpg', 'approved', '2026-05-02 12:36:42', '{\"year_level\":[\"1st\",\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
-(3017, 1006, 'Engineering Week', 'Lorem Ipusm Lorem Ipusm Lorem Ipusm v Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm', 'UKE Main Auditorium', '2026-05-12', '2026-05-14', '11:00:00', '19:00:00', '2026-05-11 23:00:00', 50, 0, 'open', 'event_69fd51ede4cd26.79096239.jpg', 'approved', '2026-05-08 11:01:01', '{\"year_level\":[\"2nd\"],\"programs\":[]}');
+(3017, 1006, 'Engineering Week', 'Lorem Ipusm Lorem Ipusm Lorem Ipusm v Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm', 'UKE Main Auditorium', '2026-05-12', '2026-05-14', '11:00:00', '19:00:00', '2026-05-11 23:00:00', 50, 0, 'open', 'event_69fd51ede4cd26.79096239.jpg', 'approved', '2026-05-08 11:01:01', '{\"year_level\":[\"2nd\"],\"programs\":[]}'),
+(3018, 1011, 'Join the Creatives', 'Be part of creative student society', 'QCU San Bartolome Campus', '2026-09-01', '2026-09-30', '07:00:00', '17:00:00', '2026-08-31 00:00:00', 100, 0, 'open', 'event_69fea059067e21.43324922.jpg', 'approved', '2026-05-09 10:47:53', '{\"year_level\":[\"Alumni\"],\"programs\":[]}'),
+(3019, 1006, 'Kalayaan Patungo sa Kinabukasan', 'ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ', 'Rizal Luneta Park', '2026-05-13', '2026-05-13', '07:00:00', '22:00:00', '2026-05-10 23:50:00', 200, 0, 'open', 'event_69feada5bd0ed8.73051798.jpg', 'approved', '2026-05-09 11:44:37', '{\"year_level\":[\"1st\"],\"programs\":[\"26\",\"27\",\"28\",\"24\",\"25\"]}');
 
 -- --------------------------------------------------------
 
@@ -156,13 +164,14 @@ CREATE TABLE `organizations` (
 INSERT INTO `organizations` (`org_id`, `users_id`, `department_id`, `org_name`, `org_email`, `org_contact_no`, `org_username`, `org_password`, `org_logo`, `created_at`, `status`) VALUES
 (1000, 20203, 10, 'THE KOLOKOY CLUB', 'kolokoyClub@gmail.com', '122', 'ian', 'ian', NULL, '2026-04-22 06:08:45', 'active'),
 (1003, 20202, 11, 'THE KOLOKOY CLUB', 'velasco.ezekieljohn.javellana@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJi', NULL, '2026-04-14 05:13:46', 'active'),
-(1006, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', NULL, '2026-05-08 14:48:40', 'active'),
+(1006, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', NULL, '2026-05-09 03:22:07', 'active'),
 (1007, 30021, 15, 'Nexus Prime Society', 'adote.ronadrian.molleda@gmail.com', '090199191919', 'nexus123', '$2y$10$gRZzyYcBMACVii4Qh42y6.FYRBuBxmCbCks1DV1UCC1oQ3dwYFhAC', NULL, '2026-04-27 05:14:08', 'active'),
 (1008, 30020, 1, 'Quantum Leap Organization', 'adote.ronadrian.molleda@gmail.com', '123123123132', 'quantum123', '$2y$10$H.KMn8B7g6QllkWs3O0ctOIkt4BznYbo.PArBIX0eaH4y/W4W31oO', NULL, '2026-04-25 08:41:25', 'active'),
 (1009, 30012, 1, 'Apex Innovators Guild', 'adote.ronadrian.molleda@gmail.com', '0919191919191', 'apex123', '$2y$10$nMmfQyFrA3Pg84V3R.wmCueqFsNIAJp1GQL8WVavdIkbIGalbFs4y', NULL, '2026-05-08 03:37:31', 'active'),
 (1010, 20200, 11, 'Apex Innovators Guild', 'adote.ronadrian.molleda@gmail.com', '09509241716', 'apex123', '$2y$10$PDOMWSg0FlR.NFUAliMuoui/CUHpZNKj3S1ElynTD9.s50nuj5DwW', NULL, '2026-05-07 21:25:36', 'active'),
 (1011, 20200, 1, 'Creative Student Society', 'qcucss.creativedirector@gmail.com', '09561379500', 'Creative Director', '$2y$10$./FResVT5hmAiZ63hbfW.ulpFjgW/MTJkv1ffhPp4wMW3bzql6MC6', NULL, '2026-05-07 23:06:08', 'active'),
-(1012, NULL, 14, 'AWS Univertsity of Kristian Evangelion Chapter', 'rondrianmadote@gmail.com', '096969696969', 'aws123', '$2y$10$V9hjTq5U04bFlK.Yt/mh4.yjZhVpGhne8TH3.grH3zF6ZOMUYsE3y', NULL, '2026-05-08 16:13:35', 'active');
+(1012, NULL, 14, 'AWS Univertsity of Kristian Evangelion Chapter', 'rondrianmadote@gmail.com', '096969696969', 'aws123', '$2y$10$V9hjTq5U04bFlK.Yt/mh4.yjZhVpGhne8TH3.grH3zF6ZOMUYsE3y', NULL, '2026-05-08 16:13:35', 'active'),
+(1013, NULL, 15, 'Faithful organization', 'khuletarman@gmail.com', '9559186962', 'khuletarman', '$2y$10$zlgNhzGgBPi.7m//BYPAfeAknim66y4tAFTgZvSSj/62Jw9q0yjau', 0x313737383239353634305f646f776e6c6f6164202834292e6a7067, '2026-05-09 08:21:09', 'deactivated');
 
 -- --------------------------------------------------------
 
@@ -225,7 +234,8 @@ CREATE TABLE `packages` (
 INSERT INTO `packages` (`package_id`, `sponsor_id`, `package_name`, `description`, `price`, `benefits`, `package_bg`, `status`, `created_at`) VALUES
 (2, 6001, 'Jollibee', 'Standard sponsorship package with strong event visibility and online promotion.', 4500.00, '[\"Social media mention (2 posts)\",\"Thank-you mention during program\"]', '1778085566_jabiiiiiiii.jpg', 'active', '2026-05-06 16:39:26'),
 (3, 6001, 'Greenwich Pizza', 'Greenwich Pizza is a popular fast-food pizza chain in the Philippines, known for “Filipino-style” pizzas (sweeter sauce, generous toppings).', 5000.00, '[\"Food Sponsorship\",\"Event Support\",\"Branding / Exposure\",\"Promotional Giveaways\"]', '1778085949_greenwich.jpg', 'active', '2026-05-06 16:45:49'),
-(6, 6001, 'MCGI Packages', 'Pckage 123 231 231 231 32131', 0.00, '[\"Free advice\",\"Free bless\",\"Trip to heaven\"]', NULL, 'active', '2026-05-08 13:02:13');
+(6, 6001, 'MCGI Packages', 'Pckage 123 231 231 231 32131', 0.00, '[\"Free advice\",\"Free bless\",\"Trip to heaven\"]', NULL, 'active', '2026-05-08 13:02:13'),
+(7, 6001, 'Cookie Rush', 'Cookie para sa bata', 0.00, '[\"Free mention of the sponsor\",\"Free cookies\"]', '1778304364_download (5).jpg', 'active', '2026-05-09 05:26:04');
 
 -- --------------------------------------------------------
 
@@ -279,8 +289,8 @@ INSERT INTO `responses` (`response_id`, `event_id`, `users_id`, `created_at`) VA
 (3011, 3014, 20203, '2026-04-30 16:59:30'),
 (3012, 3012, 20200, '2026-05-02 04:30:05'),
 (3016, 3014, 20200, '2026-05-05 03:55:56'),
-(3017, 3013, 20200, '2026-05-07 06:41:56'),
-(3020, 3015, 30018, '2026-05-08 03:05:23');
+(3020, 3015, 30018, '2026-05-08 03:05:23'),
+(3021, 3013, 20200, '2026-05-09 04:33:46');
 
 -- --------------------------------------------------------
 
@@ -308,8 +318,9 @@ CREATE TABLE `sponsorships` (
 --
 
 INSERT INTO `sponsorships` (`sponsor_id`, `sponsor_logo`, `sponsor_email`, `sponsor_contact_no`, `created_at`, `username`, `password`, `company_name`, `company_address`, `additional_documents`, `approval_status`, `status`) VALUES
-(6000, NULL, 'adote.ronadrian.molleda@gmail.com', '09123456789', '2026-05-08 14:32:49', 'NoBudgetCEO', '$2y$10$HgKH78InI1ax7PrL0WnFLeT0PHUe3HlreFXXL.Xk5mzznPMMrhdPS', 'Slightly Legit Enterprises', '123 Bahala Na Street, Somewhere Near 7-Eleven, Philippines', 'doc_69f8cde65606a7.55827417.pdf', 'approved', 'activated'),
-(6001, NULL, 'adote.ronadrian.molleda@gmail.com', '9703416913', '2026-05-08 14:26:19', 'mamade123', '$2y$10$lBSMmNL3G8FQOPlGz0rTN.2jZU9JWge3mbpUXvr4aCG.jnmqc5ld2', 'Heidi\'s Peanut Butter', '142 - Almodovar Comp. Quirino Highway Basesa Q.C', 'doc_69fa2dcbd99378.53590440.jpg', 'approved', 'activated');
+(6000, NULL, 'adote.ronadrian.molleda@gmail.com', '09123456789', '2026-05-09 03:32:08', 'NoBudgetCEO', '$2y$10$HgKH78InI1ax7PrL0WnFLeT0PHUe3HlreFXXL.Xk5mzznPMMrhdPS', 'Slightly Legit Enterprises', '123 Bahala Na Street, Somewhere Near 7-Eleven, Philippines', 'doc_69f8cde65606a7.55827417.pdf', 'approved', 'activated'),
+(6001, NULL, 'adote.ronadrian.molleda@gmail.com', '9703416913', '2026-05-08 14:26:19', 'mamade123', '$2y$10$lBSMmNL3G8FQOPlGz0rTN.2jZU9JWge3mbpUXvr4aCG.jnmqc5ld2', 'Heidi\'s Peanut Butter', '142 - Almodovar Comp. Quirino Highway Basesa Q.C', 'doc_69fa2dcbd99378.53590440.jpg', 'approved', 'activated'),
+(6002, 'uploads/sponsor_logos/sponsor_1778296656_69fea750a325c.png', 'joyce@gmail.com', '0919191919191', '2026-05-09 03:17:36', 'joyce', '$2y$10$xOvprP335L.x3f94g4cjl.SUshEd17UHrlJJbWLsvod/IiS26VGDm', 'Local Host', 'quezon city', NULL, 'pending', 'activated');
 
 -- --------------------------------------------------------
 
@@ -464,25 +475,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `advertisement`
 --
 ALTER TABLE `advertisement`
-  MODIFY `advertisement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7012;
+  MODIFY `advertisement_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7015;
 
 --
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `department_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3018;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3020;
 
 --
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
-  MODIFY `org_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1013;
+  MODIFY `org_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1014;
 
 --
 -- AUTO_INCREMENT for table `org_application`
@@ -494,7 +505,7 @@ ALTER TABLE `org_application`
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `package_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `package_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `programs`
@@ -506,13 +517,13 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3021;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3022;
 
 --
 -- AUTO_INCREMENT for table `sponsorships`
 --
 ALTER TABLE `sponsorships`
-  MODIFY `sponsor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6002;
+  MODIFY `sponsor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6003;
 
 --
 -- Constraints for dumped tables

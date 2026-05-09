@@ -524,11 +524,6 @@
                     <input id="txtPackage_name" readonly>
                 </div>
 
-                <div class="input-group">
-                    <label>Price</label>
-                    <input id="txtPrice" readonly>
-                </div>
-
                 <div class="input-group full-span">
                     <label>Benefits</label>
                     <ul class="beauty-list" id="benefitsList"></ul>
@@ -785,9 +780,6 @@
 
         txtPackage_name.value = r.package_name;
 
-        txtPrice.value =
-            "₱" + Number(r.price).toLocaleString();
-
         const benefitsList =
             document.querySelector("#benefitsList");
 
@@ -912,8 +904,8 @@
         });
 
         const data = await response.json();
-
-        await sendStatusToEmail(status);
+        
+        //await sendStatusToEmail(status);
 
         alert(`Advertisement ID: ${data.advertisement_id} ${data.message}`);
         location.reload();

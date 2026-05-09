@@ -1,12 +1,9 @@
 <?php
-if (isset($_GET["eventPages"])) {
-    $page = 'eventsDash';
-} else {
-    $page = $_GET["organizerPages"] ?? 'analyticsDash';
-}
+$page = $_GET["organizerPages"] ?? 'eventsDash';
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -59,6 +56,7 @@ if (isset($_GET["eventPages"])) {
         }
     </style>
 </head>
+
 <body class="organizer-container">
     <?php include("frontend/pages/organizerPages/organizerSidebar.php") ?>
     <div class="page-container">
@@ -86,4 +84,5 @@ if (isset($_GET["eventPages"])) {
         ?>
     </div>
 </body>
+
 </html>

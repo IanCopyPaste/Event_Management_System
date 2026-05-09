@@ -16,7 +16,7 @@ if (!$org_id || !$status) {
     exit;
 }
 
-if ($status !== "active" && $status !== "inactive") {
+if ($status !== "active" && $status !== "deactivated") {
     echo json_encode([
         "success" => false,
         "message" => "Invalid status"

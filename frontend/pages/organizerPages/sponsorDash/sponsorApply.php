@@ -147,7 +147,6 @@
             <div class="hero" id="hero">
                 <div class="overlay">
                     <h1 id="pkgName"></h1>
-                    <div class="price" id="pkgPrice"></div>
                 </div>
             </div>
 
@@ -259,10 +258,9 @@
         const p = data.record;
 
         document.getElementById("hero").style.backgroundImage =
-            `url(${p.package_bg ? pathBG + p.package_bg : pathBG + "default.png"})`;
+            `url(${p.package_bg ? pathBG + p.package_bg : pathBG + "nothing.jpg"})`;
 
         document.getElementById("pkgName").textContent = p.package_name;
-        document.getElementById("pkgPrice").textContent = "₱" + Number(p.price).toLocaleString();
         document.getElementById("pkgDesc").textContent = p.description;
 
         document.getElementById("sponsorLogo").src =
@@ -305,7 +303,7 @@
 
         const data = await res.json();
         if (data.status) location.reload();
-        alert("Application Pending!")
+        alert("You submitted an application, pending now!")
     }
 
     async function cancelApp() {
@@ -322,6 +320,7 @@
 
         const data = await res.json();
         if (data.status) location.reload();
+        alert("You canceled your registration!")
     }
 
     loadPackage();

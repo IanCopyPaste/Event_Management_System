@@ -248,7 +248,6 @@ $packPath = "image_data/package_bg/";
                     <th>BG</th>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Price</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -361,7 +360,6 @@ $packPath = "image_data/package_bg/";
 <td><img src="${p.package_bg?path+p.package_bg:path+'nothing.jpg'}" width="40" height="40"></td>
 <td>${p.package_id}</td>
 <td>${p.package_name}</td>
-<td>${p.price}</td>
 <td>${p.status}</td>
 <td>
 <button class="btn-edit" onclick="edit(${p.package_id})">Edit</button>
@@ -411,7 +409,6 @@ $packPath = "image_data/package_bg/";
         editId = id
         txtName.value = p.package_name
         txtDescription.value = p.description
-        txtPrice.value = p.price
         txtStatus.value = p.status
         bgPreview.src = p.package_bg ? path + p.package_bg : path + "nothing.jpg"
         benefitContainer.innerHTML = ""
