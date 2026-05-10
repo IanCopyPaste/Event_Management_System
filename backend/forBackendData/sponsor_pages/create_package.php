@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $approval_status = 'pending';
 
     // 1. DUPLICATE CHECK
-    $check = $conn->prepare("SELECT package_id FROM packages WHERE sponsor_id = ? AND event_id = ?");
+    $check = $conn->prepare("SELECT package_id FROM packages WHERE sponsor_id = ? AND event_id = ? AND approval_status <> 'rejected'");
     $check->bind_param("ii", $sponsor_id, $event_id);
     $check->execute();
     if ($check->get_result()->num_rows > 0) {

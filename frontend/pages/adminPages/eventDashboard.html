@@ -1,813 +1,719 @@
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --success: #10b981;
+        --success-hover: #059669;
+        --danger: #ef4444;
+        --danger-hover: #dc2626;
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+    }
+
     * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
-        font-family: 'Barlow', sans-serif;
+        font-family: 'Inter', sans-serif;
     }
 
-    .orgsApply-container {
+    body {
+        background: var(--bg);
+        padding: 30px;
+        color: var(--text-main);
+    }
+
+    /* Header & Filters */
+    .header-panel {
+        background: var(--surface);
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+        border: 1px solid var(--border);
+    }
+
+    .filter-input {
+        padding: 10px 14px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        flex: 1;
+        min-width: 200px;
+        outline: none;
+        font-size: 0.95rem;
+        color: var(--text-main);
+        transition: 0.2s;
+    }
+
+    .filter-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    /* Table Design */
+    table {
         width: 100%;
-        margin-top: 30px;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: var(--surface);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--border);
     }
 
-    .utilities-container {
+    th,
+    td {
+        padding: 16px 20px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+    }
+
+    th {
+        background: #fcfcfc;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    tr:hover td {
+        background: #f8fafc;
+        cursor: pointer;
+    }
+
+    /* Event Name & Thumbnail inside Table */
+    .event-cell {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 0px 10px;
     }
 
-    .field {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+    .event-thumb {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #e2e8f0;
+        border: 1px solid var(--border);
     }
 
-    .field label {
-        font-size: 12px;
+    /* Badges */
+    .badge {
+        padding: 6px 12px;
+        border-radius: 99px;
+        font-size: 0.75rem;
         font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .utilities-container select,
-    .utilities-container input {
-        padding: 10px 12px;
-        border: 1px solid #cfe8ff;
-        border-radius: 6px;
-        outline: none;
+    .b-pending {
+        background: #fef3c7;
+        color: #b45309;
     }
 
-    .utilities-container select:focus,
-    .utilities-container input:focus {
-        border-color: #60a5fa;
-        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+    .b-approved {
+        background: #d1fae5;
+        color: #047857;
     }
 
-    #txtSearchbar {
-        margin-left: auto;
-        width: 240px;
+    .b-rejected {
+        background: #fee2e2;
+        color: #b91c1c;
     }
 
-    .utilities-container select:hover,
-    .utilities-container input:hover {
-        border-color: #b0b0b0;
+    .b-for_reschedule {
+        background: #e0e7ff;
+        color: #4338ca;
     }
 
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        border-radius: 12px;
-        border: 1px solid #cfe8ff;
+    .s-open {
+        background: #dcfce7;
+        color: #166534;
     }
 
-    .orgApplication-table {
-        margin-top: 20px;
-        width: 100%;
-        border-collapse: collapse;
-        background: #ffffff;
+    .s-closed,
+    .s-cancelled {
+        background: #f1f5f9;
+        color: #475569;
     }
 
-    .orgApplication-table thead {
-        background: rgba(0, 65, 156, 1);
+    .s-ongoing {
+        background: #ffedd5;
+        color: #c2410c;
     }
 
-    .orgApplication-table tbody {
-        overflow-y: auto;
-        scrollbar-width: thin;
-    }
-
-    .orgApplication-table th {
-        padding: 12px;
-        text-align: left;
-        font-size: 13px;
-        color: #ffffff;
-        border-bottom: 1px solid #cfe8ff;
-    }
-
-    .orgApplication-table td {
-        padding: 12px;
-        font-size: 13px;
-        color: #334155;
-        border-bottom: 1px solid #e0f0ff;
-        max-width: 200px;
-    }
-
-    .orgApplication-table td button {
-        padding: 5px 10px;
-        background-color: rgba(0, 65, 156, 1);
-        color: white;
-        border: none;
-        border-radius: 3px;
-        outline: none;
-    }
-
-    .orgApplication-table td button:hover {
-        cursor: pointer;
-    }
-
-    .orgApplication-table tbody tr:hover {
-        background: #f0f8ff;
-    }
-
-    .empty {
-        text-align: center;
-        color: #60a5fa;
+    /* Modals */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
         padding: 20px;
     }
 
-    .orgInfo-modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        height: 90vh;
-        width: 60%;
-        background-color: white;
-        border-radius: 14px;
-        border: 1px solid rgba(83, 155, 255, 0.3);
-        box-shadow: 0 20px 40px rgba(0, 65, 156, 0.2);
-        display: none;
+    .modal-content {
+        background: var(--surface);
+        border-radius: 16px;
+        width: 100%;
+        max-width: 900px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        display: flex;
         flex-direction: column;
-        overflow: hidden;
     }
 
-    .btnCloseModal {
+    /* Event Banner inside Modal */
+    .modal-banner {
+        width: 100%;
+        height: 200px;
+        background-color: #cbd5e1;
+        background-size: cover;
+        background-position: center;
+        border-radius: 16px 16px 0 0;
+        position: relative;
+    }
+
+    .modal-banner::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+        border-radius: 16px 16px 0 0;
+    }
+
+    .banner-text {
+        position: absolute;
+        bottom: 20px;
+        left: 30px;
+        z-index: 2;
+        color: white;
+    }
+
+    .banner-text h2 {
+        font-size: 2rem;
+        margin-bottom: 4px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .banner-text p {
+        font-size: 0.95rem;
+        opacity: 0.9;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .modal-close {
         position: absolute;
         top: 15px;
         right: 20px;
-        font-size: 1.3rem;
-        background: transparent;
-        border: none;
-        color: rgba(0, 65, 156, 1);
-    }
-
-    .btnCloseModal:hover {
         cursor: pointer;
-        opacity: 0.7;
+        font-size: 1.5rem;
+        color: #fff;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.3);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
     }
 
-    .allOrgInfo-container {
+    .modal-close:hover {
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-body {
         padding: 30px;
+    }
+
+    /* Cards inside Modal */
+    .grid-layout {
         display: grid;
         grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .info-card {
+        background: #f8fafc;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+    }
+
+    .info-card-header {
+        display: flex;
+        align-items: center;
         gap: 12px;
-        overflow-y: auto;
-        scrollbar-width: thin;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
     }
 
-    .allOrgInfo-container input {
-        padding: 10px 12px;
+    .info-card-header h4 {
+        color: var(--text-main);
+        font-size: 1.1rem;
+    }
+
+    .org-logo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--border);
+        background: #fff;
+    }
+
+    .info-row {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        display: flex;
+    }
+
+    .info-row strong {
+        color: var(--text-muted);
+        width: 130px;
+        flex-shrink: 0;
+    }
+
+    .info-row span {
+        color: var(--text-main);
+        font-weight: 500;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #e2e8f0;
+        color: #334155;
+        padding: 4px 10px;
         border-radius: 6px;
-        border: 1px solid rgba(117, 117, 117, 0.3);
-        background: #ffffff;
-        color: rgb(0, 0, 0);
-        font-size: 13px;
+        font-size: 0.8rem;
+        margin: 2px;
     }
 
-    .file-preview {
-        grid-column: span 2;
-        height: 600px;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid rgba(83, 155, 255, 0.3);
-    }
-
-    .file-preview iframe {
-        width: 100%;
-        height: 100%;
+    /* Buttons */
+    .btn {
+        padding: 10px 24px;
         border: none;
-    }
-
-    .btnDownload {
-        grid-column: span 2;
-        padding: 12px;
         border-radius: 8px;
-        border: none;
-        background: rgba(83, 155, 255, 1);
-        color: white;
-        font-weight: 600;
         cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #fff;
+        transition: all 0.2s;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .btnDownload:hover {
-        background: rgba(0, 65, 156, 1);
+    .btn-approve {
+        background: var(--success);
     }
 
-    .approvalUtil-container {
-        padding: 16px;
+    .btn-approve:hover:not(:disabled) {
+        background: var(--success-hover);
+        transform: translateY(-1px);
+    }
+
+    .btn-reject {
+        background: var(--danger);
+    }
+
+    .btn-reject:hover:not(:disabled) {
+        background: var(--danger-hover);
+        transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+        background: #cbd5e1;
+        color: #334155;
+    }
+
+    .btn-secondary:hover {
+        background: #94a3b8;
+    }
+
+    .btn:disabled {
+        background: #e2e8f0;
+        color: #94a3b8;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .actions-panel {
         display: flex;
         justify-content: flex-end;
-        gap: 10px;
-        border-top: 1px solid rgba(83, 155, 255, 0.2);
+        gap: 12px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
     }
 
-    .approvalUtil-container button {
-        padding: 10px 18px;
-        border-radius: 8px;
+    .small-modal {
+        max-width: 400px;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .small-modal h3 {
+        margin-bottom: 20px;
+        color: var(--text-main);
+    }
+
+    .small-modal .actions-panel {
+        justify-content: center;
         border: none;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    .approvalUtil-container p {
-        color: red;
-        margin-right: 10px;
-        visibility: hidden;
-    }
-
-    .btnApprove {
-        background: rgb(77, 160, 0);
-        color: white;
-    }
-
-    .btnReject {
-        background: rgb(211, 0, 0);
-        color: white;
-    }
-
-    .btnCancel {
-        background: white;
-        border: 1px solid rgba(83, 155, 255, 0.5);
-        color: rgb(0, 0, 0);
-    }
-
-    .btnApprove:hover {
-        opacity: 0.9;
-    }
-
-    .btnReject:hover {
-        opacity: 0.9;
-    }
-
-    .btnCancel:hover {
-        background: rgba(83, 155, 255, 0.1);
-    }
-
-    .btnDownloadDisabled {
-        grid-column: span 2;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        font-weight: 600;
-        background-color: grey;
-        color: black;
-    }
-
-    .btnDisabled {
-        background-color: grey;
-        cursor: not-allowed;
-    }
-
-    .manage-events {
-        margin: 20px 0px;
-        font-size: 27px;
-        font-weight: 600;
-        color: rgba(0, 65, 156, 1);
+        margin-top: 0;
+        padding-top: 0;
     }
 </style>
 
-<div class="orgsApply-container">
-    <p class="manage-events">Manage Events</p>
-    <div class="utilities-container">
-        <div class="field">
-            <label for="sortByNewest">Sort By Date/Name</label>
-            <select id="sortByNewest">
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="az">Organization Name (A-Z)</option>
-                <option value="za">Organization Name (Z-A)</option>
-            </select>
-        </div>
-
-        <div class="field">
-            <label for="sortByStatus">Filter By Status</label>
-            <select id="sortByStatus">
-                <option value="all">🌏 All</option>
-                <option value="pending">🟡 Pending</option>
-                <option value="approved">🟢 Approved</option>
-                <option value="rejected">🔴 Rejected</option>
-            </select>
-        </div>
-
-        <input type="text" id="txtSearchbar" placeholder="Search...">
-    </div>
-
-    <table class="orgApplication-table">
-        <thead>
-            <tr>
-                <th>Event Name</th>
-                <th>Org name</th>
-                <th>Department Name</th>
-                <th>Location</th>
-                <th>Starting Date</th>
-                <th>Capacity</th>
-                <th>Approval Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="empty">
-                <td colspan="8">No data available</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<div class="header-panel">
+    <input type="text" id="searchInput" class="filter-input" placeholder="Search event or organization...">
+    <select id="approvalFilter" class="filter-input">
+        <option value="">All Approval Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="for_reschedule">For Reschedule</option>
+    </select>
+    <select id="statusFilter" class="filter-input">
+        <option value="">All Event Statuses</option>
+        <option value="open">Open</option>
+        <option value="closed">Closed</option>
+        <option value="ongoing">Ongoing</option>
+        <option value="finished">Finished</option>
+        <option value="rescheduled">Rescheduled</option>
+        <option value="cancelled">Cancelled</option>
+    </select>
 </div>
 
-<div class="orgInfo-modal">
-    <h3 style="margin:20px">Event Review Panel</h3>
-    <button class="btnCloseModal">✕</button>
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>Event Details</th>
+            <th>Organizer</th>
+            <th>Department</th>
+            <th>Schedule</th>
+            <th>Approval</th>
+            <th>Live Status</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
 
-    <div class="allOrgInfo-container">
-        <label>Event ID</label>
-        <input id="txtEvent_id" readonly>
+<div id="detailsModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal('detailsModal')">&times;</span>
 
-        <label>Event Name</label>
-        <input id="txtEvent_name" readonly>
+        <div class="modal-banner" id="d_banner">
+            <div class="banner-text">
+                <h2 id="d_event_name"></h2>
+                <p>📍 <span id="d_loc"></span></p>
+            </div>
+        </div>
 
-        <label>Description</label>
-        <input id="txtDescription" readonly>
+        <div class="modal-body">
+            <div class="grid-layout">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <h4>🗓 Event Information</h4>
+                    </div>
+                    <div class="info-row"><strong>Location:</strong> <span id="d_loc_body"></span></div>
+                    <div class="info-row"><strong>Capacity:</strong> <span id="d_cap"></span></div>
+                    <div class="info-row"><strong>Start:</strong> <span id="d_start"></span></div>
+                    <div class="info-row"><strong>End:</strong> <span id="d_end"></span></div>
+                    <div class="info-row"><strong>Deadline:</strong> <span id="d_deadline"></span></div>
 
-        <label>Location</label>
-        <input id="txtLocation" readonly>
+                    <div class="info-row"
+                        style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border);">
+                        <strong>Live Status:</strong> <span id="d_status" class="badge"></span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Approval:</strong> <span id="d_approval" class="badge"></span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Date Created:</strong> <span id="d_created"></span>
+                    </div>
 
-        <label>Start</label>
-        <input id="txtStart" readonly>
+                    <div class="info-row" style="flex-direction: column; gap: 6px; margin-top: 15px;">
+                        <strong>Description:</strong>
+                        <span id="d_desc" style="font-weight: 400; line-height: 1.5; color: #475569;"></span>
+                    </div>
+                </div>
 
-        <label>End</label>
-        <input id="txtEnd" readonly>
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <img id="d_org_logo" src="" alt="Org Logo" class="org-logo">
+                        <h4>Organizer & Restrictions</h4>
+                    </div>
+                    <div class="info-row"><strong>Organization:</strong> <span id="d_org"></span></div>
+                    <div class="info-row"><strong>Department:</strong> <span id="d_dept"></span></div>
+                    <div class="info-row"><strong>Email:</strong> <span id="d_email"></span></div>
+                    <div class="info-row"><strong>Contact:</strong> <span id="d_contact"></span></div>
 
-        <label>Registration Deadline</label>
-        <input id="txtDeadline" readonly>
+                    <div style="margin-top: 20px; border-top: 1px dashed #cbd5e1; padding-top: 15px;">
+                        <div class="info-row" style="flex-direction: column; gap: 6px;">
+                            <strong>Allowed Years:</strong>
+                            <div id="d_years"></div>
+                        </div>
+                        <div class="info-row" style="flex-direction: column; gap: 6px; margin-top: 10px;">
+                            <strong>Allowed Programs:</strong>
+                            <div id="d_progs"></div>
+                        </div>
+                    </div>
+                </div>
 
-        <label>Capacity</label>
-        <input id="txtCapacity" readonly>
+                <div class="info-card" style="grid-column: span 2;">
+                    <div class="info-card-header">
+                        <h4>🤝 Packages & Sponsors</h4>
+                    </div>
+                    <div id="d_packages"
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">
+                    </div>
+                </div>
+            </div>
 
-        <label>Slots Taken</label>
-        <input id="txtSlots" readonly>
-
-        <label>Restricted Year Levels:</label>
-        <input id="txtRestrictions" readonly>
-
-        <label>Restricted Programs:</label>
-        <input id="txtPrograms" readonly>
-
-        <label>Organization</label>
-        <input id="txtOrg_name" readonly>
-
-        <label>Email</label>
-        <input id="txtOrg_email" readonly>
-
-        <label>Contact</label>
-        <input id="txtOrg_contact_no" readonly>
-
-        <label>Department</label>
-        <input id="txtDepartment_name" readonly>
-
-        <label>Submitted At</label>
-        <input id="txtCreated_at" readonly>
-
-        <label>Status</label>
-        <input id="txtStatus" readonly>
+            <div class="actions-panel">
+                <button id="btnReject" class="btn btn-reject">Reject Event</button>
+                <button id="btnApprove" class="btn btn-approve">Approve Event</button>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="approvalUtil-container">
-        <p>The application has been decided</p>
-        <button class="btnApprove">Approve</button>
-        <button class="btnReject">Reject</button>
-        <button class="btnCancel">Cancel</button>
+<div id="confirmModal" class="modal-overlay">
+    <div class="modal-content small-modal">
+        <h3 id="confirmMsg"></h3>
+        <div class="actions-panel">
+            <button class="btn btn-secondary" onclick="closeModal('confirmModal')">Cancel</button>
+            <button id="confirmActionBtn" class="btn btn-approve">Proceed</button>
+        </div>
+    </div>
+</div>
+
+<div id="successModal" class="modal-overlay">
+    <div class="modal-content small-modal">
+        <h3 id="successMsg" style="color: var(--success);"></h3>
+        <button class="btn btn-approve" style="width: 100%;"
+            onclick="closeModal('successModal'); window.location.reload();">Done</button>
     </div>
 </div>
 
 <script>
-    // ─────────────────────────────────────────────
-    // FIXED EVENT MANAGEMENT FRONTEND SCRIPT
-    // ─────────────────────────────────────────────
+    let globalData = { events: [], packages: {}, programs: {} };
+    let selectedEventId = null;
+    let pendingAction = null;
 
-    const tableBody = document.querySelector(".orgApplication-table tbody");
+    // Fallback image in case the database field is empty
+    const placeholderImg = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZTJlOGYwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIvPjwvc3ZnPg==";
 
-    const sortByNewest = document.querySelector("#sortByNewest");
-    const sortByStatus = document.querySelector("#sortByStatus");
-    const txtSearchbar = document.querySelector("#txtSearchbar");
+    async function init() {
+        const res = await fetch('backend/forBackendData/adminNevents/admin_fetch_events.php');
+        const data = await res.json();
+        globalData.events = data.events;
+        globalData.packages = data.packages;
 
-    const modal = document.querySelector(".orgInfo-modal");
+        // Build the dictionary mapping program IDs to abbreviations (forcing string keys)
+        if (data.programs) {
+            data.programs.forEach(p => {
+                globalData.programs[String(p.program_id)] = p.prog_abbreviation;
+            });
+        }
 
-    const btnCloseModal = document.querySelector(".btnCloseModal");
-    const btnCancelModal = document.querySelector(".btnCancel");
+        renderTable();
 
-    const btnApprove = document.querySelector(".btnApprove");
-    const btnReject = document.querySelector(".btnReject");
+        document.getElementById('searchInput').addEventListener('input', renderTable);
+        document.getElementById('approvalFilter').addEventListener('change', renderTable);
+        document.getElementById('statusFilter').addEventListener('change', renderTable);
+    }
 
-    const statusText = document.querySelector(".approvalUtil-container p");
+    function renderTable() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const appFilter = document.getElementById('approvalFilter').value;
+        const statFilter = document.getElementById('statusFilter').value;
+        const body = document.getElementById('tableBody');
+        body.innerHTML = '';
 
-    let allRecords = [];
+        globalData.events.forEach(e => {
+            if (appFilter && e.approval_status !== appFilter) return;
+            if (statFilter && e.status !== statFilter) return;
+            if (search && !e.event_name.toLowerCase().includes(search) && !e.org_name.toLowerCase().includes(search)) return;
 
-    let selectedApp = {
-        id: null,
-        email: null,
-        orgName: null,
-        event_name: null
-    };
+            const eventImg = e.event_bg_picture ? e.event_bg_picture : placeholderImg;
 
-    // ─────────────────────────────────────────────
-    // FORMAT DATE
-    // ─────────────────────────────────────────────
-    function formatDateTime(dt) {
-
-        if (!dt) return "";
-
-        const d = new Date(dt);
-
-        return d.toLocaleString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
+            const tr = document.createElement('tr');
+            tr.onclick = () => openDetails(e.event_id);
+            tr.innerHTML = `
+                <td>
+                    <div class="event-cell">
+                        <img src="${eventImg}" class="event-thumb" alt="bg">
+                        <div>
+                            <div style="font-weight: 600; color: var(--text-main);">${e.event_name}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>${e.org_name || 'N/A'}</td>
+                <td>${e.department_name || 'N/A'}</td>
+                <td><div style="font-size: 0.9rem;">${e.start_date}<br><small style="color:var(--text-muted)">${e.start_time}</small></div></td>
+                <td><span class="badge b-${e.approval_status}">${e.approval_status}</span></td>
+                <td><span class="badge s-${e.status}">${e.status}</span></td>
+            `;
+            body.appendChild(tr);
         });
     }
 
-    // ─────────────────────────────────────────────
-    // INITIAL LOAD
-    // ─────────────────────────────────────────────
-    document.addEventListener("DOMContentLoaded", () => {
-        loadOrgApplications();
-    });
+    function openDetails(id) {
+        const path = "image_data/event_bg_picture/";
+        const e = globalData.events.find(x => x.event_id == id);
+        selectedEventId = id;
 
-    // ─────────────────────────────────────────────
-    // LOAD EVENTS
-    // ─────────────────────────────────────────────
-    async function loadOrgApplications() {
+        // Apply Banner & Logos
+        const bannerUrl = e.event_bg_picture ? path + e.event_bg_picture : path + "nothing.jpg";
+        document.getElementById('d_banner').style.backgroundImage = `url('${bannerUrl}')`;
+        document.getElementById('d_org_logo').src = e.org_logo ? e.org_logo : placeholderImg;
+
+        // Base Event Info
+        document.getElementById('d_event_name').innerText = e.event_name;
+
+        // Map Location to BOTH elements
+        document.getElementById('d_loc').innerText = e.location;
+        document.getElementById('d_loc_body').innerText = e.location;
+
+        document.getElementById('d_cap').innerText = `${e.slot_taken || 0} / ${e.capacity}`;
+        document.getElementById('d_start').innerText = `${e.start_date} @ ${e.start_time}`;
+        document.getElementById('d_end').innerText = `${e.end_date} @ ${e.end_time}`;
+        document.getElementById('d_deadline').innerText = e.registration_deadline;
+        document.getElementById('d_desc').innerText = e.description;
+
+        // Missing Fields
+        document.getElementById('d_created').innerText = e.created_at || 'N/A';
+
+        const statusEl = document.getElementById('d_status');
+        statusEl.innerText = e.status;
+        statusEl.className = `badge s-${e.status}`;
+
+        const approvalEl = document.getElementById('d_approval');
+        approvalEl.innerText = e.approval_status;
+        approvalEl.className = `badge b-${e.approval_status}`;
+
+        // Organization Info
+        document.getElementById('d_org').innerText = e.org_name;
+        document.getElementById('d_dept').innerText = e.department_name;
+        document.getElementById('d_email').innerText = e.org_email;
+        document.getElementById('d_contact').innerText = e.org_contact_no;
+
+        // Restrictions (with Program Translation logic)
+        // Restrictions (Using the backend's pre-translated data)
+        // Restrictions (Clean Comma-Separated format using PHP's output)
+        try {
+            const rest = JSON.parse(e.restrictions);
+            
+            // Format Year Levels
+            document.getElementById('d_years').innerText = rest.year_level && rest.year_level.length > 0 
+                ? rest.year_level.join(', ') 
+                : 'No restrictions';
+                
+            // Format Programs (Using the new array your PHP just built!)
+            document.getElementById('d_progs').innerText = e.program_names && e.program_names.length > 0
+                ? e.program_names.join(', ') 
+                : 'No restrictions';
+                
+        } catch {
+            document.getElementById('d_years').innerText = 'No restrictions';
+            document.getElementById('d_progs').innerText = 'No restrictions';
+        }
+
+        // Packages
+        const packs = globalData.packages[id] || [];
+        const packDiv = document.getElementById('d_packages');
+        packDiv.innerHTML = packs.length === 0 ? '<i style="color:#94a3b8">No packages or sponsors linked yet.</i>' : packs.map(p => `
+            <div style="background:#fff; border:1px solid #e2e8f0; padding:15px; border-radius:8px; display: flex; flex-direction: column; gap: 4px;">
+                <b style="color:var(--text-main); font-size:1.05rem;">${p.company_name}</b>
+                <span style="font-size:0.85rem; color:var(--text-muted);">📧 ${p.sponsor_email}</span>
+                <div style="margin-top:8px; padding-top:8px; border-top:1px dashed #e2e8f0;">
+                    <span class="tag" style="background:#f0fdf4; color:#166534; margin-left:0;">${p.package_name}</span>
+                    <p style="font-size:0.85rem; color:#475569; margin-top:6px;">${p.benefits}</p>
+                </div>
+            </div>
+        `).join('');
+
+        // Action Buttons Logic
+        const btnApprove = document.getElementById('btnApprove');
+        const btnReject = document.getElementById('btnReject');
+
+        const canAction = e.approval_status === 'pending' || e.approval_status === 'for_reschedule';
+        btnApprove.disabled = !canAction;
+        btnReject.disabled = !canAction;
+
+        btnApprove.onclick = () => triggerConfirm('approve');
+        btnReject.onclick = () => triggerConfirm('reject');
+
+        document.getElementById('detailsModal').style.display = 'flex';
+    }
+
+    function triggerConfirm(action) {
+        pendingAction = action;
+        document.getElementById('confirmMsg').innerText = `Are you sure you want to ${action} this event?`;
+
+        const confirmBtn = document.getElementById('confirmActionBtn');
+        if (action === 'approve') {
+            confirmBtn.className = 'btn btn-approve';
+        } else {
+            confirmBtn.className = 'btn btn-reject';
+        }
+
+        document.getElementById('confirmModal').style.display = 'flex';
+    }
+
+    document.getElementById('confirmActionBtn').onclick = async () => {
+        const btn = document.getElementById('confirmActionBtn');
+        btn.innerText = 'Processing...';
+        btn.disabled = true;
 
         try {
-
-            const res = await fetch(
-                "backend/forBackendData/adminNevents/getEvents.php",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        event_id: null
-                    })
-                }
-            );
-
+            const res = await fetch('backend/forBackendData/adminNevents/admin_process_event.php', {
+                method: 'POST',
+                body: JSON.stringify({ event_id: selectedEventId, action: pendingAction })
+            });
             const data = await res.json();
 
-            allRecords = data.records || [];
-
-            renderTable(allRecords);
-
-        } catch (error) {
-
-            console.error(error);
-
-            tableBody.innerHTML = `
-            <tr class="empty">
-                <td colspan="8">Failed to load events</td>
-            </tr>
-        `;
+            closeModal('confirmModal');
+            document.getElementById('successMsg').innerText = data.message;
+            document.getElementById('successModal').style.display = 'flex';
+        } catch (err) {
+            alert("An error occurred while processing the request.");
+        } finally {
+            btn.innerText = 'Proceed';
+            btn.disabled = false;
         }
-    }
-
-    // ─────────────────────────────────────────────
-    // RENDER TABLE
-    // ─────────────────────────────────────────────
-    function renderTable(records) {
-
-        tableBody.innerHTML = "";
-
-        if (!records || records.length === 0) {
-
-            tableBody.innerHTML = `
-            <tr class="empty">
-                <td colspan="8">No data available</td>
-            </tr>
-        `;
-
-            return;
-        }
-
-        records.forEach(e => {
-
-            let statusColor = "";
-
-            switch (e.approval_status) {
-
-                case "approved":
-                    statusColor = "green";
-                    break;
-
-                case "rejected":
-                    statusColor = "red";
-                    break;
-
-                default:
-                    statusColor = "orange";
-                    break;
-            }
-
-            tableBody.innerHTML += `
-            <tr>
-                <td>${e.event_name}</td>
-
-                <td>${e.org_name}</td>
-
-                <td>
-                    ${e.department_name}
-                </td>
-
-                <td>${e.location}</td>
-
-                <td>
-                    ${formatDateTime(e.start_date + " " + e.start_time)}
-                </td>
-
-                <td>
-                    ${e.slot_taken} / ${e.capacity}
-                </td>
-
-                <td>
-                    <span style="
-                        color:white;
-                        background:${statusColor};
-                        padding:4px 10px;
-                        border-radius:20px;
-                        font-size:12px;
-                        font-weight:600;
-                    ">
-                        ${e.approval_status}
-                    </span>
-                </td>
-
-                <td>
-                    <button data-id="${e.event_id}">
-                        ⌕ View
-                    </button>
-                </td>
-            </tr>
-        `;
-        });
-    }
-
-    // ─────────────────────────────────────────────
-    // VIEW BUTTON
-    // ─────────────────────────────────────────────
-    tableBody.addEventListener("click", e => {
-
-        if (e.target.tagName === "BUTTON") {
-
-            selectedApp.id = e.target.dataset.id;
-
-            modal.style.display = "flex";
-
-            fetchSpecificApplication(selectedApp.id);
-        }
-    });
-
-    // ─────────────────────────────────────────────
-    // CLOSE MODAL
-    // ─────────────────────────────────────────────
-    btnCloseModal.onclick = () => {
-        modal.style.display = "none";
     };
 
-    btnCancelModal.onclick = () => {
-        modal.style.display = "none";
-    };
-
-    // ─────────────────────────────────────────────
-    // APPROVE / REJECT
-    // ─────────────────────────────────────────────
-    btnApprove.onclick = () => {
-        updateStatus("approved", selectedApp.id);
-    };
-
-    btnReject.onclick = () => {
-        updateStatus("rejected", selectedApp.id);
-    };
-
-    // ─────────────────────────────────────────────
-    // FETCH SPECIFIC EVENT
-    // ─────────────────────────────────────────────
-    async function fetchSpecificApplication(id) {
-        const txtProgram = document.querySelector("#txtPrograms");
-        try {
-
-            const res = await fetch(
-                "backend/forBackendData/adminNevents/getSpecificEvents.php",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        event_id: id
-                    })
-                }
-            );
-
-            const d = await res.json();
-
-            if (!d.status) {
-                alert(d.message);
-                return;
-            }
-
-            const r = d.records;
-
-            // restrictions safe parse
-            let restrictions = {
-                year_level: [],
-                programs: []
-            };
-
-            try {
-                restrictions = JSON.parse(r.restrictions);
-            } catch (err) { }
-
-            // ───── INPUT VALUES ─────
-
-            txtEvent_id.value = r.event_id;
-
-            txtEvent_name.value = r.event_name;
-
-            txtDescription.value = r.description;
-
-            txtLocation.value = r.location;
-
-            txtStart.value =
-                formatDateTime(r.start_date + " " + r.start_time);
-
-            txtEnd.value =
-                formatDateTime(r.end_date + " " + r.end_time);
-
-            txtDeadline.value =
-                formatDateTime(r.registration_deadline);
-
-            txtCapacity.value = r.capacity;
-
-            txtSlots.value = r.slot_taken;
-
-            txtRestrictions.value =
-                restrictions.year_level?.join(", ") || "None";
-
-            txtProgram.value =
-                r.program_names?.join(", ") || "None";
-
-            txtOrg_name.value = r.org_name;
-
-            txtOrg_email.value = r.org_email;
-
-            txtOrg_contact_no.value = r.org_contact_no;
-
-            txtDepartment_name.value = r.department_name;
-
-            txtCreated_at.value =
-                formatDateTime(r.created_at);
-
-            txtStatus.value = r.approval_status;
-
-            // ───── SELECTED APP ─────
-
-            selectedApp.email = r.org_email;
-
-            selectedApp.orgName = r.org_name;
-
-            selectedApp.event_name = r.event_name;
-
-            // ───── BUTTON STATES ─────
-
-            const isPending =
-                r.approval_status === "pending";
-
-            btnApprove.disabled = !isPending;
-
-            btnReject.disabled = !isPending;
-
-            btnApprove.classList.toggle(
-                "btnDisabled",
-                !isPending
-            );
-
-            btnReject.classList.toggle(
-                "btnDisabled",
-                !isPending
-            );
-
-            statusText.style.visibility =
-                isPending ? "hidden" : "visible";
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert("Failed to fetch event details.");
-        }
-    }
-
-    // ─────────────────────────────────────────────
-    // UPDATE STATUS
-    // ─────────────────────────────────────────────
-    async function updateStatus(status, event_id) {
-        try {
-
-            btnApprove.disabled = true;
-            btnReject.disabled = true;
-
-            btnApprove.classList.add("btnDisabled");
-            btnReject.classList.add("btnDisabled");
-
-            const response = await fetch(
-                "backend/forBackendData/adminNevents/updateEventsStatus.php",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        status: status,
-                        event_id: event_id
-                    })
-                }
-            );
-
-            const data = await response.json();
-
-            if (data.status) {
-
-                //await sendStatusToEmail(status);
-
-                alert(data.message);
-
-                modal.style.display = "none";
-
-                loadOrgApplications();
-
-            } else {
-
-                alert(data.message);
-            }
-
-        } catch (error) {
-
-            console.error(error);
-
-            alert("Failed to update event status.");
-        }
-    }
-
-    // ─────────────────────────────────────────────
-    // FILTERS
-    // ─────────────────────────────────────────────
-    function fetchWithFilters() {
-
-        let filtered = [...allRecords];
-
-        const search = txtSearchbar.value.toLowerCase();
-        const status = sortByStatus.value;
-        const sort = sortByNewest.value;
-
-        // ───────── SEARCH FILTER ─────────
-        if (search) {
-            filtered = filtered.filter(e =>
-                e.event_name.toLowerCase().includes(search) ||
-                e.org_name.toLowerCase().includes(search) ||
-                e.department_name.toLowerCase().includes(search)
-            );
-        }
-
-        // ───────── STATUS FILTER ─────────
-        if (status !== "all") {
-            filtered = filtered.filter(e =>
-                e.approval_status === status
-            );
-        }
-
-        // ───────── SORTING ─────────
-        filtered.sort((a, b) => {
-
-            if (sort === "oldest") {
-                return new Date(a.created_at) - new Date(b.created_at);
-            }
-
-            if (sort === "az") {
-                return a.org_name.localeCompare(b.org_name);
-            }
-
-            if (sort === "za") {
-                return b.org_name.localeCompare(a.org_name);
-            }
-
-            // default newest
-            return new Date(b.created_at) - new Date(a.created_at);
-        });
-
-        renderTable(filtered);
-    }
-    sortByNewest.onchange = fetchWithFilters;
-    sortByStatus.onchange = fetchWithFilters;
-    txtSearchbar.oninput = fetchWithFilters;
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    window.onload = init;
 </script>

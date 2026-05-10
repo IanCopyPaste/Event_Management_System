@@ -1,570 +1,397 @@
 <style>
     * {
+        box-sizing: border-box;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
-        font-family: 'Barlow', sans-serif;
     }
 
-    .orgsApply-container {
-        width: 100%;
-        margin-top: 30px;
+    :root {
+        --primary: #2773ff;
+        --success: #22c55e;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+        --gray: #64748b;
+        --border: #e2e8f0;
     }
 
-    .utilities-container {
+    body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: #f8fafc;
+        color: #1e293b;
+        padding: 40px 20px;
+    }
+
+    .container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .header {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 12px;
-        padding: 0px 10px;
+        margin-bottom: 24px;
     }
 
-    .field {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .field label {
-        font-size: 12px;
-        font-weight: 600;
-    }
-
-    .utilities-container select,
-    .utilities-container input {
-        padding: 10px 12px;
-        border: 1px solid #cfe8ff;
-        border-radius: 6px;
-        outline: none;
-    }
-
-    .utilities-container select:focus,
-    .utilities-container input:focus {
-        border-color: #60a5fa;
-        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-    }
-
-    #txtSearchbar {
-        margin-left: auto;
-        width: 240px;
-    }
-
-    .utilities-container select:hover,
-    .utilities-container input:hover {
-        border-color: #b0b0b0;
-    }
-
-    .table-wrapper {
+    table {
         width: 100%;
-        overflow-x: auto;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: white;
         border-radius: 12px;
-        border: 1px solid #cfe8ff;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--border);
     }
 
-    .orgApplication-table {
-        margin-top: 20px;
-        width: 100%;
-        border-collapse: collapse;
-        background: #ffffff;
-    }
-
-    .orgApplication-table thead {
-        background: rgba(0, 65, 156, 1);
-    }
-
-    .orgApplication-table tbody {
-        overflow-y: auto;
-        scrollbar-width: thin;
-    }
-
-    .orgApplication-table th {
-        padding: 12px;
+    th {
+        background: #fcfcfc;
+        padding: 16px;
         text-align: left;
-        font-size: 13px;
-        color: #ffffff;
-        border-bottom: 1px solid #cfe8ff;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: var(--gray);
+        font-weight: 600;
+        border-bottom: 1px solid var(--border);
     }
 
-    .orgApplication-table td {
-        padding: 12px;
-        font-size: 13px;
-        color: #334155;
-        border-bottom: 1px solid #e0f0ff;
-        max-width: 200px;
+    td {
+        padding: 16px;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.95rem;
     }
 
-    .orgApplication-table td button {
-        padding: 5px 10px;
-        background-color: rgba(0, 65, 156, 1);
-        color: white;
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    .badge {
+        padding: 4px 10px;
+        border-radius: 99px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .status-ongoing {
+        background: #fef9c3;
+        color: #854d0e;
+    }
+
+    .status-finished {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .status-open {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-closed {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .status-cancelled {
+        background: #334155;
+        color: #f8fafc;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
         border: none;
-        border-radius: 3px;
-        outline: none;
-    }
-
-    .orgApplication-table td button:hover {
         cursor: pointer;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.2s;
     }
 
-    .orgApplication-table tbody tr:hover {
-        background: #f0f8ff;
+    .btn-view {
+        background: var(--primary);
+        color: white;
     }
 
-    .empty {
-        text-align: center;
-        color: #60a5fa;
+    .btn-view:hover {
+        background: #1d5ed8;
+    }
+
+    .btn-resched {
+        background: var(--warning);
+        color: white;
+        margin-left: 5px;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
         padding: 20px;
     }
 
-    .orgInfo-modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        height: 90vh;
-        width: 60%;
-        background-color: white;
-        border-radius: 14px;
-        border: 1px solid rgba(83, 155, 255, 0.3);
-        box-shadow: 0 20px 40px rgba(0, 65, 156, 0.2);
-        display: none;
-        flex-direction: column;
-        overflow: hidden;
-    }
-
-    .btnCloseModal {
-        position: absolute;
-        top: 15px;
-        right: 20px;
-        font-size: 1.3rem;
-        background: transparent;
-        border: none;
-        color: rgba(0, 65, 156, 1);
-    }
-
-    .btnCloseModal:hover {
-        cursor: pointer;
-        opacity: 0.7;
-    }
-
-    .allOrgInfo-container {
-        padding: 30px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-        overflow-y: auto;
-        scrollbar-width: thin;
-    }
-
-    .allOrgInfo-container input {
-        padding: 10px 12px;
-        border-radius: 6px;
-        border: 1px solid rgba(117, 117, 117, 0.3);
-        background: #ffffff;
-        color: rgb(0, 0, 0);
-        font-size: 13px;
-    }
-
-    .file-preview {
-        grid-column: span 2;
-        height: 600px;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid rgba(83, 155, 255, 0.3);
-    }
-
-    .file-preview iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-
-    .btnDownload {
-        grid-column: span 2;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        background: rgba(83, 155, 255, 1);
-        color: white;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    .btnDownload:hover {
-        background: rgba(0, 65, 156, 1);
-    }
-
-    .approvalUtil-container {
-        padding: 16px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-        border-top: 1px solid rgba(83, 155, 255, 0.2);
-    }
-
-    .approvalUtil-container button {
-        padding: 10px 18px;
-        border-radius: 8px;
-        border: none;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
-    .approvalUtil-container p {
-        color: red;
-        margin-right: 10px;
-        visibility: hidden;
-    }
-
-    .btnApprove {
-        background: rgb(77, 160, 0);
-        color: white;
-    }
-
-    .btnReject {
-        background: rgb(211, 0, 0);
-        color: white;
-    }
-
-    .btnCancel {
+    .modal-content {
         background: white;
-        border: 1px solid rgba(83, 155, 255, 0.5);
-        color: rgb(0, 0, 0);
+        max-width: 750px;
+        width: 100%;
+        max-height: 90vh;
+        border-radius: 16px;
+        padding: 32px;
+        overflow-y: auto;
+        position: relative;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
 
-    .btnApprove:hover {
-        opacity: 0.9;
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        align-content: start;
     }
 
-    .btnReject:hover {
-        opacity: 0.9;
-    }
-
-    .btnCancel:hover {
-        background: rgba(83, 155, 255, 0.1);
-    }
-
-    .btnDownloadDisabled {
+    .full {
         grid-column: span 2;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        font-weight: 600;
-        background-color: grey;
-        color: black;
     }
 
-    .btnDisabled {
-        background-color: grey;
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--gray);
+        text-transform: uppercase;
+    }
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 1rem;
+        outline: none;
+        background: #fff;
+    }
+
+    input:focus,
+    textarea:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(39, 115, 255, 0.1);
+    }
+
+    input:disabled,
+    textarea:disabled,
+    select:disabled {
+        background: #f1f5f9;
+        color: #64748b;
         cursor: not-allowed;
     }
-    .manage-events{
-        margin: 20px 0px;
-        font-size: 27px;
-        font-weight: 600;
-        color: rgba(0, 65, 156, 1);
+
+    .restriction-box {
+        padding: 12px;
+        background: #f8fafc;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        min-height: 45px;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #e2e8f0;
+        color: #475569;
+        padding: 2px 8px;
+        border-radius: 4px;
+        margin: 2px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .modal-footer {
+        margin-top: 32px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
     }
 </style>
 
-<div class="orgsApply-container">
-    <div class="utilities-container">
-        <div class="field">
-            <label for="sortByNewest">Sort By Date/Name</label>
-            <select id="sortByNewest">
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="az">Organization Name (A-Z)</option>
-                <option value="za">Organization Name (Z-A)</option>
-            </select>
-        </div>
-
-        <div class="field">
-            <label for="sortByStatus">Filter By Status</label>
-            <select id="sortByStatus">
-                <option value="all">🌏 All</option>
-                <option value="pending">🟡 Pending</option>
-                <option value="approved">🟢 Approved</option>
-                <option value="rejected">🔴 Rejected</option>
-            </select>
-        </div>
-
-        <input type="text" id="txtSearchbar" placeholder="Search...">
+<div class="container">
+    <div class="header">
+        <h2>Your Events</h2>
+        <button class="btn btn-view" onclick="fetchData()">Reload</button>
     </div>
-
-    <table class="orgApplication-table">
+    <table>
         <thead>
             <tr>
-                <th>Event Name</th>
-                <th>Department Name</th>
-                <th>Location</th>
-                <th>Starting Date</th>
-                <th>Capacity</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>Event & Schedule</th>
+                <th>Approval</th>
+                <th>Live Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            <tr class="empty">
-                <td colspan="8">No data available</td>
-            </tr>
-        </tbody>
+        <tbody id="eventsTableBody"></tbody>
     </table>
 </div>
-</div>
 
-<div class="orgInfo-modal">
-    <h3 style="margin:20px">Event Review Panel</h3>
-    <button class="btnCloseModal">✕</button>
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <h2 id="modalTitle" style="margin-bottom: 24px; font-size: 1.5rem;">Event Details</h2>
+        <div class="form-grid" id="modalForm">
+            <div class="form-group full"><label>Event Name</label><input type="text" id="m_name"></div>
+            <div class="form-group full"><label>Description</label><textarea id="m_desc" rows="3"></textarea></div>
+            <div class="form-group"><label>Location</label><input type="text" id="m_loc"></div>
+            <div class="form-group"><label>Total Capacity</label><input type="number" id="m_cap"></div>
+            <div class="form-group"><label>Start Date</label><input type="date" id="m_sd"></div>
+            <div class="form-group"><label>End Date</label><input type="date" id="m_ed"></div>
+            <div class="form-group"><label>Start Time</label><input type="time" id="m_st"></div>
+            <div class="form-group"><label>End Time</label><input type="time" id="m_et"></div>
+            <div class="form-group full"><label>Registration Deadline</label><input type="datetime-local" id="m_dl"></div>
 
-    <div class="allOrgInfo-container">
-        <label>Event ID</label>
-        <input id="txtEvent_id" readonly>
+            <div class="form-group">
+                <label>Year Levels</label>
+                <div class="restriction-box" id="m_year_list"></div>
+            </div>
+            <div class="form-group">
+                <label>Programs</label>
+                <div class="restriction-box" id="m_prog_list"></div>
+            </div>
 
-        <label>Event Name</label>
-        <input id="txtEvent_name" readonly>
-
-        <label>Description</label>
-        <input id="txtDescription" readonly>
-
-        <label>Location</label>
-        <input id="txtLocation" readonly>
-
-        <label>Start</label>
-        <input id="txtStart" readonly>
-
-        <label>End</label>
-        <input id="txtEnd" readonly>
-
-        <label>Registration Deadline</label>
-        <input id="txtDeadline" readonly>
-
-        <label>Capacity</label>
-        <input id="txtCapacity" readonly>
-
-        <label>Slots Taken</label>
-        <input id="txtSlots" readonly>
-
-        <label>Restrictied Year Levels:</label>
-        <input id="txtRestrictions" readonly>
-
-        <label>Restrictied Programs:</label>
-        <input id="txtPrograms" readonly>
-
-        <label>Organization</label>
-        <input id="txtOrg_name" readonly>
-
-        <label>Email</label>
-        <input id="txtOrg_email" readonly>
-
-        <label>Contact</label>
-        <input id="txtOrg_contact_no" readonly>
-
-        <label>Department</label>
-        <input id="txtDepartment_name" readonly>
-
-        <label>Submitted At</label>
-        <input id="txtCreated_at" readonly>
-
-        <label>Status</label>
-        <input id="txtStatus" readonly>
-    </div>
-
-    <div class="approvalUtil-container">
-        <p>The application has been decided</p>
-        <button class="btnApprove">Approve</button>
-        <button class="btnReject">Reject</button>
-        <button class="btnCancel">Cancel</button>
+            <div id="statusArea" class="form-group full" style="display:none; padding:16px; background:#eff6ff; border: 1px solid #bfdbfe; border-radius:10px;">
+                <label style="color:var(--primary)">Quick Status Action</label>
+                <select id="m_status_select"></select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" style="background:#f1f5f9; color:#475569;" onclick="closeModal()">Close</button>
+            <button id="saveBtn" class="btn btn-view">Apply Changes</button>
+        </div>
     </div>
 </div>
 
 <script>
-    const tableBody = document.querySelector(".orgApplication-table tbody");
-const sortByNewest = document.querySelector("#sortByNewest");
-const sortByStatus = document.querySelector("#sortByStatus");
-const txtSearchbar = document.querySelector("#txtSearchbar");
+    let currentEvents = [];
+    let programMap = {};
 
-const modal = document.querySelector(".orgInfo-modal");
-const btnCloseModal = document.querySelector(".btnCloseModal");
-const btnCancelModal = document.querySelector(".btnCancel");
-const btnApprove = document.querySelector(".btnApprove");
-const btnReject = document.querySelector(".btnReject");
-const statusText = document.querySelector(".approvalUtil-container p");
-
-let selectedApp = {
-    id: null,
-    email: null,
-    orgName: null,
-    organizerName: null,
-    organizerId: null,
-    event_name: null
-};
-
-function formatDateTime(dt) {
-    if (!dt) return "";
-    const d = new Date(dt);
-    return d.toLocaleString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-    });
-}
-
-document.addEventListener("DOMContentLoaded", loadOrgApplications);
-
-async function loadOrgApplications() {
-    const res = await fetch("backend/forBackendData/organizerNevents/manage/getEvents.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event_id: null })
-    });
-    const data = await res.json();
-    renderTable(data.records);
-}
-
-function renderTable(records) {
-    tableBody.innerHTML = "";
-    if (!records || records.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="8">No data available</td></tr>`;
-        return;
+    async function fetchData() {
+        const res = await fetch('backend/forBackendData/organizerNevents/manage/fetch_events.php');
+        const data = await res.json();
+        currentEvents = data.events;
+        data.programs.forEach(p => programMap[p.program_id] = p.prog_abbreviation);
+        renderTable();
     }
-    records.forEach(e => {
-        tableBody.innerHTML += `
+
+    function renderTable() {
+        const body = document.getElementById('eventsTableBody');
+        body.innerHTML = currentEvents.map(e => `
         <tr>
-            <td>${e.event_name}</td>
-            <td style="word-break: break-all; max-width: 180px;">${e.department_name}</td>
-            <td>${e.location}</td>
-            <td>${formatDateTime(e.start_date)} - ${formatDateTime(e.end_date)}</td>
-            <td>${e.slot_taken} / ${e.capacity}</td>
-            <td>${e.status}</td>
-            <td><button data-id="${e.event_id}">⌕ View</button></td>
-        </tr>`;
-    });
-}
-
-tableBody.addEventListener("click", e => {
-    if (e.target.tagName === "BUTTON") {
-        selectedApp.id = e.target.dataset.id;
-        modal.style.display = "flex";
-        fetchSpecificApplication(selectedApp.id);
+            <td><div style="font-weight:600">${e.event_name}</div><div style="font-size:0.8rem; color:var(--gray)">${e.start_date} @ ${e.start_time}</div></td>
+            <td><span class="badge" style="background:#f0f9ff;color:#0369a1;border:1px solid #bae6fd">${e.approval_status}</span></td>
+            <td><span class="badge status-${e.status}">${e.status}</span></td>
+            <td>
+                <button class="btn btn-view" onclick="openModal(${e.event_id})">Manage</button>
+                ${e.status === 'cancelled' ? `<button class="btn btn-resched" onclick="initResched(${e.event_id})">Reschedule</button>` : ''}
+            </td>
+        </tr>
+    `).join('');
     }
-});
 
-btnCloseModal.onclick = () => modal.style.display = "none";
-btnCancelModal.onclick = () => modal.style.display = "none";
-btnApprove.onclick = () => updateStatus("approved", selectedApp.id);
-btnReject.onclick = () => updateStatus("rejected");
+    function openModal(id) {
+        const e = currentEvents.find(x => x.event_id == id);
+        const modal = document.getElementById('eventModal');
+        const statusSelect = document.getElementById('m_status_select');
 
-async function fetchSpecificApplication(id) {
-    const txtProgram = document.getElementById("txtPrograms");
-    const res = await fetch("backend/forBackendData/organizerNevents/manage/getSpecificEvent.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event_id: id })
-    });
+        document.getElementById('m_name').value = e.event_name;
+        document.getElementById('m_desc').value = e.description;
+        document.getElementById('m_loc').value = e.location;
+        document.getElementById('m_cap').value = e.capacity;
+        document.getElementById('m_sd').value = e.start_date;
+        document.getElementById('m_ed').value = e.end_date;
+        document.getElementById('m_st').value = e.start_time;
+        document.getElementById('m_et').value = e.end_time;
+        document.getElementById('m_dl').value = e.registration_deadline.replace(' ', 'T');
 
-    const d = await res.json();
-    const r = d.records;
+        const rest = JSON.parse(e.restrictions);
+        document.getElementById('m_year_list').innerHTML = rest.year_level.map(y => `<span class="tag">${y}</span>`).join('') || 'None';
+        document.getElementById('m_prog_list').innerHTML = rest.programs.map(p => `<span class="tag">${programMap[p] || p}</span>`).join('') || 'None';
 
-    const restrictions = JSON.parse(r.restrictions);
-    const resYearLevel = restrictions.year_level;
+        const isPending = e.approval_status === 'pending';
+        const isApproved = e.approval_status === 'approved';
+        const isOngoing = e.status === 'ongoing';
+        const isFinished = e.status === 'finished';
 
-    txtRestrictions.value = "";
+        const inputs = document.querySelectorAll('#modalForm input, #modalForm textarea');
+        inputs.forEach(i => i.disabled = !isPending);
 
-    txtEvent_id.value = r.event_id;
-    txtEvent_name.value = r.event_name;
-    txtDescription.value = r.description;
-    txtLocation.value = r.location;
-    txtStart.value = formatDateTime(r.start_date + " " + r.start_time);
-    txtEnd.value = formatDateTime(r.end_date + " " + r.end_time);
-    txtDeadline.value = formatDateTime(r.registration_deadline);
-    txtCapacity.value = r.capacity;
-    txtSlots.value = r.slot_taken;
+        document.getElementById('statusArea').style.display = (isApproved && !isFinished) ? 'block' : 'none';
 
-    txtRestrictions.value = resYearLevel.join(", ") || "None";
-    txtProgram.value = r.program_names.join(", ") || "None";
+        statusSelect.innerHTML = '';
+        if (isOngoing) {
+            statusSelect.innerHTML = `<option value="ongoing">Event is Ongoing</option><option value="cancelled">Cancel Now</option>`;
+            statusSelect.disabled = false;
+        } else if (isApproved) {
+            statusSelect.innerHTML = `<option value="open">Open</option><option value="closed">Closed</option><option value="cancelled">Cancelled</option>`;
+            statusSelect.value = e.status;
+            statusSelect.disabled = false;
+        }
 
-    txtOrg_name.value = r.org_name;
-    txtOrg_email.value = r.org_email;
-    txtOrg_contact_no.value = r.org_contact_no;
-    txtDepartment_name.value = r.department_name;
-    txtCreated_at.value = r.created_at; 
-    txtStatus.value = r.approval_status;
+        const saveBtn = document.getElementById('saveBtn');
+        saveBtn.style.display = isFinished ? 'none' : 'block';
+        saveBtn.onclick = () => submitUpdate(id, isPending ? 'update_full' : 'update_status');
 
-    selectedApp.email = r.org_email;
-    selectedApp.orgName = r.org_name;
-    selectedApp.event_name = r.event_name;
+        modal.style.display = 'flex';
+    }
 
-    const isPending = r.approval_status === "pending";
+    function initResched(id) {
+        openModal(id);
+        document.getElementById('modalTitle').innerText = 'Reschedule Application';
+        document.querySelectorAll('#modalForm input').forEach(i => i.disabled = true);
+        ['m_sd', 'm_ed', 'm_st', 'm_et', 'm_dl'].forEach(k => document.getElementById(k).disabled = false);
+        document.getElementById('statusArea').style.display = 'none';
+        document.getElementById('saveBtn').onclick = () => submitUpdate(id, 'reschedule');
+    }
 
-    btnApprove.disabled = !isPending;
-    btnReject.disabled = !isPending;
+    async function submitUpdate(id, action) {
+        const payload = {
+            event_id: id,
+            action: action,
+            event_name: document.getElementById('m_name').value,
+            description: document.getElementById('m_desc').value,
+            location: document.getElementById('m_loc').value,
+            capacity: document.getElementById('m_cap').value,
+            start_date: document.getElementById('m_sd').value,
+            end_date: document.getElementById('m_ed').value,
+            start_time: document.getElementById('m_st').value,
+            end_time: document.getElementById('m_et').value,
+            registration_deadline: document.getElementById('m_dl').value,
+            status: document.getElementById('m_status_select').value
+        };
 
-    btnApprove.classList.toggle("btnDisabled", !isPending);
-    btnReject.classList.toggle("btnDisabled", !isPending);
-
-    statusText.style.visibility = isPending ? "hidden" : "visible";
-}
-
-async function updateStatus(status, event_id) {
-    btnApprove.disabled = true;
-    btnReject.disabled = true;
-    btnApprove.classList.add("btnDisabled");
-    btnReject.classList.add("btnDisabled");
-
-    const response = await fetch("backend/forBackendData/adminNevents/updateEventsStatus.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            status: status,
-            event_id: selectedApp.id
-        })
-    });
-
-    const data = await response.json();
-
-    await sendStatusToEmail(status);
-
-    alert(data.message);
-    location.reload();
-}
-
-async function fetchWithFilters() {
-    const res = await fetch("backend/forBackendData/adminNevents/utilitiesFetch.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            sortNewest: sortByNewest.value,
-            sortStatus: sortByStatus.value,
-            txtSearch: txtSearchbar.value
-        })
-    });
-    const data = await res.json();
-    renderTable(data.record);
-}
-
-sortByNewest.onchange = fetchWithFilters;
-sortByStatus.onchange = fetchWithFilters;
-txtSearchbar.oninput = fetchWithFilters;
-
-async function sendStatusToEmail(status) {
-    try {
-        const response = await fetch("backend/forBackendData/adminNevents/sendStatsEmail.php", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                org_email: selectedApp.email,
-                status: status,
-                org_name: selectedApp.orgName,
-                event_name: selectedApp.event_name
-            })
+        const res = await fetch('backend/forBackendData/organizerNevents/manage/update_event_logic.php', {
+            method: 'POST',
+            body: JSON.stringify(payload)
         });
-
-        const data = await response.json();
-        if (data.status) console.log(data.message);
-
-    } catch (error) {
-        alert("Error sending email");
+        const result = await res.json();
+        if (result.status) {
+            closeModal();
+            fetchData();
+        } else {
+            alert(result.message);
+        }
     }
-}
+
+    function closeModal() {
+        document.getElementById('eventModal').style.display = 'none';
+    }
+    fetchData();
+    setInterval(fetchData, 60000);
 </script>

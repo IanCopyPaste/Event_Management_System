@@ -11,6 +11,7 @@ $page = $_GET["organizerPages"] ?? 'eventsDash';
     <style>
         .organizer-container {
             display: flex;
+            padding: 0px;
         }
 
         .side-container {

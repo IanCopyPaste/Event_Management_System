@@ -1,189 +1,193 @@
 <style>
+    :root {
+        --primary-blue: #2773ff;
+        --dark-blue: #00379e;
+        --bg-gray: #f8f9fa;
+        --border-color: #e2e8f0;
+        --text-main: #334155;
+    }
+
     .orgForm-container {
         margin: 5vh auto 10vh auto;
-        width: 65%;
-        padding: 25px;
-        border-radius: 12px;
-        background: #fff;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        width: 90%;
+        max-width: 800px;
+        padding: 40px;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
 
     #formLabel {
-        margin-bottom: 30px;
+        margin-bottom: 35px;
         text-align: center;
-        font-weight: 600;
-        font-size: 1.6rem;
-        color: rgba(0, 55, 158, 1);
+        font-weight: 700;
+        font-size: 2rem;
+        color: var(--dark-blue);
+        letter-spacing: -0.025em;
     }
 
     .txtFields-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        gap: 24px;
     }
 
-    .full-width {
-        grid-column: span 2;
-    }
+    .full-width { grid-column: span 2; }
 
     .txtInputs-container {
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        width: 100%;
+        gap: 8px;
     }
 
     .txtInputs-container label {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         font-weight: 600;
-        color: #444;
+        color: var(--text-main);
     }
 
     .txtInputs-container input,
     .txtInputs-container textarea {
-        width: 100%;
-        padding: 12px 10px;
-        font-size: 0.95rem;
-        border: 1px solid #dcdcdc;
-        border-radius: 6px;
-        outline: none;
-        background: transparent;
-        transition: 0.2s ease;
-    }
-
-    .txtInputs-container textarea {
-        resize: none;
-        min-height: 100px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        border: 1.5px solid var(--border-color);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        background: #fcfcfc;
     }
 
     .txtInputs-container input:focus,
     .txtInputs-container textarea:focus {
-        border-color: rgba(39, 115, 255, 1);
-        box-shadow: 0 0 0 2px rgba(39, 115, 255, 0.1);
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 4px rgba(39, 115, 255, 0.15);
+        background: #fff;
+        outline: none;
     }
 
     .section-card {
         grid-column: span 2;
-        border: 1px solid #e5e5e5;
-        border-radius: 8px;
-        padding: 15px;
-        background: #fafafa;
+        border: 1.5px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        background: #fbfbfb;
     }
 
     .section-card p {
         font-weight: 600;
-        font-size: 0.9rem;
-        margin-bottom: 10px;
-        color: #444;
+        font-size: 0.95rem;
+        margin-bottom: 15px;
+        color: var(--dark-blue);
     }
 
     .checkbox-group {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 12px;
     }
 
     .checkbox-item {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 10px;
-        border-radius: 6px;
-        border: 1px solid #ddd;
+        gap: 10px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1.5px solid var(--border-color);
+        background: white;
+        transition: 0.2s;
         cursor: pointer;
-        transition: 0.2s ease;
-        background: #fff;
+        font-size: 0.85rem;
     }
+
+    .checkbox-item:hover { border-color: var(--primary-blue); }
 
     .checkbox-item input {
-        appearance: none;
-        width: 16px;
-        height: 16px;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-        position: relative;
-    }
-
-    .checkbox-item input:checked {
-        background: rgba(39, 115, 255, 1);
-        border-color: rgba(39, 115, 255, 1);
-    }
-
-    .checkbox-item input:checked::after {
-        content: "";
-        position: absolute;
-        top: 2px;
-        left: 4px;
-        width: 4px;
-        height: 8px;
-        border: solid #fff;
-        border-width: 0 2px 2px 0;
-        transform: rotate(45deg);
+        accent-color: var(--primary-blue);
+        width: 18px;
+        height: 18px;
     }
 
     .filesInput-container {
         grid-column: span 2;
-        border: 1px dashed #ccc;
-        border-radius: 8px;
-        padding: 15px;
+        border: 2px dashed var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
         background: #fafafa;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .btnSubmit-container {
-        grid-column: span 2;
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
+        text-align: center;
     }
 
     .btnSubmit {
-        width: 35%;
+        width: 100%;
+        max-width: 300px;
         font-weight: 600;
-        font-size: 14px;
-        padding: 12px;
-        border-radius: 6px;
+        font-size: 1rem;
+        padding: 14px;
+        border-radius: 8px;
         border: none;
-        background: rgba(39, 115, 255, 1);
+        background: var(--primary-blue);
         color: #fff;
-        transition: 0.2s ease;
+        cursor: pointer;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .btnSubmit:hover {
+    .btnSubmit:hover:not(.disabled) {
+        background: var(--dark-blue);
         transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(39, 115, 255, 0.3);
     }
 
-    .disabled {
-        background: grey;
-        cursor: not-allowed;
+    .disabled { background: #94a3b8; cursor: not-allowed; }
+
+    /* Modal Styles */
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+        background: white;
+        padding: 40px;
+        border-radius: 16px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
     }
 </style>
 
 <div class="orgForm-container">
-    <p id="formLabel">Create an Event</p>
+    <p id="formLabel">Create New Event</p>
 
     <div class="txtFields-container">
-    
         <div class="txtInputs-container full-width">
             <label for="event_name">Event Name</label>
-            <input type="text" id="event_name">
+            <input type="text" id="event_name" placeholder="Enter event title">
         </div>
 
         <div class="txtInputs-container full-width">
             <label for="event_desc">Event Description</label>
-            <textarea id="event_desc"></textarea>
+            <textarea id="event_desc" placeholder="What is this event about?"></textarea>
         </div>
 
         <div class="txtInputs-container">
             <label for="event_location">Location</label>
-            <input type="text" id="event_location">
+            <input type="text" id="event_location" placeholder="Venue or Link">
         </div>
 
         <div class="txtInputs-container">
             <label for="event_capacity">Capacity</label>
-            <input type="number" id="event_capacity">
+            <input type="number" id="event_capacity" placeholder="0">
         </div>
 
         <div class="txtInputs-container">
@@ -214,57 +218,79 @@
         <div class="section-card">
             <p>Restricted Year Levels</p>
             <div class="checkbox-group" id="year_levels">
-                <label class="checkbox-item"><input type="checkbox" value="1st"><span>1st</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="2nd"><span>2nd</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="3rd"><span>3rd</span></label>
-                <label class="checkbox-item"><input type="checkbox" value="4th"><span>4th</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="1st"><span>1st Year</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="2nd"><span>2nd Year</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="3rd"><span>3rd Year</span></label>
+                <label class="checkbox-item"><input type="checkbox" value="4th"><span>4th Year</span></label>
                 <label class="checkbox-item"><input type="checkbox" value="Alumni"><span>Alumni</span></label>
             </div>
         </div>
 
         <div class="section-card">
             <p>Restricted Programs</p>
-            <div class="checkbox-group" id="programs"></div>
+            <div class="checkbox-group" id="programs">
+                </div>
         </div>
 
         <div class="filesInput-container">
-            <label>Event Background Photo</label>
+            <label style="display:block; margin-bottom:10px; font-weight:600;">Event Background Photo</label>
             <input type="file" accept=".pdf,.jpg,.jpeg,.png">
         </div>
 
         <div class="btnSubmit-container">
-            <button class="btnSubmit">Submit</button>
+            <button class="btnSubmit">Submit Application</button>
         </div>
 
-        <p style="color: red; display: none; text-align: center; width: 100%;" id="pendingNotif">You still have a pending application</p>
+        <p style="color: #ef4444; display: none; text-align: center; width: 100%; font-weight: 600;" id="pendingNotif">
+            ⚠️ You still have a pending application.
+        </p>
+    </div>
+</div>
+
+<div class="modal-overlay" id="successModal">
+    <div class="modal-content">
+        <div style="font-size: 50px; color: #22c55e; margin-bottom: 10px;">Check!</div>
+        <h2 style="color: var(--dark-blue); margin-bottom: 10px;">Success!</h2>
+        <p id="modalMessage" style="color: #64748b; margin-bottom: 25px;">Your event has been submitted for review.</p>
+        <button onclick="closeModalAndReload()" class="btnSubmit" style="width: 120px;">Close</button>
     </div>
 </div>
 
 <script>
+    // Elements
     const btnSubmit = document.querySelector(".btnSubmit");
+    const successModal = document.querySelector("#successModal");
 
     let restrictedEntities = {
         year_level: [],
         programs: []
     };
-    async function getPrograms() {
-        const container = document.querySelector("#programs");
 
-        const response = await fetch("backend/forFrontendData/getPrograms.php");
-        const data = await response.json();
-
-        container.innerHTML = "";
-
-        data.records.forEach(e => {
-            container.innerHTML += `
-            <label class="checkbox-item">
-                <input type="checkbox" value="${e.program_id}">
-                <span>${e.prog_abv}</span>
-            </label>
-        `;
-        });
+    // Modal Helpers
+    function showModal(msg) {
+        document.getElementById('modalMessage').innerText = msg;
+        successModal.style.display = "flex";
     }
 
+    function closeModalAndReload() {
+        location.reload();
+    }
+
+    async function getPrograms() {
+        const container = document.querySelector("#programs");
+        try {
+            const response = await fetch("backend/forFrontendData/getPrograms.php");
+            const data = await response.json();
+            container.innerHTML = "";
+            data.records.forEach(e => {
+                container.innerHTML += `
+                <label class="checkbox-item">
+                    <input type="checkbox" value="${e.program_id}">
+                    <span>${e.prog_abv}</span>
+                </label>`;
+            });
+        } catch (err) { console.error("Error fetching programs", err); }
+    }
 
     function updateArray(arr, value, checked) {
         if (checked) {
@@ -273,132 +299,99 @@
             const i = arr.indexOf(value);
             if (i > -1) arr.splice(i, 1);
         }
-
-        console.log(restrictedEntities);
     }
 
-
     document.addEventListener("change", (e) => {
-
         if (e.target.closest("#year_levels")) {
-            updateArray(
-                restrictedEntities.year_level,
-                e.target.value,
-                e.target.checked
-            );
+            updateArray(restrictedEntities.year_level, e.target.value, e.target.checked);
         }
-
         if (e.target.closest("#programs")) {
-            updateArray(
-                restrictedEntities.programs,
-                e.target.value,
-                e.target.checked
-            );
+            updateArray(restrictedEntities.programs, e.target.value, e.target.checked);
         }
-        console.log(restrictedEntities);
-
     });
 
     function checkInputValue() {
         const fields = ["event_name", "event_desc", "event_location", "event_capacity", "event_start_date", "event_end_date", "event_start_time", "event_end_time", "event_regs_deadline"];
-        let empty = false;
+        let isValid = true;
         fields.forEach(id => {
             const el = document.getElementById(id);
             if (!el.value.trim()) {
-                empty = true;
-                el.style.border = "2px solid red";
+                isValid = false;
+                el.style.borderColor = "#ef4444";
             } else {
-                el.style.border = "1px solid #ccc";
+                el.style.borderColor = "var(--border-color)";
             }
         });
-        return empty ? false : true;
-        //alert("Form valid");
+        return isValid;
     }
 
     btnSubmit.addEventListener("click", async () => {
-        
-        btnSubmit.classList.remove("disabled");
-        btnSubmit.disbled = true;
-        btnSubmit.classList.add("disabled");
-
-        const event_name = document.querySelector("#event_name");
-        const event_desc = document.querySelector("#event_desc");
-        const event_location = document.querySelector("#event_location");
-        const event_capacity = document.querySelector("#event_capacity");
-        const event_start_date = document.querySelector("#event_start_date");
-        const event_end_date = document.querySelector("#event_end_date");
-        const event_start_time = document.querySelector("#event_start_time");
-        const event_end_time = document.querySelector("#event_end_time");
-        const event_regs_deadline = document.querySelector("#event_regs_deadline");
-        const year_levels = document.querySelector("#year_levels");
-        const programs = document.querySelector("#programs");
-        const file_input = document.querySelector(".filesInput-container input[type='file']");
-
         if (!checkInputValue()) {
-            alert("Please fill out the form");
+            alert("Please fill out all required fields.");
             return;
         }
-        const formData = new FormData();
 
-        formData.append("event_name", event_name.value);
-        formData.append("event_desc", event_desc.value);
-        formData.append("event_location", event_location.value);
-        formData.append("event_capacity", event_capacity.value);
-        formData.append("event_start_date", event_start_date.value);
-        formData.append("event_end_date", event_end_date.value);
-        formData.append("event_start_time", event_start_time.value);
-        formData.append("event_end_time", event_end_time.value);
-        formData.append("event_regs_deadline", event_regs_deadline.value);
+        btnSubmit.disabled = true; // Fixed typo
+        btnSubmit.classList.add("disabled");
+        btnSubmit.innerText = "Processing...";
+
+        const formData = new FormData();
+        const fieldIds = ["event_name", "event_desc", "event_location", "event_capacity", "event_start_date", "event_end_date", "event_start_time", "event_end_time", "event_regs_deadline"];
+        
+        fieldIds.forEach(id => formData.append(id, document.getElementById(id).value));
         formData.append("restricted", JSON.stringify(restrictedEntities));
 
+        const file_input = document.querySelector(".filesInput-container input[type='file']");
         if (file_input.files.length > 0) {
             formData.append("file", file_input.files[0]);
         }
 
-        const response = await fetch("backend/forBackendData/organizerNevents/submitEvents.php", {
-            method: "POST",
-            body: formData
-        });
-        const data = await response.json();
-        if (data.status == true) {
-            sendEmail(event_name.value)
+        try {
+            const response = await fetch("backend/forBackendData/organizerNevents/submitEvents.php", {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
+            
+            if (data.status == true) {
+                await sendEmail(document.getElementById("event_name").value);
+                showModal("Application sent successfully! Check your email for confirmation.");
+            } else {
+                alert("Error: " + (data.message || "Submission failed"));
+                btnSubmit.disabled = false;
+                btnSubmit.classList.remove("disabled");
+                btnSubmit.innerText = "Submit Application";
+            }
+        } catch (err) {
+            console.error(err);
+            btnSubmit.disabled = false;
+            btnSubmit.classList.remove("disabled");
         }
-        location.reload();
     });
 
-    async function hasPendingRow() {
-        const btnSubmit = document.querySelector(".btnSubmit-container");
-        const pending = document.querySelector("#pendingNotif");
-        const response = await fetch("backend/forBackendData/organizerNevents/checkPendingEvents.php");
-        const data = await response.json();
-        if (data.status == true) {
-            btnSubmit.style.display = "none";
-            pending.style.display = "block"
-        } else {
-            btnSubmit.style.display = "flex";
-            pending.style.display = "none"
-        }
+    async function sendEmail(event_name) {
+        await fetch("backend/forBackendData/organizerNevents/sendEmail.php",{
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ "event_name": event_name })
+        });
     }
 
-    async function sendEmail(event_name) {
-        const response = await fetch("backend/forBackendData/organizerNevents/sendEmail.php",{
-            method: "POST",
-            headers:{
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "event_name": event_name
-            })
-        });
-        const data = await response.json();
-        if(data.status == true){
-            alert("Application sent successfuly! Check your email for confirmation");
-        }
+    async function hasPendingRow() {
+        const btnCont = document.querySelector(".btnSubmit-container");
+        const pending = document.querySelector("#pendingNotif");
+        try {
+            const response = await fetch("backend/forBackendData/organizerNevents/checkPendingEvents.php");
+            const data = await response.json();
+            if (data.status == true) {
+                btnCont.style.display = "none";
+                pending.style.display = "block";
+            }
+        } catch (err) {}
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-        getPrograms()
+        getPrograms();
         hasPendingRow();
-        
     });
 </script>
