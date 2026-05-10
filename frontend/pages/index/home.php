@@ -25,7 +25,7 @@
     <div class="slider-organization" style="height: 20vh; width: 100%;">
         <h2
             style="text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; margin: 15px;">
-            Participated Organization:</h2>
+            Accredited Organizations:</h2>
         <div class="org-slide-wrapper">
             <div class="org-slide-container">
                 <!-- original -->

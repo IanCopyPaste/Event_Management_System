@@ -15,65 +15,104 @@ $path = "image_data/org_logo/";
         font-family: 'Barlow', sans-serif;
     }
 
+    .side-container {
+        /* Kept fluid, but capped the width so buttons look neat */
+        width: 100%;
+        max-width: 280px; 
+        padding: 20px 10px;
+    }
+
     .side-container p {
         color: white;
     }
 
     .adminProfile-container {
         display: flex;
-        gap: 10px;
+        align-items: center; /* Better vertical alignment */
+        gap: 15px;
         margin-left: 5px;
     }
 
     .adminInfo-container {
         display: flex;
-        gap: 5px;
+        gap: 2px; /* Tighter gap between name and ID */
         flex-direction: column;
     }
 
     .adminProfile-container img {
         width: 50px;
         height: 50px;
+        border-radius: 10px; /* Slight rounding for a polished look */
+        object-fit: cover;
     }
 
     .adminName {
-        font-size: 1.5rem;
-        font-weight: 600;
+        font-size: 1.4rem;
+        font-weight: 700;
+        line-height: 1.2;
     }
-    .side-container form{
+
+    .adminID {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.7); /* Slightly dimmed for visual hierarchy */
+    }
+
+    .side-container form {
         display: flex;
         flex-direction: column;
-        margin-top: 50px;
+        margin-top: 40px; /* Adjusted spacing */
         gap: 15px;
     }
-    .side-container button{
-        padding: 15px 0px;
+
+    .side-container button {
+        padding: 14px 20px; /* Added horizontal padding to contain text properly */
         font-size: 1.1rem;
         font-weight: 600;
-        border-radius: 5px;
+        border-radius: 8px; /* Smoother corners */
         border: none;
         background-color: rgba(83, 155, 255, 1);
         color: white;
         outline: none;
-        transition: 0.2s ease;
+        transition: all 0.25s ease;
+        text-align: center;
     }
-    .side-container button:hover{
+
+    .side-container button:hover {
         transform: translateY(-2px) scale(1.02);
-         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        background-color: rgba(100, 165, 255, 1); /* Slight brighten on hover */
         cursor: pointer;
     }
-    #org-active{
+
+    #org-active {
         background-color: rgba(0, 65, 156, 1);
-         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     }
-    #btnLogout{
-        background-color: red;
-        padding: 10px;
+    
+    /* Prevents the active button from popping out again when hovered */
+    #org-active:hover {
+        transform: none;
+        background-color: rgba(0, 65, 156, 1); 
+    }
+
+    #btnLogout {
+        background-color: #ef4444; /* Clean modern red */
+        padding: 12px;
         position: fixed;
         bottom: 20px;
-
+        border-radius: 8px;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+    
+    #btnLogout:hover {
+        background-color: #dc2626;
     }
 </style>
+
 <div class="side-container">
     <div class="adminProfile-container">
         <img src="<?php if(!isset($_SESSION["org_logo"])){echo $altPath;}else{echo $path . $_SESSION["org_logo"];}?>" alt="NoProfile">
@@ -82,10 +121,11 @@ $path = "image_data/org_logo/";
             <p class="adminID">ORG ID: <?=  $_SESSION["org_id"]?></p>
         </div>
     </div>
+    
     <form action="organizer.php" method="GET">
-        <!--<button name="organizerPages" value="analyticsDash" id="<//?= $page == 'analyticsDash' ? 'org-active' : ''?>">Analytics Dashboard</button>-->
         <button name="organizerPages" value="eventsDash" id="<?= $page == 'eventsDash' ? 'org-active' : ''?>">Events</button>
         <button name="organizerPages" value="sponsorDash" id="<?= ($page == 'sponsorDash' || $page == 'sponsorApply') ? 'org-active' : ''?>">Sponsorships</button>
         <button name="organizerPages" value="settingsDash" id="<?= $page =='settingsDash' ? 'org-active' : ''?>">Org Settings</button>
     </form>
+    
 </div>

@@ -1,441 +1,856 @@
-<?php
-$packPath = "image_data/package_bg/";
-?>
 <style>
+    :root {
+        --primary: #2563eb;
+        --primary-hover: #1d4ed8;
+        --bg-color: #f4f7fb;
+        --card-bg: #ffffff;
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --border-color: #e5e7eb;
+        --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        --radius-md: 12px;
+        --radius-lg: 20px;
+    }
+
     * {
-        margin: 0;
-        padding: 0;
         box-sizing: border-box;
-        font-family: 'Barlow', sans-serif
+        font-family: 'Barlow', sans-serif;
     }
 
     body {
-        background: #f5f7fb
+        margin: 0;
+        background: var(--bg-color);
+        color: var(--text-main);
+        padding-bottom: 40px;
     }
 
-    .orgsApply-container {
-        width: 100%;
-        padding: 5px
-    }
-
-    .manage-events {
-        margin: 20px 0;
-        font-size: 27px;
-        font-weight: 600;
-        color: rgba(0, 65, 156, 1)
-    }
-
-    .utilities-container {
+    /* --- HEADER & SEARCH --- */
+    .page-header {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 12px;
-        padding: 0 10px
+        padding: 30px 25px 10px;
+        flex-wrap: wrap;
+        gap: 15px;
+        max-width: 1400px;
+        margin: 0 auto;
     }
 
-    .utilities-container input,
-    .utilities-container select {
-        padding: 10px 12px;
-        border: 1px solid #cfe8ff;
-        border-radius: 6px;
-        outline: none
+    .page-header h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
     }
 
-    #txtSearchbar {
-        margin-left: auto;
-        width: 240px
-    }
-
-    .table-wrapper {
+    .search-container {
+        position: relative;
         width: 100%;
-        overflow-x: auto;
-        border-radius: 12px;
-        border: 1px solid #cfe8ff;
-        margin-top: 20px
+        max-width: 400px;
     }
 
-    .orgApplication-table {
+    .search-input {
         width: 100%;
-        border-collapse: collapse;
-        background: #fff
+        padding: 14px 20px 14px 45px;
+        border: 1px solid var(--border-color);
+        border-radius: 50px;
+        font-size: 15px;
+        outline: none;
+        transition: all 0.3s ease;
+        box-shadow: var(--shadow-sm);
     }
 
-    .orgApplication-table thead {
-        background: rgba(0, 65, 156, 1)
+    .search-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
-    .orgApplication-table th,
-    .orgApplication-table td {
-        padding: 12px;
-        font-size: 13px;
-        text-align: left;
-        border-bottom: 1px solid #e0f0ff
-    }
-
-    .orgApplication-table th {
-        color: #fff
-    }
-
-    .add-btn {
-        margin: 10px;
-        padding: 10px 15px;
-        background: rgba(0, 65, 156, 1);
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer
-    }
-
-    .orgInfo-modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        height: 75vh;
-        width: 55%;
-        background: #fff;
-        border-radius: 14px;
-        display: none;
-        flex-direction: column;
-        overflow-y: auto
-    }
-
-    .btnCloseModal {
+    .search-icon {
         position: absolute;
-        top: 10px;
-        right: 15px;
-        border: none;
-        background: transparent;
-        font-size: 18px;
-        cursor: pointer
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        fill: var(--text-muted);
     }
 
-    .allOrgInfo-container {
-        padding: 20px;
+    /* --- CARDS CSS --- */
+    .events-container {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px 25px;
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 25px;
     }
 
-    .allOrgInfo-container input,
-    .allOrgInfo-container select,
-    textarea {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 6px
+    .event-card {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+        position: relative;
+        cursor: pointer;
+        border: 1px solid transparent;
     }
 
-    .bg-preview {
-        grid-column: span 2;
+    .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--border-color);
+    }
+
+    .event-banner {
         width: 100%;
         height: 180px;
-        object-fit: cover;
-        border-radius: 10px;
-        border: 1px solid #ddd
+        background-size: cover;
+        background-position: center;
+        position: relative;
     }
 
-    .benefit-box {
-        grid-column: span 2
+    .event-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
     }
 
-    .benefit-item {
+    .event-content {
+        padding: 22px;
+    }
+
+    .event-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+
+    .event-description {
+        font-size: 14px;
+        color: var(--text-muted);
+        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .no-results {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 40px;
+        color: var(--text-muted);
+        font-size: 18px;
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        border: 1px dashed var(--border-color);
+    }
+
+    /* --- MODAL CSS --- */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(17, 24, 39, 0.7);
+        backdrop-filter: blur(5px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.show {
         display: flex;
-        gap: 10px;
-        margin-bottom: 8px
+        opacity: 1;
     }
 
-    .benefit-item input {
+    .modal-content {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        width: 100%;
+        max-width: 1000px;
+        height: 85vh;
+        position: relative;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.show .modal-content {
+        transform: scale(1);
+    }
+
+    .modal-header {
+        padding: 20px 30px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-header h2 {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    .close-btn {
+        font-size: 32px;
+        line-height: 1;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.2s;
+        background: none;
+        border: none;
+        padding: 0;
+    }
+
+    .close-btn:hover {
+        color: var(--text-main);
+    }
+
+    .modal-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        padding: 30px;
+        overflow-y: auto;
         flex: 1;
-        padding: 8px;
-        border: 1px solid #ddd;
-        border-radius: 6px
     }
 
-    .benefit-item button {
-        background: red;
-        color: #fff;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer
-    }
-
-    .add-benefit {
-        margin-top: 5px;
-        padding: 6px 10px;
-        background: green;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px
-    }
-
-    .approvalUtil-container {
-        margin-top: auto;
-        padding: 15px;
+    .modal-left,
+    .modal-right {
         display: flex;
-        justify-content: flex-end;
+        flex-direction: column;
+    }
+
+    .modal-left img.main-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: var(--radius-md);
+        margin-bottom: 20px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .modal-left h3 {
+        font-size: 24px;
+        margin: 0 0 12px 0;
+    }
+
+    .desc-text {
+        color: var(--text-muted);
+        line-height: 1.6;
+        font-size: 15px;
+        margin-bottom: 25px;
+    }
+
+    .event-info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: #f9fafb;
+        padding: 16px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-color);
+    }
+
+    .event-info-item {
+        display: flex;
+        align-items: center;
         gap: 10px;
-        border-top: 1px solid #eee
+        color: var(--text-main);
+        font-size: 14px;
+        font-weight: 500;
     }
 
-    .approvalUtil-container button {
-        padding: 8px 15px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer
-    }
-
-    .btn-edit {
-        padding: 6px 12px;
-        border: none;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #00419c, #2f80ed);
+    .event-status-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
         color: #fff;
+        margin-bottom: 15px;
+        align-self: flex-start;
+    }
+
+    .status-open {
+        background: #16a34a;
+    }
+
+    .status-closed {
+        background: #dc2626;
+    }
+
+    .status-ongoing {
+        background: #2563eb;
+    }
+
+    .status-finished {
+        background: #6b7280;
+    }
+
+    /* --- FORM CSS --- */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
         font-weight: 600;
-        cursor: pointer;
-        margin-right: 5px
+        margin-bottom: 8px;
+        color: var(--text-main);
+        font-size: 14px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="file"],
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s;
+        background: #f9fafb;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        border-color: var(--primary);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .benefit-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 12px;
     }
 
     .btn-delete {
-        padding: 6px 12px;
+        background: #fee2e2;
+        color: #dc2626;
         border: none;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #ff3b3b, #ff6b6b);
-        color: #fff;
-        font-weight: 600;
-        cursor: pointer
+        border-radius: var(--radius-md);
+        width: 45px;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    #txtStatus {
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #cfe8ff;
-        border-radius: 10px;
-        background: #fff;
-        font-size: 14px;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300419c' viewBox='0 0 16 16'%3E%3Cpath d='M2 5l6 6 6-6'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 12px center;
-        background-size: 14px
+    .btn-delete:hover {
+        background: #fecaca;
     }
-    .title-modal{
-        position: sticky;
-        top: 0px;
-        background-color: white;
+
+    .btn-secondary {
+        background: #e5edff;
+        color: var(--primary);
+        border: none;
+        padding: 10px 16px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13px;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .btn-secondary:hover {
+        background: #dbeafe;
+    }
+
+    .btn-primary {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 14px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15px;
+        transition: 0.2s;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-hover);
+    }
+
+    /* Custom Notification Modal Styles */
+    .notification-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        /* Ensure it floats above everything else */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .notification-modal.show {
+        display: flex;
+    }
+
+    .notification-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .notification-content h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 24px;
+    }
+
+    .notification-content p {
+        margin-bottom: 25px;
+        color: #555;
+        line-height: 1.5;
+    }
+
+    /* Success styling */
+    .notification-content.success h3 {
+        color: #28a745;
+    }
+
+    /* Error styling */
+    .notification-content.error h3 {
+        color: #dc3545;
+    }
+
+    @media (max-width: 768px) {
+        .modal-body {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .search-container {
+            max-width: 100%;
+        }
+
+        .modal-content {
+            height: 95vh;
+        }
     }
 </style>
 
-<div class="orgsApply-container">
-    <p class="manage-events">Manage Sponsorship Packages</p>
-
-    <div class="utilities-container">
-        <select id="filterStatus">
-            <option value="all">All</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-        </select>
-        <input type="text" id="txtSearchbar" placeholder="Search package...">
+<div class="page-header">
+    <h1>Offer Packages</h1>
+    <div id="notificationModal" class="notification-modal">
+        <div class="notification-content" id="notificationContent">
+            <h3 id="notificationTitle">Notification</h3>
+            <p id="notificationMessage">Message goes here.</p>
+            <button id="notificationOkBtn" class="btn-primary">OK</button>
+        </div>
     </div>
-
-    <button id="btnAddDept" class="add-btn">+ Add Package</button>
-
-    <div class="table-wrapper">
-        <table class="orgApplication-table">
-            <thead>
-                <tr>
-                    <th>BG</th>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <div class="search-container">
+        <svg class="search-icon" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search events by name or description...">
     </div>
 </div>
 
-<div class="orgInfo-modal">
-    <div class="title-modal">
-        <h3 style="padding:10px">Package Details</h3>
-        <button class="btnCloseModal">✕</button>
-    </div>
+<div class="events-container" id="eventsContainer"></div>
 
-    <div class="allOrgInfo-container">
-
-        <img id="bgPreview" class="bg-preview" src="<?= $packPath . "nothing.jpg" ?>">
-        <label>Background</label>
-        <input type="file" id="bgInput">
-
-        <label>Package Name</label>
-        <input id="txtPackage_name" placeholder="Gold Package">
-
-        <label>Description</label>
-        <textarea id="txtDescription" rows="4" placeholder="Describe package..."></textarea>
-
-        <label>Price</label>
-        <input id="txtPrice" type="number" placeholder="50000">
-
-        <div class="benefit-box">
-            <label>Offered</label>
-            <div id="benefitContainer"></div>
-            <button type="button" class="add-benefit" id="addBenefit">+ Add Offer</button>
+<div class="modal-overlay" id="eventModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Create Package</h2>
+            <button class="close-btn" id="closeModal">&times;</button>
         </div>
 
-        <label>Status</label>
-        <select id="txtStatus">
-            <option value="active">active</option>
-            <option value="inactive">inactive</option>
-        </select>
+        <div class="modal-body">
+            <div class="modal-left" id="modalEventDetails">
+            </div>
 
-    </div>
+            <div class="modal-right">
+                <form id="packageForm">
+                    <input type="hidden" id="activeEventId">
 
-    <div class="approvalUtil-container">
-        <button class="btnUpdate" style="background:#00419c;color:#fff">Save</button>
-        <button class="btnCancel">Close</button>
+                    <div class="form-group">
+                        <label>Package Name</label>
+                        <input type="text" id="pkgName" placeholder="e.g. Gold Sponsorship" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="pkgDesc" rows="4" placeholder="Briefly describe this package..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Benefits</label>
+                        <div id="benefitsContainer"></div>
+                        <button type="button" id="addBenefitBtn" class="btn-secondary">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                                <path d="M12 5v14M5 12h14" />
+                            </svg>
+                            Add Benefit
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Package Background Upload</label>
+                        <input type="file" id="pkgBg" accept="image/*" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="pkgStatus">
+                            <option value="ongoing">Ongoing</option>
+                            <option value="onhold">On Hold</option>
+                        </select>
+                    </div>
+                    <div id="alreadyExistsMsg" style="display:none; color: #dc3545; background: #ffe6e6; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 14px; text-align: center; border: 1px solid #dc3545;">
+                        ⚠️ You have already created a package for this event.
+                    </div>
+                    <button type="submit" class="btn-primary">Save Package</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    const tableBody = document.querySelector("tbody")
-    const modal = document.querySelector(".orgInfo-modal")
-    const btnAdd = document.getElementById("btnAddDept")
-    const btnClose = document.querySelector(".btnCloseModal")
-    const btnCancel = document.querySelector(".btnCancel")
-    const btnUpdate = document.querySelector(".btnUpdate")
-    const txtName = document.getElementById("txtPackage_name")
-    const txtDescription = document.getElementById("txtDescription")
-    const txtPrice = document.getElementById("txtPrice")
-    const txtStatus = document.getElementById("txtStatus")
-    const bgInput = document.getElementById("bgInput")
-    const bgPreview = document.getElementById("bgPreview")
-    const benefitContainer = document.getElementById("benefitContainer")
-    const addBenefitBtn = document.getElementById("addBenefit")
-    const searchInput = document.getElementById("txtSearchbar")
-    const filterStatus = document.getElementById("filterStatus")
+    let globalEvents = [];
+    const container = document.getElementById("eventsContainer");
+    const searchInput = document.getElementById("searchInput");
 
-    const path = "image_data/package_bg/"
-    let packages = []
-    let editId = null
-
-    function addBenefit(v = "") {
-        const d = document.createElement("div")
-        d.className = "benefit-item"
-        d.innerHTML = `<input value="${v}" placeholder="Offer"><button type="button" style="border-radius:200px;">X</button>`
-        d.querySelector("button").onclick = () => d.remove()
-        benefitContainer.appendChild(d)
-    }
-
-    addBenefitBtn.onclick = () => addBenefit()
-
-    function getBenefits() {
-        return [...benefitContainer.querySelectorAll("input")].map(i => i.value.trim()).filter(Boolean)
-    }
-
-    function applyFilters() {
-        const s = (searchInput.value || "").toLowerCase()
-        const st = filterStatus.value
-        const f = packages.filter(p => {
-            const name = (p.package_name || "").toLowerCase()
-            const status = (p.status || "").toLowerCase()
-            return name.includes(s) && (st === "all" || status === st)
-        })
-        render(f)
-    }
-
-    async function getPackages() {
-        const r = await fetch("backend/forBackendData/sponsor_pages/getPackages.php")
-        const d = await r.json()
-        packages = d.records || []
-        applyFilters()
-    }
-
-    function render(data) {
-        tableBody.innerHTML = ""
-        data.forEach(p => {
-            tableBody.innerHTML += `
-<tr>
-<td><img src="${p.package_bg?path+p.package_bg:path+'nothing.jpg'}" width="40" height="40"></td>
-<td>${p.package_id}</td>
-<td>${p.package_name}</td>
-<td>${p.status}</td>
-<td>
-<button class="btn-edit" onclick="edit(${p.package_id})">Edit</button>
-<button class="btn-delete" onclick="del(${p.package_id})">Delete</button>
-</td>
-</tr>`
-        })
-    }
-
-    btnAdd.onclick = () => {
-        editId = null
-        txtName.value = ""
-        txtDescription.value = ""
-        txtPrice.value = ""
-        txtStatus.value = "active"
-        bgInput.value = ""
-        bgPreview.src = ""
-        benefitContainer.innerHTML = ""
-        addBenefit()
-        modal.style.display = "flex"
-    }
-
-    btnClose.onclick = btnCancel.onclick = () => modal.style.display = "none"
-
-    btnUpdate.onclick = async () => {
-        const fd = new FormData()
-        fd.append("package_name", txtName.value)
-        fd.append("description", txtDescription.value)
-        fd.append("price", txtPrice.value)
-        fd.append("status", txtStatus.value)
-        fd.append("benefits", JSON.stringify(getBenefits()))
-        if (bgInput.files[0]) fd.append("package_bg", bgInput.files[0])
-        if (editId) fd.append("package_id", editId)
-        const url = editId ?
-            "backend/forBackendData/sponsor_pages/updatePacks.php" :
-            "backend/forBackendData/sponsor_pages/insertPacks.php"
-        const r = await fetch(url, {
-            method: "POST",
-            body: fd
-        })
-        const d = await r.json()
-        if (d.status) location.reload()
-    }
-
-    window.edit = (id) => {
-        const p = packages.find(x => x.package_id == id)
-        editId = id
-        txtName.value = p.package_name
-        txtDescription.value = p.description
-        txtStatus.value = p.status
-        bgPreview.src = p.package_bg ? path + p.package_bg : path + "nothing.jpg"
-        benefitContainer.innerHTML = ""
-        let b = []
+    async function loadEvents() {
         try {
-            b = JSON.parse(p.benefits || "[]")
-        } catch (e) {}
-        b.length ? b.forEach(x => addBenefit(x)) : addBenefit()
-        modal.style.display = "flex"
+            // Simulating fetch for visual purposes. Replace with your actual fetch logic.
+            const response = await fetch("backend/forBackendData/sponsor_pages/getPevents.php");
+            const data = await response.json();
+            globalEvents = data.records || [];
+            renderEvents(globalEvents);
+        } catch (err) {
+            console.error("Error loading events. Falling back to dummy data for demonstration:", err);
+
+            // Fallback dummy data so you can test the UI/Search without the backend running
+            globalEvents = [{
+                    event_id: 1,
+                    event_name: "Tech Summit 2026",
+                    description: "Annual technology gathering.",
+                    status: "Open",
+                    location: "Convention Center",
+                    start_date: "Oct 12",
+                    end_date: "Oct 14",
+                    start_time: "09:00 AM",
+                    end_time: "05:00 PM"
+                },
+                {
+                    event_id: 2,
+                    event_name: "Art Expo",
+                    description: "Showcasing modern art.",
+                    status: "Ongoing",
+                    location: "City Hall",
+                    start_date: "Nov 01",
+                    end_date: "Nov 05",
+                    start_time: "10:00 AM",
+                    end_time: "08:00 PM"
+                },
+                {
+                    event_id: 3,
+                    event_name: "Business Mixer",
+                    description: "Networking for startups and investors.",
+                    status: "Closed",
+                    location: "Grand Hotel",
+                    start_date: "Dec 10",
+                    end_date: "Dec 10",
+                    start_time: "06:00 PM",
+                    end_time: "09:00 PM"
+                }
+            ];
+            renderEvents(globalEvents);
+        }
     }
 
-    window.del = async (id) => {
-        if (!confirm("Delete?")) return
-        const r = await fetch("backend/forBackendData/sponsor_pages/delete.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                package_id: id
-            })
-        })
-        const d = await r.json()
-        if (d.status) location.reload()
+    // --- RENDER & SEARCH LOGIC ---
+    function renderEvents(eventsToRender) {
+        container.innerHTML = "";
+
+        if (eventsToRender.length === 0) {
+            container.innerHTML = `<div class="no-results">No events found matching "${searchInput.value}".</div>`;
+            return;
+        }
+
+        eventsToRender.forEach(event => {
+            const eventImage = event.event_bg_picture ?
+                `image_data/event_bg_picture/${event.event_bg_picture}` :
+                `https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=800`; // Placeholder for testing
+
+            container.innerHTML += `
+                <div class="event-card" data-eventid="${event.event_id}">
+                    <div class="event-banner" style="background-image:url('${eventImage}')">
+                        <div class="event-overlay"></div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <div class="event-title">${event.event_name}</div>
+                        <div class="event-description">${event.description}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Re-attach event listeners to new cards
+        document.querySelectorAll(".event-card").forEach(card => {
+            card.addEventListener("click", () => {
+                const eventId = card.getAttribute("data-eventid");
+                openModal(eventId);
+            });
+        });
     }
 
-    searchInput.oninput = applyFilters
-    filterStatus.onchange = applyFilters
-    getPackages()
+    searchInput.addEventListener("input", (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        const filteredEvents = globalEvents.filter(event =>
+            (event.event_name && event.event_name.toLowerCase().includes(searchTerm)) ||
+            (event.description && event.description.toLowerCase().includes(searchTerm))
+        );
+        renderEvents(filteredEvents);
+    });
+
+    // --- MODAL LOGIC ---
+    const modal = document.getElementById('eventModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modalLeftContent = document.getElementById('modalEventDetails');
+
+   async function openModal(eventId) {
+    const event = globalEvents.find(e => e.event_id == eventId);
+    
+    if (event) {
+        const eventImage = event.event_bg_picture ?
+            `image_data/event_bg_picture/${event.event_bg_picture}` :
+            `https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=800`;
+
+        // Populate left side content
+        modalLeftContent.innerHTML = `
+            <img src="${eventImage}" alt="Event Background" class="main-img">
+            <div class="event-status-badge status-${(event.status || 'ongoing').toLowerCase()}">
+                ${event.status || 'Ongoing'}
+            </div>
+            <h3>${event.event_name}</h3>
+            <div class="desc-text">${event.description}</div>
+            <div class="event-info">
+                <div class="event-info-item">📍 ${event.location || 'Location TBA'}</div>
+                <div class="event-info-item">📅 ${event.start_date || 'TBA'} - ${event.end_date || 'TBA'}</div>
+                <div class="event-info-item">⏰ ${event.start_time || 'TBA'} - ${event.end_time || 'TBA'}</div>
+            </div>
+        `;
+
+        document.getElementById('activeEventId').value = eventId;
+
+        // --- DUPLICATE CHECK LOGIC ---
+        const submitBtn = packageForm.querySelector('button[type="submit"]');
+        const existsMsg = document.getElementById('alreadyExistsMsg');
+        
+        // Initial state: Disable and hide message while checking
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Checking...";
+        if(existsMsg) existsMsg.style.display = 'none';
+
+        try {
+            // Call the new backend script
+            const response = await fetch(`backend/forBackendData/sponsor_pages/check_package.php?event_id=${eventId}`);
+            const data = await response.json();
+
+            if (data.exists) {
+                // If package exists, lock the form
+                submitBtn.disabled = true;
+                submitBtn.textContent = "Package Already Created";
+                submitBtn.style.backgroundColor = "#95a5a6"; // Gray out
+                submitBtn.style.cursor = "not-allowed";
+                if(existsMsg) existsMsg.style.display = 'block';
+            } else {
+                // If no package, allow submission
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Save Package";
+                submitBtn.style.backgroundColor = ""; // Reset to original CSS
+                submitBtn.style.cursor = "pointer";
+                if(existsMsg) existsMsg.style.display = 'none';
+            }
+        } catch (err) {
+            console.error("Error verifying package status:", err);
+            submitBtn.disabled = false; // Fallback to allow attempt if check fails
+            submitBtn.textContent = "Save Package";
+        }
+    }
+
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+
+    function closeModal() {
+        modal.classList.remove('show');
+        document.body.style.overflow = ''; // Restore background scrolling
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    // --- DYNAMIC BENEFITS LOGIC ---
+    const addBenefitBtn = document.getElementById('addBenefitBtn');
+    const benefitsContainer = document.getElementById('benefitsContainer');
+
+    addBenefitBtn.addEventListener('click', () => {
+        const benefitRow = document.createElement('div');
+        benefitRow.className = 'benefit-row';
+
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.className = 'benefit-input';
+        inputField.placeholder = 'Enter benefit detail';
+        inputField.required = true;
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.type = 'button';
+        deleteBtn.className = 'btn-delete';
+        deleteBtn.innerHTML = '&times;';
+        deleteBtn.title = "Remove Benefit";
+
+        deleteBtn.addEventListener('click', () => benefitsContainer.removeChild(benefitRow));
+
+        benefitRow.appendChild(inputField);
+        benefitRow.appendChild(deleteBtn);
+        benefitsContainer.appendChild(benefitRow);
+
+        // Focus new input automatically
+        inputField.focus();
+    });
+
+    // --- FORM SUBMISSION (INTEGRATED FETCH API) ---
+    const packageForm = document.getElementById('packageForm');
+
+    packageForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // 1. Gather text data
+        const eventId = document.getElementById('activeEventId').value;
+        const pkgName = document.getElementById('pkgName').value;
+        const pkgDesc = document.getElementById('pkgDesc').value;
+        const pkgStatus = document.getElementById('pkgStatus').value;
+
+        // Process benefits into JSON string
+        const benefitInputs = document.querySelectorAll('.benefit-input');
+        const benefitsArray = Array.from(benefitInputs).map(i => i.value.trim()).filter(v => v !== '');
+        const benefitsJSON = JSON.stringify(benefitsArray);
+
+        // 2. Gather file data
+        const fileInput = document.getElementById('pkgBg').files[0];
+
+        // 3. Construct FormData (Required for sending files to PHP)
+        const formData = new FormData();
+        formData.append('event_id', eventId);
+        formData.append('package_name', pkgName);
+        formData.append('description', pkgDesc);
+        formData.append('benefits', benefitsJSON);
+        formData.append('status', pkgStatus);
+
+        // Placeholder for price and sponsor_id (if not handled via PHP sessions)
+
+        if (fileInput) {
+            formData.append('package_bg', fileInput);
+        }
+
+        // 4. Send to backend via Fetch
+        // ... (inside your packageForm.addEventListener submit block) ...
+
+        // 4. Send to backend via Fetch
+        try {
+            const submitBtn = packageForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+
+            const response = await fetch("backend/forBackendData/sponsor_pages/create_package.php", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // CHANGED: Use custom success modal instead of alert
+                showNotification(result.message, 'success');
+                closeModal(); // Close the main event modal
+                packageForm.reset();
+                benefitsContainer.innerHTML = '';
+            } else {
+                // CHANGED: Use custom error modal instead of alert
+                showNotification("Failed to create package: " + result.message, 'error');
+            }
+
+        } catch (error) {
+            console.error("Error submitting package:", error);
+            // CHANGED: Use custom error modal instead of alert
+            showNotification("An error occurred while connecting to the server.", 'error');
+        } finally {
+            const submitBtn = packageForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Save Package';
+        }
+    });
+
+    // Init
+    loadEvents();
+    // --- NOTIFICATION MODAL LOGIC ---
+    const notifModal = document.getElementById('notificationModal');
+    const notifTitle = document.getElementById('notificationTitle');
+    const notifMessage = document.getElementById('notificationMessage');
+    const notifContent = document.getElementById('notificationContent');
+    const notifOkBtn = document.getElementById('notificationOkBtn');
+
+    function showNotification(message, type = 'success') {
+        // Set text and colors based on success or error
+        if (type === 'success') {
+            notifTitle.textContent = 'Success!';
+            notifContent.className = 'notification-content success';
+        } else {
+            notifTitle.textContent = 'Error';
+            notifContent.className = 'notification-content error';
+        }
+
+        notifMessage.textContent = message;
+        notifModal.classList.add('show');
+    }
+
+    // Close the notification modal when clicking OK
+    notifOkBtn.addEventListener('click', () => {
+        notifModal.classList.remove('show');
+    });
 </script>
