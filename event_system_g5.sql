@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2026 at 05:46 PM
+-- Generation Time: May 11, 2026 at 03:48 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -82,12 +82,12 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`event_id`, `org_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`) VALUES
-(3012, 1007, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-30', '08:00:00', '22:00:00', '2026-05-11 04:00:00', 100, 2, 'open', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\"]}'),
-(3013, 1006, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-06-09 23:30:00', 150, 1, 'finished', 'event_69f06c468fe770.87522230.jpg', 'approved', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
+(3012, 1007, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-30', '08:00:00', '22:00:00', '2026-05-11 04:00:00', 100, 2, 'finished', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\"]}'),
+(3013, 1006, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-06-09 23:30:00', 150, 1, 'finished', 'event_69f06c468fe770.87522230.jpg', 'rejected', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
 (3014, 1007, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-11', '13:00:00', '18:00:00', '2026-05-07 16:20:00', 80, 3, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}'),
-(3015, 1006, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-20', '2026-06-20', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 1, 'cancelled', 'event_69f0701b28f664.48043394.jpg', 'approved', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}'),
+(3015, 1006, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-21', '2026-06-21', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 1, 'closed', 'event_69f0701b28f664.48043394.jpg', 'for_reschedule', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}'),
 (3016, 1008, 'Tech Innovators Summit 2026', 'sa dasdasda sdasdas dasdasdsd adasda sdasdas das', 'UKE Main Auditorium', '2026-05-04', '2026-05-04', '07:30:00', '17:00:00', '2026-05-03 00:35:00', 100, 0, 'open', 'event_69f57f5a01eeb3.42529704.jpg', 'approved', '2026-05-02 12:36:42', '{\"year_level\":[\"1st\",\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
-(3017, 1006, 'Engineering Week', 'Lorem Ipusm Lorem Ipusm Lorem Ipusm v Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm', 'UKE Main Auditorium', '2026-05-13', '2026-05-13', '11:00:00', '19:00:00', '2026-05-11 23:00:00', 50, 0, 'closed', 'event_69fd51ede4cd26.79096239.jpg', 'for_reschedule', '2026-05-08 11:01:01', '{\"year_level\":[\"2nd\"],\"programs\":[]}'),
+(3017, 1006, 'Engineering Week', 'Lorem Ipusm Lorem Ipusm Lorem Ipusm v Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm', 'UKE Main Auditorium', '2026-05-13', '2026-05-13', '11:00:00', '19:00:00', '2026-05-11 23:00:00', 50, 0, 'rescheduled', 'event_69fd51ede4cd26.79096239.jpg', 'approved', '2026-05-08 11:01:01', '{\"year_level\":[\"2nd\"],\"programs\":[]}'),
 (3018, 1011, 'Join the Creatives', 'Be part of creative student society', 'QCU San Bartolome Campus', '2026-09-01', '2026-09-30', '07:00:00', '17:00:00', '2026-08-31 00:00:00', 100, 0, 'open', 'event_69fea059067e21.43324922.jpg', 'approved', '2026-05-09 10:47:53', '{\"year_level\":[\"Alumni\"],\"programs\":[]}'),
 (3019, 1006, 'Kalayaan Patungo sa Kinabukasan', 'ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ', 'Rizal Luneta Park', '2026-05-14', '2026-05-14', '07:00:00', '22:00:00', '2026-05-12 23:50:00', 200, 0, 'open', 'event_69feada5bd0ed8.73051798.jpg', 'approved', '2026-05-09 11:44:37', '{\"year_level\":[\"1st\"],\"programs\":[\"26\",\"27\",\"28\",\"24\",\"25\"]}');
 
@@ -120,7 +120,7 @@ CREATE TABLE `organizations` (
   `org_contact_no` varchar(50) DEFAULT NULL,
   `org_username` varchar(50) DEFAULT NULL,
   `org_password` varchar(255) DEFAULT NULL,
-  `org_logo` mediumblob DEFAULT NULL,
+  `org_logo` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` enum('active','deactivated') DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -132,14 +132,13 @@ CREATE TABLE `organizations` (
 INSERT INTO `organizations` (`org_id`, `users_id`, `department_id`, `org_name`, `org_email`, `org_contact_no`, `org_username`, `org_password`, `org_logo`, `created_at`, `status`) VALUES
 (1000, 20203, 10, 'THE KOLOKOY CLUB', 'kolokoyClub@gmail.com', '122', 'ian', 'ian', NULL, '2026-04-22 06:08:45', 'active'),
 (1003, 20202, 11, 'THE KOLOKOY CLUB', 'velasco.ezekieljohn.javellana@gmail.com', '123', '123', '$2y$10$9fuIQT/3ARAr4uxIgkuz5OYhOvReERrK2k01n3UcLJi', NULL, '2026-04-14 05:13:46', 'active'),
-(1006, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', NULL, '2026-05-09 03:22:07', 'active'),
-(1007, 30021, 15, 'Nexus Prime Society', 'adote.ronadrian.molleda@gmail.com', '090199191919', 'nexus123', '$2y$10$gRZzyYcBMACVii4Qh42y6.FYRBuBxmCbCks1DV1UCC1oQ3dwYFhAC', NULL, '2026-04-27 05:14:08', 'active'),
+(1006, 20200, 10, 'THE MONKEY CLUB', 'adote.ronadrian.molleda@gmail.com', '09199883537', 'banana', '$2y$10$A./wRYVzEjleCgYvwGIzQO8XCLgmg23y9.cHe.wTvNzgUNiKDnwxm', 'org_1006_1778496231.jpg', '2026-05-11 10:43:51', 'active'),
+(1007, 30021, 15, 'Nexus Prime Society', 'adote.ronadrian.molleda@gmail.com', '090199191919', '123nexus', '$2y$10$ZyB.LG0p8V9y3/PSzmSFJeFAxULjKMhUUOeBsKrqrSQgZzcEhhjRS', 'org_1007_1778492395.jpg', '2026-05-11 09:39:55', 'active'),
 (1008, 30020, 1, 'Quantum Leap Organization', 'adote.ronadrian.molleda@gmail.com', '123123123132', 'quantum123', '$2y$10$H.KMn8B7g6QllkWs3O0ctOIkt4BznYbo.PArBIX0eaH4y/W4W31oO', NULL, '2026-04-25 08:41:25', 'active'),
 (1009, 30012, 1, 'Apex Innovators Guild', 'adote.ronadrian.molleda@gmail.com', '0919191919191', 'apex123', '$2y$10$nMmfQyFrA3Pg84V3R.wmCueqFsNIAJp1GQL8WVavdIkbIGalbFs4y', NULL, '2026-05-08 03:37:31', 'active'),
-(1010, 20200, 11, 'Apex Innovators Guild', 'adote.ronadrian.molleda@gmail.com', '09509241716', 'apex123', '$2y$10$PDOMWSg0FlR.NFUAliMuoui/CUHpZNKj3S1ElynTD9.s50nuj5DwW', NULL, '2026-05-07 21:25:36', 'active'),
 (1011, 20200, 1, 'Creative Student Society', 'qcucss.creativedirector@gmail.com', '09561379500', 'Creative Director', '$2y$10$./FResVT5hmAiZ63hbfW.ulpFjgW/MTJkv1ffhPp4wMW3bzql6MC6', NULL, '2026-05-07 23:06:08', 'active'),
 (1012, NULL, 14, 'AWS Univertsity of Kristian Evangelion Chapter', 'rondrianmadote@gmail.com', '096969696969', 'aws123', '$2y$10$V9hjTq5U04bFlK.Yt/mh4.yjZhVpGhne8TH3.grH3zF6ZOMUYsE3y', NULL, '2026-05-08 16:13:35', 'active'),
-(1013, NULL, 15, 'Faithful organization', 'khuletarman@gmail.com', '9559186962', 'khuletarman', '$2y$10$zlgNhzGgBPi.7m//BYPAfeAknim66y4tAFTgZvSSj/62Jw9q0yjau', 0x313737383239353634305f646f776e6c6f6164202834292e6a7067, '2026-05-09 08:21:09', 'deactivated');
+(1013, NULL, 15, 'Faithful organization', 'khuletarman@gmail.com', '9559186962', 'khuletarman', '$2y$10$zlgNhzGgBPi.7m//BYPAfeAknim66y4tAFTgZvSSj/62Jw9q0yjau', NULL, '2026-05-11 09:24:40', 'deactivated');
 
 -- --------------------------------------------------------
 
@@ -290,7 +289,7 @@ CREATE TABLE `sponsorships` (
 
 INSERT INTO `sponsorships` (`sponsor_id`, `sponsor_logo`, `sponsor_email`, `sponsor_contact_no`, `created_at`, `username`, `password`, `company_name`, `company_address`, `additional_documents`, `status`) VALUES
 (6000, NULL, 'adote.ronadrian.molleda@gmail.com', '09123456789', '2026-05-09 03:32:08', 'NoBudgetCEO', '$2y$10$HgKH78InI1ax7PrL0WnFLeT0PHUe3HlreFXXL.Xk5mzznPMMrhdPS', 'Slightly Legit Enterprises', '123 Bahala Na Street, Somewhere Near 7-Eleven, Philippines', 'doc_69f8cde65606a7.55827417.pdf', 'activated'),
-(6001, NULL, 'adote.ronadrian.molleda@gmail.com', '9703416913', '2026-05-10 13:05:13', 'mamade123', '$2y$10$lBSMmNL3G8FQOPlGz0rTN.2jZU9JWge3mbpUXvr4aCG.jnmqc5ld2', 'Heidi\'s Peanut Butter', '142 - Almodovar Comp. Quirino Highway Basesa Q.C', 'doc_69fa2dcbd99378.53590440.jpg', 'activated'),
+(6001, 'sponsor_6001_1778479030.jpg', 'adote.ronadrian.molleda@gmail.com', '9703416913', '2026-05-11 05:57:10', 'sponsor123', '$2y$10$9uAuwFeotubpIoTN5sPxA.lirFHMaj467s/DJr4j1LXQutk6ykHpq', 'Heidi\'s Peanut Butter', '142 - Almodovar Comp. Quirino Highway Basesa Q.C', 'doc_69fa2dcbd99378.53590440.jpg', 'activated'),
 (6002, 'uploads/sponsor_logos/sponsor_1778296656_69fea750a325c.png', 'joyce@gmail.com', '0919191919191', '2026-05-09 03:17:36', 'joyce', '$2y$10$xOvprP335L.x3f94g4cjl.SUshEd17UHrlJJbWLsvod/IiS26VGDm', 'Local Host', 'quezon city', NULL, 'activated');
 
 -- --------------------------------------------------------
@@ -306,54 +305,55 @@ CREATE TABLE `users` (
   `last_name` varchar(255) DEFAULT NULL,
   `middle_name` varchar(255) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `profile_pic` mediumblob DEFAULT NULL,
+  `profile_pic` text DEFAULT NULL,
   `last_logged` date DEFAULT NULL,
   `status` enum('active','inactive') DEFAULT 'active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `password_hashed` varchar(50) DEFAULT NULL,
   `year_level` enum('1st','2nd','3rd','4th','Alumni','Irregular') DEFAULT NULL,
-  `program_id` int(11) DEFAULT NULL
+  `program_id` int(11) DEFAULT NULL,
+  `contact_no` varchar(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name`, `email`, `profile_pic`, `last_logged`, `status`, `created_at`, `password_hashed`, `year_level`, `program_id`) VALUES
-(20200, NULL, 'Roger', 'Lance', NULL, 'adote.ronadrian.molleda@gmail.com', NULL, NULL, 'active', '2026-05-05 14:25:15', '123123', '2nd', 22),
-(20202, 'client', 'John', 'Client', 'A.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-26', 'active', '2026-04-13 14:28:53', 'testpass', NULL, NULL),
-(20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-04-30 16:57:10', 'mypassword', 'Irregular', 21),
-(20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-05-04 13:38:11', 'letmein', '2nd', 22),
-(30001, 'client', 'Lisa', 'Garcia', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-21', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 24),
-(30002, 'admin', 'Kevin', 'Cruz', 'B', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 22),
-(30003, 'client', 'Anna', 'Reyes', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-22', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 27),
-(30004, 'admin', 'John', 'Santos', 'C', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-24', 'active', '2026-04-27 11:12:43', 'password123', '1st', 23),
-(30005, 'admin', 'Anna', 'Santos', 'L', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-06', 'active', '2026-04-27 11:12:43', 'password123', '', 26),
-(30006, 'admin', 'John', 'Lopez', 'T', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-03', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 28),
-(30007, 'admin', 'Kevin', 'Lopez', 'C', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-09', 'active', '2026-04-27 11:12:43', 'password123', '', 27),
-(30008, 'admin', 'Kevin', 'Garcia', 'O', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-04', 'active', '2026-04-27 11:12:43', 'password123', '', 28),
-(30009, 'admin', 'Lisa', 'Santos', 'E', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-15', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 22),
-(30010, 'admin', 'Mark', 'Santos', 'E', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-20', 'active', '2026-04-27 11:12:43', 'password123', '', 28),
-(30011, 'admin', 'Anna', 'Cruz', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-24', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 27),
-(30012, 'client', 'Lisa', 'Lopez', 'O', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-03', 'active', '2026-04-27 11:12:43', 'password123', '1st', 21),
-(30013, 'admin', 'Anna', 'Cruz', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-31', 'active', '2026-04-27 11:12:43', 'password123', '', 23),
-(30014, 'admin', 'Anna', 'Cruz', 'E', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-30', 'active', '2026-04-27 11:12:43', 'password123', '', 21),
-(30015, 'admin', 'Lisa', 'Garcia', 'N', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 24),
-(30016, 'client', 'Kevin', 'Cruz', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-06', 'active', '2026-04-27 11:12:43', 'password123', '2nd', 28),
-(30017, 'admin', 'Kevin', 'Lopez', 'V', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-04-27 11:12:43', 'password123', '', 26),
-(30018, 'client', 'Mark', 'Garcia', 'K', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-05', 'active', '2026-04-27 11:12:43', 'password123', '1st', 29),
-(30019, 'admin', 'Mark', 'Lopez', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-03', 'active', '2026-04-27 11:12:43', 'password123', '', 23),
-(30020, 'client', 'Anna', 'Cruz', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-01', 'active', '2026-04-27 11:12:43', 'password123', '', 24),
-(30021, 'client', 'John', 'Reyes', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-14', 'active', '2026-04-27 11:12:43', 'password123', '1st', 29),
-(30022, 'client', 'Lisa', 'Cruz', 'S', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-10', 'active', '2026-04-27 11:12:43', 'password123', '', 27),
-(30023, 'admin', 'Kevin', 'Garcia', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 29),
-(30024, 'admin', 'Anna', 'Garcia', 'Y', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '1st', 28),
-(30025, 'client', 'Lisa', 'Lopez', 'W', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-10', 'active', '2026-04-27 11:12:43', 'password123', '1st', 21),
-(30026, 'admin', 'Anna', 'Garcia', 'T', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-04-27 11:12:43', 'password123', '', 23),
-(30027, 'client', 'John', 'Cruz', 'O', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-15', 'active', '2026-04-27 11:12:43', 'password123', '1st', 22),
-(30028, 'client', 'Kevin', 'Santos', 'F', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-31', 'active', '2026-04-27 11:12:43', 'password123', '', 24),
-(30029, 'client', 'John', 'Santos', 'B', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-02', 'active', '2026-04-27 11:12:43', 'password123', '', 29),
-(30030, 'admin', 'Anna', 'Reyes', 'C', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-16', 'active', '2026-04-27 11:12:43', 'password123', '', 22);
+INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name`, `email`, `profile_pic`, `last_logged`, `status`, `created_at`, `password_hashed`, `year_level`, `program_id`, `contact_no`) VALUES
+(20200, NULL, 'Roger', 'Lance', NULL, 'adote.ronadrian.molleda@gmail.com', NULL, NULL, 'active', '2026-05-11 10:34:59', 'password123', '2nd', 22, '09703416914'),
+(20202, 'client', 'John', 'Client', 'A.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-26', 'active', '2026-05-11 10:34:59', 'password123', NULL, NULL, '09703416914'),
+(20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-05-11 10:34:59', 'password123', 'Irregular', 21, '09703416914'),
+(20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', 'users_20204_1778495140.jpg', '2026-03-27', 'active', '2026-05-11 10:38:44', 'letmein', '2nd', 22, '09703416914'),
+(30001, 'client', 'Lisa', 'Garcia', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-21', 'active', '2026-05-11 10:34:59', 'password123', '2nd', 24, '09703416914'),
+(30002, 'admin', 'Kevin', 'Cruz', 'B', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-05-11 10:34:59', 'password123', '', 22, '09703416914'),
+(30003, 'client', 'Anna', 'Reyes', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-22', 'active', '2026-05-11 10:34:59', 'password123', '2nd', 27, '09703416914'),
+(30004, 'admin', 'John', 'Santos', 'C', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-24', 'active', '2026-05-11 10:34:59', 'password123', '1st', 23, '09703416914'),
+(30005, 'admin', 'Anna', 'Santos', 'L', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-06', 'active', '2026-05-11 10:34:59', 'password123', '', 26, '09703416914'),
+(30006, 'admin', 'John', 'Lopez', 'T', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-03', 'active', '2026-05-11 10:34:59', 'password123', '2nd', 28, '09703416914'),
+(30007, 'admin', 'Kevin', 'Lopez', 'C', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-09', 'active', '2026-05-11 10:34:59', 'password123', '', 27, '09703416914'),
+(30008, 'admin', 'Kevin', 'Garcia', 'O', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-04', 'active', '2026-05-11 10:34:59', 'password123', '', 28, '09703416914'),
+(30009, 'admin', 'Lisa', 'Santos', 'E', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-15', 'active', '2026-05-11 10:34:59', 'password123', '2nd', 22, '09703416914'),
+(30010, 'admin', 'Mark', 'Santos', 'E', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-20', 'active', '2026-05-11 10:34:59', 'password123', '', 28, '09703416914'),
+(30011, 'admin', 'Anna', 'Cruz', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-24', 'active', '2026-05-11 10:34:59', 'password123', '2nd', 27, '09703416914'),
+(30012, 'client', 'Lisa', 'Lopez', 'O', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-03', 'active', '2026-05-11 10:34:59', 'password123', '1st', 21, '09703416914'),
+(30013, 'admin', 'Anna', 'Cruz', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-31', 'active', '2026-05-11 10:34:59', 'password123', '', 23, '09703416914'),
+(30014, 'admin', 'Anna', 'Cruz', 'E', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-30', 'active', '2026-05-11 10:34:59', 'password123', '', 21, '09703416914'),
+(30015, 'admin', 'Lisa', 'Garcia', 'N', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-05-11 10:34:59', 'password123', '', 24, '09703416914'),
+(30016, 'client', 'Kevin', 'Cruz', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-06', 'active', '2026-05-11 10:34:59', 'password123', '2nd', 28, '09703416914'),
+(30017, 'admin', 'Kevin', 'Lopez', 'V', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-27', 'active', '2026-05-11 10:34:59', 'password123', '', 26, '09703416914'),
+(30018, 'client', 'Mark', 'Garcia', 'K', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-05', 'active', '2026-05-11 10:34:59', 'password123', '1st', 29, '09703416914'),
+(30019, 'admin', 'Mark', 'Lopez', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-03', 'active', '2026-05-11 10:34:59', 'password123', '', 23, '09703416914'),
+(30020, 'client', 'Anna', 'Cruz', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-01', 'active', '2026-05-11 10:34:59', 'password123', '', 24, '09703416914'),
+(30021, 'client', 'John', 'Reyes', 'I', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-14', 'active', '2026-05-11 10:34:59', 'password123', '1st', 29, '09703416914'),
+(30022, 'client', 'Lisa', 'Cruz', 'S', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-10', 'active', '2026-05-11 10:34:59', 'password123', '', 27, '09703416914'),
+(30023, 'admin', 'Kevin', 'Garcia', 'M', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-05-11 10:34:59', 'password123', '', 29, '09703416914'),
+(30024, 'admin', 'Anna', 'Garcia', 'Y', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-05-11 10:34:59', 'password123', '1st', 28, '09703416914'),
+(30025, 'client', 'Lisa', 'Lopez', 'W', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-10', 'active', '2026-05-11 10:34:59', 'password123', '1st', 21, '09703416914'),
+(30026, 'admin', 'Anna', 'Garcia', 'T', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-13', 'active', '2026-05-11 10:34:59', 'password123', '', 23, '09703416914'),
+(30027, 'client', 'John', 'Cruz', 'O', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-15', 'active', '2026-05-11 10:34:59', 'password123', '1st', 22, '09703416914'),
+(30028, 'client', 'Kevin', 'Santos', 'F', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-31', 'active', '2026-05-11 10:34:59', 'password123', '', 24, '09703416914'),
+(30029, 'client', 'John', 'Santos', 'B', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-02', 'active', '2026-05-11 10:34:59', 'password123', '', 29, '09703416914'),
+(30030, 'admin', 'Anna', 'Reyes', 'C', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-04-16', 'active', '2026-05-11 10:34:59', 'password123', '', 22, '09703416914');
 
 --
 -- Indexes for dumped tables
