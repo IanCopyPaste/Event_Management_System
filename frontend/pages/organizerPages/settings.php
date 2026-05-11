@@ -1,286 +1,555 @@
-<!-- Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <?php
-$path = "image_data/org_logo/";
+include("backend/database/config.php"); // Adjust path to your config
+
+// Check auth
+if (!isset($_SESSION['org_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$org_id = $_SESSION['org_id'];
+
+// Fetch current sponsor data
+$sql = "SELECT * FROM organizations o JOIN department d ON o.department_id = d.department_id WHERE org_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $org_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$org = $result->fetch_assoc();
+$stmt->close();
+
+$logo_path = !empty($org['org_logo']) ? "image_data/org_logo/" . $org['org_logo'] : "image_data/org_logo/profileImg.png";
 ?>
 <style>
-    /* 
-       CRITICAL: We wrap everything in .settings-view and remove 'body' styles 
-       to prevent the sidebar from moving.
-    */
-    .settings-view {
-        width: 100%;
-        min-height: 100%;
-        background-color: #ffffff;
+    /* [KEEP ALL YOUR PREVIOUS CSS HERE] */
+    :root {
+        --bg-body: #f1f5f9;
+        --surface: #ffffff;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --primary: #3b82f6;
+        --danger: #ef4444;
+    }
+
+    body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #333;
-        display: flex;
-        justify-content: center;
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        margin: 0;
         padding: 40px 20px;
     }
 
-    .settings-container {
-        width: 100%;
-        max-width: 650px;
+    .profile-container {
+        max-width: 1000px;
+        margin: calc(50vh - 300px) auto 0;
+        /* 50% of viewport height minus half the card height */
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 30px;
     }
 
-    .page-title {
-        color: #1a56be;
-        font-size: 28px;
-        margin-bottom: 30px;
-        border-left: 6px solid #1a56be;
-        padding-left: 15px;
-        font-weight: bold;
-    }
-
-    /* Profile Header Section */
-    .profile-header {
+    .profile-card {
+        background: var(--surface);
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         text-align: center;
-        margin-bottom: 50px;
+        border: 1px solid var(--border);
     }
 
-    .image-wrapper {
+    .avatar-wrapper {
         position: relative;
-        display: inline-block;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 15px;
     }
 
-    .profile-logo {
-        width: 150px;
-        height: 150px;
+    .profile-avatar {
+        width: 100%;
+        height: 100%;
         border-radius: 50%;
         object-fit: cover;
-        border: 1px solid #ddd;
+        border: 4px solid #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .camera-icon {
+    .upload-btn {
         position: absolute;
-        bottom: 5px;
-        right: -5px;
-        background: white;
-        padding: 8px;
-        font-size: 18px;
-        cursor: pointer;
+        bottom: 0;
+        right: 0;
+        background: var(--primary);
+        color: white;
+        border: none;
         border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        width: 36px;
+        height: 36px;
+        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s;
     }
 
-    .org-name {
-        margin: 15px 0 5px 0;
-        font-size: 24px;
-        font-weight: 500;
-    }
-
-    .org-id {
-        color: #666;
-        font-size: 14px;
-        margin: 0;
-    }
-
-    /* Info List Rows */
-    .info-list {
-        margin-top: 20px;
-    }
-
-    .info-row {
-        display: flex;
-        align-items: center;
-        padding: 18px 0;
-        font-size: 18px;
-        border-bottom: 1px solid #f0f0f0;
-    }
-
-    .label {
-        width: 220px;
-        font-weight: 600;
-        flex-shrink: 0;
-    }
-
-    .value {
-        flex-grow: 1;
-        color: #444;
-    }
-
-    .edit-icon {
-        color: #333;
-        cursor: pointer;
-        font-size: 16px;
-        margin-left: 10px;
-        transition: transform 0.2s, color 0.2s;
-    }
-
-    .edit-icon:hover {
-        color: #1a56be;
+    .upload-btn:hover {
         transform: scale(1.1);
     }
 
-    .status-dot {
+    input[type="file"] {
+        display: none;
+    }
+
+    .company-name {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .member-since {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 20px;
+    }
+
+    .status-badge {
         display: inline-block;
-        width: 14px;
-        height: 14px;
-        background-color: #00c853;
-        border-radius: 50%;
-        margin-left: 15px;
-        vertical-align: middle;
+        padding: 5px 12px;
+        background: #dcfce7;
+        color: #166534;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 25px;
     }
 
-    /* Logout Button Styling */
-    .btn-logout-container {
-        margin-top: 40px;
-        text-align: right;
+    .info-group {
+        text-align: left;
+        margin-bottom: 15px;
+        font-size: 0.95rem;
     }
 
-    #btnlogout {
-        padding: 12px 30px;
-        background-color: #f44336;
+    .info-group strong {
+        display: block;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+    }
+
+    .settings-card {
+        background: var(--surface);
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--border);
+    }
+
+    .settings-card h3 {
+        margin-top: 0;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-main);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 1rem;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .form-text {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 5px;
+        display: block;
+    }
+
+    .btn-majestic {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
         color: white;
         border: none;
-        border-radius: 5px;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
         cursor: pointer;
-        font-weight: bold;
-        font-size: 16px;
-        transition: background 0.3s;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
     }
 
-    #btnlogout:hover {
-        background-color: #d32f2f;
+    .btn-majestic:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
     }
 
-    /* Simple Modal for Editing */
-    .edit-modal {
+    .btn-danger {
+        background: white;
+        color: var(--danger);
+        border: 1px solid var(--danger);
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-danger:hover {
+        background: #fef2f2;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+    }
+
+    .modal-overlay {
         display: none;
         position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.5);
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
         z-index: 1000;
+        justify-content: center;
         align-items: center;
+    }
+
+    .modal-content {
+        background: var(--surface);
+        padding: 30px;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-content h2 {
+        margin-top: 0;
+        color: var(--text-main);
+    }
+
+    .modal-content p {
+        color: var(--text-muted);
+        margin-bottom: 25px;
+    }
+
+    .modal-buttons {
+        display: flex;
+        gap: 15px;
         justify-content: center;
     }
-    .modal-content {
-        background: white;
-        padding: 30px;
+
+    .btn-cancel {
+        background: #e2e8f0;
+        color: #475569;
+        border: none;
+        padding: 10px 20px;
         border-radius: 8px;
-        width: 380px;
+        font-weight: 600;
+        cursor: pointer;
     }
-    .modal-content input {
-        width: 100%;
-        padding: 10px;
-        margin: 15px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+
+    .btn-confirm {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    /* Loading Spinner Styles */
+    .btn-majestic.loading {
+        position: relative;
+        color: transparent !important;
+        /* Hide text */
+        pointer-events: none;
+        /* Prevent double clicks */
+    }
+
+    .btn-majestic.loading::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        left: 50%;
+        margin-top: -10px;
+        margin-left: -10px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .profile-container {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
-<div class="settings-view">
-    <div class="settings-container">
-        <h1 class="page-title">Account Settings</h1>
+<div class="profile-container">
 
-        <div class="profile-header">
-            <div class="image-wrapper">
-                <img src="<?= $path . ($_SESSION["org_logo"] ?? "profileImg.png")?>" alt="College Logo" class="profile-logo" id="profileImg">
-                <label for="imgUpload" class="camera-icon"><i class="fas fa-camera"></i></label>
-                <input type="file" id="imgUpload" hidden accept="image/*">
-            </div>
-            <h2 class="org-name"><?= $_SESSION["org_name"]?></h2>
-            <p class="org-id">Organization ID: <?= $_SESSION["org_id"]?></p>
+    <div class="profile-card">
+        <div class="avatar-wrapper">
+            <img id="profileImagePreview" src="<?= htmlspecialchars($logo_path) ?>" alt="Org Logo" class="profile-avatar">
+            <label for="logoUpload" class="upload-btn" title="Change Profile Picture">📷</label>
         </div>
 
-        <div class="info-list">
-            <div class="info-row">
-                <span class="label">Username:</span>
-                <span class="value"><?= $_SESSION["org_username"]?></span>
-            </div>
-            
-            <div class="info-row">
-                <span class="label">Email:</span>
-                <span class="value" id="val-name"><?= $_SESSION["org_email"] ?></span>
-                <i class="fa-solid fa-arrow-up-right-from-square edit-icon" onclick="openEdit('Full Name', 'val-name')"></i>
-            </div>
+        <div class="company-name"><?= htmlspecialchars($org['org_name']) ?></div>
+        <div class="status-badge"><?= htmlspecialchars($org['status']) ?></div>
 
-            <div class="info-row">
-                <span class="label">Contact_No:</span>
-                <span class="value" id="val-email"><?= $_SESSION["org_contact"] ?></span>
-                <i class="fa-solid fa-arrow-up-right-from-square edit-icon" onclick="openEdit('Email', 'val-email')"></i>
-            </div>
-
-            <div class="info-row">
-                <span class="label">Password:</span>
-                <input type="password" value="<?= $_SESSION["org_password"] ?>">
-                <i class="fa-solid fa-arrow-up-right-from-square edit-icon" onclick="openEdit('Password', 'val-pass')"></i>
-            </div>
-
-            <div class="info-row">
-                <span class="label">Status:</span>
-                <span class="value"><?= $_SESSION["org_status"] ?></span>
-            </div>
-
-            <div class="info-row">
-                <span class="label">Created At:</span>
-                <span class="value"><?= $_SESSION["org_created_at"] ?></span>
-            </div>
+        <div class="member-since" id="formattedDate">
+            <input type="hidden" id="rawDate" value="<?= htmlspecialchars($org ['created_at']) ?>">
         </div>
 
-        <div class="btn-logout-container">
-            <button id="btnlogout">Logout</button>
+        <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+
+        <div class="info-group">
+            <strong>Email Address</strong>
+            <?= htmlspecialchars($org['org_email']) ?>
+        </div>
+        <div class="info-group">
+            <strong>Contact Number</strong>
+            <?= htmlspecialchars($org['org_contact_no']) ?>
+        </div>
+        <div class="info-group">
+            <strong>Department</strong>
+            <?= htmlspecialchars($org['department_name']) ?>
+        </div>
+    </div>
+
+    <div class="settings-card">
+        <h3>Account Settings</h3>
+
+        <form id="settingsForm">
+            <input type="file" id="logoUpload" name="new_logo" accept="image/*" onchange="previewImage(event)">
+
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="form-control" value="<?= htmlspecialchars($org['org_username']) ?>" required>
+                <span class="form-text">This is the name you use to log in.</span>
+            </div>
+
+            <div style="margin: 30px 0 15px 0; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                <h4 style="margin: 0; color: var(--text-main);">Security (Password Update)</h4>
+                <span class="form-text">Leave these fields blank if you do not wish to change your password.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="current_password">Current Password</label>
+                <input type="password" id="current_password" name="current_password" class="form-control" placeholder="Enter current password to verify changes">
+            </div>
+
+            <div class="form-group">
+                <label for="new_password">New Password</label>
+                <input type="password" id="new_password" name="new_password" class="form-control" placeholder="Enter new password">
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-danger" onclick="openLogoutModal()">Log Out</button>
+                <button type="button" class="btn-majestic" onclick="initiateUpdate()">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="otpModal" class="modal-overlay">
+    <div class="modal-content">
+        <h2>Security Verification</h2>
+        <p>An OTP has been sent to your email. Please enter it below to confirm your changes.</p>
+        <div class="form-group">
+            <input type="text" id="otpInput" class="form-control" placeholder="Enter 6-digit OTP" style="text-align: center; letter-spacing: 5px; font-size: 1.2rem; font-weight: bold;">
+        </div>
+        <div class="modal-buttons">
+            <button class="btn-cancel" onclick="closeModal('otpModal')">Cancel</button>
+            <button class="btn-confirm" onclick="submitProfileUpdate()">Verify & Save</button>
         </div>
     </div>
 </div>
 
-<!-- Simple Edit Modal -->
-<div id="modalOverlay" class="edit-modal">
+<div id="logoutModal" class="modal-overlay">
     <div class="modal-content">
-        <h3 id="modalTitle">Edit Field</h3>
-        <input type="text" id="modalInput">
-        <div style="text-align: right;">
-            <button onclick="closeEdit()" style="background:none; border:none; cursor:pointer; color:#666; margin-right:10px;">Cancel</button>
-            <button onclick="saveEdit()" style="background:#1a56be; color:white; border:none; padding:8px 20px; border-radius:4px; cursor:pointer;">Save</button>
+        <h2>Sign Out</h2>
+        <p>Are you sure you want to log out of your sponsor dashboard?</p>
+        <div class="modal-buttons">
+            <button class="btn-cancel" onclick="closeLogoutModal()">Cancel</button>
+            <button class="btn-confirm-logout" style="padding: 6px; border-radius:5px; border:none; background-color:red; color:white;">Yes, Log Out</button>
         </div>
     </div>
 </div>
 
 <script>
-    // --- Profile Picture Preview ---
-    document.getElementById('imgUpload').addEventListener('change', function(e) {
-        if (this.files && this.files[0]) {
-            const reader = new FileReader();
-            reader.onload = (e) => document.getElementById('profileImg').src = e.target.result;
-            reader.readAsDataURL(this.files[0]);
+    // Formate Date
+    document.addEventListener('DOMContentLoaded', () => {
+        const rawDateStr = document.getElementById('rawDate').value;
+        if (rawDateStr) {
+            const dateObj = new Date(rawDateStr);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            document.getElementById('formattedDate').innerHTML = `Member since: <strong>${dateObj.toLocaleDateString('en-US', options)}</strong>`;
         }
     });
 
-    // --- Modal Logic ---
-    let currentTargetId = "";
-    function openEdit(label, id) {
-        currentTargetId = id;
-        document.getElementById('modalTitle').innerText = "Edit " + label;
-        document.getElementById('modalInput').value = id !== 'val-pass' ? document.getElementById(id).innerText : "";
-        document.getElementById('modalOverlay').style.display = 'flex';
+    // Image Preview
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            document.getElementById('profileImagePreview').src = reader.result;
+        };
+        if (event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
     }
 
-    function closeEdit() { document.getElementById('modalOverlay').style.display = 'none'; }
-
-    function saveEdit() {
-        const newVal = document.getElementById('modalInput').value;
-        if(currentTargetId && currentTargetId !== 'val-pass') {
-            document.getElementById(currentTargetId).innerText = newVal;
-        }
-        closeEdit();
+    // Modals
+    // Function to open the modal (Called by the red 'Log Out' button)
+    function openLogoutModal() {
+        document.getElementById('logoutModal').style.display = 'flex';
     }
 
-    // --- Logout Logic ---
-    const btnLogout = document.querySelector("#btnlogout");
-    btnLogout.addEventListener("click", async () => {
-        try {
-            const response = await fetch("backend/forBackendData/logout.php");
-            const data = await response.json();
-            if (data.message == "logged out") {
-                alert("logged out");
+    // Function to close the modal
+    function closeLogoutModal() {
+        document.getElementById('logoutModal').style.display = 'none';
+    }
+
+    // Your logic applied to the "Confirm" button inside the modal
+    const btnConfirmLogout = document.querySelector(".btn-confirm-logout");
+
+    if (btnConfirmLogout) {
+        btnConfirmLogout.addEventListener("click", async () => {
+            try {
+                // Call your backend
+                const response = await fetch("backend/forBackendData/logout.php");
+                const data = await response.json();
+
+                // Check for your specific message
+                if (data.message === "logged out") {
+                    // Optional: You can keep the alert or just redirect immediately
+                    // alert("Logged out successfully"); 
+                    window.location.href = "loginLanding.php";
+                }
+            } catch (error) {
+                // Fallback if backend fails or path is wrong
+                console.log("Backend not found, but logout was attempted!", error);
+                // Even if backend fails, usually safe to redirect to login
                 window.location.href = "loginLanding.php";
             }
-        } catch(e) {
-            console.error("Logout path error - ensure backend/forBackendData/logout.php exists.");
+        });
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+    // --- NEW OTP LOGIC ---
+    async function initiateUpdate() {
+        const btn = document.querySelector('.btn-majestic');
+        const newPass = document.getElementById('new_password').value;
+        const curPass = document.getElementById('current_password').value;
+
+        if (newPass && !curPass) {
+            alert("Please enter your current password to set a new one.");
+            return;
         }
-    });
+
+        // Start Loading
+        btn.classList.add('loading');
+
+        try {
+            const response = await fetch('backend/forBackendData/orgNsettings/send_otp.php', {
+                method: 'POST'
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                document.getElementById('otpModal').style.display = 'flex';
+            } else {
+                alert("Failed to send OTP: " + result.message);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Server connection failed.");
+        } finally {
+            // Stop Loading
+            btn.classList.remove('loading');
+        }
+    }
+
+    async function submitProfileUpdate() {
+        const verifyBtn = document.querySelector('#otpModal .btn-confirm');
+        const otpCode = document.getElementById('otpInput').value;
+
+        if (!otpCode) {
+            alert("Please enter the OTP.");
+            return;
+        }
+
+        // Start Loading on the Verify Button
+        verifyBtn.classList.add('loading');
+        verifyBtn.innerText = ""; // Clear text for spinner
+
+        const form = document.getElementById('settingsForm');
+        const formData = new FormData(form);
+        formData.append('otp', otpCode);
+
+        try {
+            const response = await fetch('backend/forBackendData/orgNsettings/update_profile.php', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+
+            if (result.success) {
+                alert("Profile updated successfully!");
+                window.location.reload();
+            } else {
+                alert("Update failed: " + result.message);
+                verifyBtn.classList.remove('loading');
+                verifyBtn.innerText = "Verify & Save";
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to process update.");
+            verifyBtn.classList.remove('loading');
+            verifyBtn.innerText = "Verify & Save";
+        }
+    }
 </script>

@@ -111,11 +111,14 @@ $path = "image_data/org_logo/";
     #btnLogout:hover {
         background-color: #dc2626;
     }
+    #imgProfile{
+        border-radius: 500px;
+    }
 </style>
 
 <div class="side-container">
     <div class="adminProfile-container">
-        <img src="<?php if(!isset($_SESSION["org_logo"])){echo $altPath;}else{echo $path . $_SESSION["org_logo"];}?>" alt="NoProfile">
+        <img src="<?php if(!isset($_SESSION["org_logo"])){echo $altPath;}else{echo $path . $_SESSION["org_logo"];}?>" alt="NoProfile" id="imgProfile">
         <div class="adminInfo-container" >
             <p class="adminName" style="word-wrap: break-word;"><?=  $_SESSION["org_name"]?></p>
             <p class="adminID">ORG ID: <?=  $_SESSION["org_id"]?></p>

@@ -462,7 +462,7 @@
 
                 <div class="info-card">
                     <div class="info-card-header">
-                        <img id="d_org_logo" src="" alt="Org Logo" class="org-logo">
+                        <img id="d_org_logo" src="" alt="Org Logo" class="org-logo" style="height: 50px; width: 50px; border-radius:500px;">
                         <h4>🗓 Event & Organizer</h4>
                     </div>
                     <div class="info-row"><strong>Organizer:</strong> <span id="d_org_name"></span></div>
