@@ -11,6 +11,7 @@ $sponPage = $_GET["SponPage"] ?? 'applications';
     <style>
         .admin-container {
             display: flex;
+            padding: 0px;
         }
 
         .side-container {

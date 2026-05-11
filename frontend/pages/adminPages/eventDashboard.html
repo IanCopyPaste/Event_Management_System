@@ -179,6 +179,7 @@
         max-width: 900px;
         max-height: 90vh;
         overflow-y: auto;
+        /* Keeps the whole modal scrollable */
         position: relative;
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         display: flex;
@@ -189,9 +190,12 @@
     .modal-banner {
         width: 100%;
         height: 200px;
+        flex-shrink: 0;
+        /* CRITICAL FIX: Stops the banner from squishing when scrolling */
         background-color: #cbd5e1;
         background-size: cover;
         background-position: center;
+        background-repeat: no-repeat;
         border-radius: 16px 16px 0 0;
         position: relative;
     }
@@ -208,6 +212,8 @@
         position: absolute;
         bottom: 20px;
         left: 30px;
+        right: 30px;
+        /* Added right spacing to prevent text overflow */
         z-index: 2;
         color: white;
     }
@@ -216,6 +222,8 @@
         font-size: 2rem;
         margin-bottom: 4px;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        word-wrap: break-word;
+        /* Ensures long titles don't break the layout */
     }
 
     .banner-text p {
@@ -391,6 +399,54 @@
         margin-top: 0;
         padding-top: 0;
     }
+
+    /* --- RESPONSIVE MOBILE FIXES --- */
+    @media (max-width: 768px) {
+        .modal-banner {
+            height: 150px;
+            /* Adjusts banner height for smaller screens */
+        }
+
+        .banner-text {
+            left: 20px;
+            bottom: 15px;
+        }
+
+        .banner-text h2 {
+            font-size: 1.5rem;
+            /* Prevents huge text from breaking the layout */
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .grid-layout {
+            grid-template-columns: 1fr;
+            /* Stacks the cards vertically */
+        }
+
+        .info-card[style*="grid-column: span 2"] {
+            grid-column: span 1 !important;
+            /* Forces the package card to fit 1 column */
+        }
+
+        .info-row {
+            flex-direction: column;
+            /* Stacks label and value */
+            gap: 4px;
+        }
+
+        .actions-panel {
+            flex-direction: column;
+            /* Stack buttons on mobile */
+        }
+
+        .btn {
+            width: 100%;
+            /* Full width buttons for easier tapping */
+        }
+    }
 </style>
 
 <div class="header-panel">
@@ -533,6 +589,33 @@
     // Fallback image in case the database field is empty
     const placeholderImg = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZTJlOGYwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIvPjwvc3ZnPg==";
 
+    // --- DATE & TIME FORMATTERS ---
+    function formatDate(dateStr) {
+        if (!dateStr) return 'N/A';
+        const d = new Date(dateStr);
+        if (isNaN(d)) return dateStr; // Fallback if invalid
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function formatTime(timeStr) {
+        if (!timeStr) return 'N/A';
+        const parts = timeStr.split(':');
+        if (parts.length < 2) return timeStr;
+        const h = parseInt(parts[0], 10);
+        const m = parts[1];
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        const formattedHour = h % 12 || 12;
+        return `${formattedHour}:${m} ${ampm}`;
+    }
+
+    function formatDateTime(dateTimeStr) {
+        if (!dateTimeStr) return 'N/A';
+        const d = new Date(dateTimeStr.replace(/-/g, '/')); // replace - with / for better cross-browser parsing
+        if (isNaN(d)) return dateTimeStr;
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
+    }
+    // -------------------------------
+
     async function init() {
         const res = await fetch('backend/forBackendData/adminNevents/admin_fetch_events.php');
         const data = await res.json();
@@ -565,7 +648,12 @@
             if (statFilter && e.status !== statFilter) return;
             if (search && !e.event_name.toLowerCase().includes(search) && !e.org_name.toLowerCase().includes(search)) return;
 
-            const eventImg = e.event_bg_picture ? e.event_bg_picture : placeholderImg;
+            const eventPath = "image_data/event_bg_picture/";
+            const eventImg = e.event_bg_picture ? eventPath + e.event_bg_picture : placeholderImg;
+
+            // Format for table display
+            const fDate = formatDate(e.start_date);
+            const fTime = formatTime(e.start_time);
 
             const tr = document.createElement('tr');
             tr.onclick = () => openDetails(e.event_id);
@@ -580,7 +668,7 @@
                 </td>
                 <td>${e.org_name || 'N/A'}</td>
                 <td>${e.department_name || 'N/A'}</td>
-                <td><div style="font-size: 0.9rem;">${e.start_date}<br><small style="color:var(--text-muted)">${e.start_time}</small></div></td>
+                <td><div style="font-size: 0.9rem;">${fDate}<br><small style="color:var(--text-muted)">${fTime}</small></div></td>
                 <td><span class="badge b-${e.approval_status}">${e.approval_status}</span></td>
                 <td><span class="badge s-${e.status}">${e.status}</span></td>
             `;
@@ -596,7 +684,8 @@
         // Apply Banner & Logos
         const bannerUrl = e.event_bg_picture ? path + e.event_bg_picture : path + "nothing.jpg";
         document.getElementById('d_banner').style.backgroundImage = `url('${bannerUrl}')`;
-        document.getElementById('d_org_logo').src = e.org_logo ? e.org_logo : placeholderImg;
+        const orgPath = "image_data/org_logo/";
+        document.getElementById('d_org_logo').src = e.org_logo ? orgPath + e.org_logo : orgPath + "profileImg.png   ";
 
         // Base Event Info
         document.getElementById('d_event_name').innerText = e.event_name;
@@ -606,13 +695,16 @@
         document.getElementById('d_loc_body').innerText = e.location;
 
         document.getElementById('d_cap').innerText = `${e.slot_taken || 0} / ${e.capacity}`;
-        document.getElementById('d_start').innerText = `${e.start_date} @ ${e.start_time}`;
-        document.getElementById('d_end').innerText = `${e.end_date} @ ${e.end_time}`;
-        document.getElementById('d_deadline').innerText = e.registration_deadline;
+
+        // Formatted Dates & Times
+        document.getElementById('d_start').innerText = `${formatDate(e.start_date)} @ ${formatTime(e.start_time)}`;
+        document.getElementById('d_end').innerText = `${formatDate(e.end_date)} @ ${formatTime(e.end_time)}`;
+        document.getElementById('d_deadline').innerText = formatDateTime(e.registration_deadline);
+
         document.getElementById('d_desc').innerText = e.description;
 
         // Missing Fields
-        document.getElementById('d_created').innerText = e.created_at || 'N/A';
+        document.getElementById('d_created').innerText = formatDateTime(e.created_at);
 
         const statusEl = document.getElementById('d_status');
         statusEl.innerText = e.status;
@@ -629,21 +721,19 @@
         document.getElementById('d_contact').innerText = e.org_contact_no;
 
         // Restrictions (with Program Translation logic)
-        // Restrictions (Using the backend's pre-translated data)
-        // Restrictions (Clean Comma-Separated format using PHP's output)
         try {
             const rest = JSON.parse(e.restrictions);
-            
+
             // Format Year Levels
-            document.getElementById('d_years').innerText = rest.year_level && rest.year_level.length > 0 
-                ? rest.year_level.join(', ') 
+            document.getElementById('d_years').innerText = rest.year_level && rest.year_level.length > 0
+                ? rest.year_level.join(', ')
                 : 'No restrictions';
-                
-            // Format Programs (Using the new array your PHP just built!)
+
+            // Format Programs
             document.getElementById('d_progs').innerText = e.program_names && e.program_names.length > 0
-                ? e.program_names.join(', ') 
+                ? e.program_names.join(', ')
                 : 'No restrictions';
-                
+
         } catch {
             document.getElementById('d_years').innerText = 'No restrictions';
             document.getElementById('d_progs').innerText = 'No restrictions';
