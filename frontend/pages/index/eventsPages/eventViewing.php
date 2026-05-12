@@ -160,6 +160,154 @@
         font-weight: 600;
         font-size: 13px;
     }
+    /* =========================
+   FEEDBACK SECTION
+========================= */
+.feedback-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid #edf2f7;
+}
+
+.feedback-header {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 20px;
+}
+
+.feedback-form {
+    background: white;
+    padding: 24px;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    display: none; /* Hidden by default, shown via JS */
+    border: 1px solid #edf2f7;
+}
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.star-rating input { display: none; }
+
+.star-rating label {
+    font-size: 28px;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #f59e0b; /* Amber color matching your rescheduled theme */
+}
+
+.feedback-input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color .2s;
+}
+
+.feedback-input:focus {
+    border-color: #3b82f6;
+}
+
+.submit-feedback-btn {
+    background: linear-gradient(135deg, #111827, #374151);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+
+.submit-feedback-btn:hover {
+    transform: translateY(-2px);
+}
+
+.comment-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #edf2f7;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.comment-user {
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #111827;
+}
+
+.comment-stars { 
+    color: #f59e0b; 
+    font-size: 14px; 
+}
+
+.comment-text {
+    margin-top: 10px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.comment-date {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 8px;
+}
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e2e8f0;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.user-info-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-full-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+.user-badge {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+}
 </style>
 
 <div class="container">
@@ -232,6 +380,26 @@
         <button class="register-btn" id="registerBtn" style="display:none;">Register Now</button>
         <button class="cancel-btn" id="cancelBtn" style="display:none;">Cancel Registration</button>
         <p class="restriction" id="restrictionMsg">⚠ You are restricted to register for this event.</p>
+    </div>
+    <div class="feedback-section">
+        <h2 class="feedback-header">Attendee Feedback</h2>
+
+        <form id="feedbackForm" class="feedback-form">
+            <div class="label" style="margin-bottom: 10px;">Rate your experience</div>
+            <div class="star-rating">
+                <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+                <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+                <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+                <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+            </div>
+            <textarea class="feedback-input" id="feedbackComment" rows="3" placeholder="What did you think of the event? Leave a comment..." required></textarea>
+            <button type="submit" class="submit-feedback-btn">Post Review</button>
+        </form>
+
+        <div id="feedbackList">
+            <p style="color: #64748b; font-size: 14px;">Loading reviews...</p>
+        </div>
     </div>
 </div>
 
@@ -437,5 +605,106 @@ btnCancelGlobal.addEventListener("click", async () => {
    INIT
 ------------------------------*/
 if (eventID) loadEvent();
+/* =========================
+   FEEDBACK LOGIC
+========================= */
+
+async function loadFeedback() {
+    const list = document.getElementById("feedbackList");
+    try {
+        const res = await fetch("backend/forBackendData/event_page/feedback_list.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ event_id: eventID })
+        });
+        const data = await res.json();
+
+        if (data.status && data.records.length > 0) {
+            list.innerHTML = data.records.map(f => {
+                // Formatting the user details from the table 
+                const fullName = `${f.first_name} ${f.last_name}`;
+                const profileImg = f.profile_pic ? `image_data/profile_pics/${f.profile_pic}` : 'image_data/profile_pics/default_user.png';
+                const yearLevel = f.year_level ? `${f.year_level} Year` : 'Alumni/Other';
+                
+                return `
+                <div class="comment-card">
+                    <div class="comment-header">
+                        <img src="${profileImg}" class="user-avatar" alt="User">
+                        <div class="user-info-meta">
+                            <span class="user-full-name">${safe(fullName)}</span>
+                            <span class="user-badge">${yearLevel} • ${safe(f.program_name)}</span>
+                        </div>
+                        <div style="margin-left: auto;">
+                             <span class="comment-stars">${"★".repeat(f.feedback_star)}${"☆".repeat(5 - f.feedback_star)}</span>
+                        </div>
+                    </div>
+                    <div class="comment-text">${safe(f.feedback_comment)}</div>
+                    <div class="comment-date">Reviewed on ${fmtDate(f.created_at)}</div>
+                </div>
+                `;
+            }).join('');
+        } else {
+            list.innerHTML = `<p style="color: #94a3b8; font-size: 14px; padding: 20px 0;">No reviews yet. Be the first to share your thoughts!</p>`;
+        }
+    } catch (err) {
+        list.innerHTML = `<p style="color: #ef4444;">Error loading reviews.</p>`;
+    }
+}
+
+// Check eligibility to show the form
+function checkFeedbackEligibility(eventStatus) {
+    const form = document.getElementById("feedbackForm");
+    if (isRegistered && (eventStatus || "").toLowerCase() === "finished") {
+        form.style.display = "block";
+    } else {
+        form.style.display = "none";
+    }
+}
+
+// Handle Form Submission
+document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const rating = document.querySelector('input[name="rating"]:checked')?.value;
+    const comment = document.getElementById("feedbackComment").value;
+
+    if (!rating) return alert("Please select a star rating!");
+
+    try {
+        const res = await fetch("backend/forBackendData/event_page/submit_feedback.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+                event_id: eventID, 
+                star: rating, 
+                comment: comment 
+            })
+        });
+
+        const data = await res.json();
+        if (data.status) {
+            alert("Thank you for your feedback!");
+            document.getElementById("feedbackForm").reset();
+            await loadFeedback(); // Reload the list to show the new comment
+        } else {
+            alert(data.message || "Failed to submit feedback.");
+        }
+    } catch (err) {
+        console.error("Feedback submit error:", err);
+        alert("An error occurred while submitting your feedback.");
+    }
+});
+
+// IMPORTANT: Hook the new functions into your existing loadEvent flow
+// We wrap the original loadEvent to ensure feedback loads right after it finishes.
+const originalLoadEvent = loadEvent;
+loadEvent = async () => {
+    await originalLoadEvent();
+    
+    // We need to grab the status again from the DOM since the variable is scoped inside loadEvent
+    const currentStatus = document.getElementById("eventStatus").textContent;
+    checkFeedbackEligibility(currentStatus);
+    loadFeedback();
+};
+loadEvent();
 
 </script>

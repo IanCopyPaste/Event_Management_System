@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2026 at 03:48 PM
+-- Generation Time: May 12, 2026 at 08:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -82,13 +82,13 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`event_id`, `org_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`) VALUES
-(3012, 1007, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-30', '08:00:00', '22:00:00', '2026-05-11 04:00:00', 100, 2, 'finished', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\"]}'),
-(3013, 1006, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-06-09 23:30:00', 150, 1, 'finished', 'event_69f06c468fe770.87522230.jpg', 'rejected', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
-(3014, 1007, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-11', '13:00:00', '18:00:00', '2026-05-07 16:20:00', 80, 3, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}'),
-(3015, 1006, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-21', '2026-06-21', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 1, 'closed', 'event_69f0701b28f664.48043394.jpg', 'for_reschedule', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}'),
+(3012, 1007, 'NEXUS EVENTS 1', 'Nexus is a centralized platform designed to connect people, ideas, and opportunities in one seamless ecosystem. It streamlines collaboration, enhances communication, and empowers users to manage events, organizations, and networks efficiently.', 'Cebu IT Park, Cebu City, Philippines', '2026-04-28', '2026-04-30', '08:00:00', '22:00:00', '2026-05-11 04:00:00', 100, 0, 'finished', 'event_69f027fc87ae82.27850266.jpg', 'approved', '2026-04-28 11:22:36', '{\"year_level\":[\"1st\"],\"programs\":[\"30\",\"23\"]}'),
+(3013, 1006, 'Tech Innovators Summit 2026', 'A gathering of students and professionals showcasing innovative technology projects, workshops, and networking opportunities.', 'UKE Main Auditorium', '2026-04-29', '2026-04-29', '07:00:00', '15:30:00', '2026-06-09 23:30:00', 150, 0, 'finished', 'event_69f06c468fe770.87522230.jpg', 'rejected', '2026-04-28 16:13:58', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
+(3014, 1007, 'Startup Pitch Fest', 'Students present startup ideas to a panel of judges and investors.', 'Business Hall Room 201', '2026-07-10', '2026-07-11', '13:00:00', '18:00:00', '2026-05-07 16:20:00', 80, 0, 'open', 'event_69f06d20307791.22978316.jpg', 'approved', '2026-04-28 16:17:36', '{\"year_level\":[],\"programs\":[]}'),
+(3015, 1006, 'Digital Arts Exhibit', 'Showcase of student digital artworks, animations, and multimedia projects.', 'Cultural Center Gallery', '2026-06-21', '2026-06-21', '10:00:00', '22:00:00', '2026-06-19 20:30:00', 200, 0, 'closed', 'event_69f0701b28f664.48043394.jpg', 'for_reschedule', '2026-04-28 16:30:19', '{\"year_level\":[],\"programs\":[]}'),
 (3016, 1008, 'Tech Innovators Summit 2026', 'sa dasdasda sdasdas dasdasdsd adasda sdasdas das', 'UKE Main Auditorium', '2026-05-04', '2026-05-04', '07:30:00', '17:00:00', '2026-05-03 00:35:00', 100, 0, 'open', 'event_69f57f5a01eeb3.42529704.jpg', 'approved', '2026-05-02 12:36:42', '{\"year_level\":[\"1st\",\"Alumni\"],\"programs\":[\"21\",\"22\"]}'),
 (3017, 1006, 'Engineering Week', 'Lorem Ipusm Lorem Ipusm Lorem Ipusm v Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm Lorem Ipusm', 'UKE Main Auditorium', '2026-05-13', '2026-05-13', '11:00:00', '19:00:00', '2026-05-11 23:00:00', 50, 0, 'rescheduled', 'event_69fd51ede4cd26.79096239.jpg', 'approved', '2026-05-08 11:01:01', '{\"year_level\":[\"2nd\"],\"programs\":[]}'),
-(3018, 1011, 'Join the Creatives', 'Be part of creative student society', 'QCU San Bartolome Campus', '2026-09-01', '2026-09-30', '07:00:00', '17:00:00', '2026-08-31 00:00:00', 100, 0, 'open', 'event_69fea059067e21.43324922.jpg', 'approved', '2026-05-09 10:47:53', '{\"year_level\":[\"Alumni\"],\"programs\":[]}'),
+(3018, 1011, 'Join the Creatives', 'Be part of creative student society', 'QCU San Bartolome Campus', '2026-09-01', '2026-09-30', '07:00:00', '17:00:00', '2026-08-31 00:00:00', 100, 2, 'finished', 'event_69fea059067e21.43324922.jpg', 'approved', '2026-05-09 10:47:53', '{\"year_level\":[\"Alumni\"],\"programs\":[]}'),
 (3019, 1006, 'Kalayaan Patungo sa Kinabukasan', 'ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ENPIE ', 'Rizal Luneta Park', '2026-05-14', '2026-05-14', '07:00:00', '22:00:00', '2026-05-12 23:50:00', 200, 0, 'open', 'event_69feada5bd0ed8.73051798.jpg', 'approved', '2026-05-09 11:44:37', '{\"year_level\":[\"1st\"],\"programs\":[\"26\",\"27\",\"28\",\"24\",\"25\"]}');
 
 -- --------------------------------------------------------
@@ -101,9 +101,18 @@ CREATE TABLE `feedbacks` (
   `feedback_id` int(11) NOT NULL,
   `event_id` int(11) DEFAULT NULL,
   `users_id` int(11) DEFAULT NULL,
-  `feedback_value` int(11) DEFAULT NULL,
-  `feedback_description` longtext DEFAULT NULL
+  `feedback_star` int(11) DEFAULT NULL,
+  `feedback_comment` text DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `feedbacks`
+--
+
+INSERT INTO `feedbacks` (`feedback_id`, `event_id`, `users_id`, `feedback_star`, `feedback_comment`, `created_at`) VALUES
+(1, 3013, 20200, 3, 'HELLO THIS IS A RANDOM ASS FEEDBACK FROM A GENRIC SITE MADE MY MEDIOCORE STUDENTS', '2026-05-13 01:12:15'),
+(2, 3018, 20200, 5, 'SOLID 100% PERCENT NAG KISS SI SHREK AT FIONA AT CODOG!', '2026-05-13 01:36:45');
 
 -- --------------------------------------------------------
 
@@ -255,13 +264,7 @@ CREATE TABLE `responses` (
 --
 
 INSERT INTO `responses` (`response_id`, `event_id`, `users_id`, `created_at`) VALUES
-(3008, 3014, 20202, '2026-04-30 04:35:49'),
-(3010, 3012, 20203, '2026-04-30 16:59:08'),
-(3011, 3014, 20203, '2026-04-30 16:59:30'),
-(3012, 3012, 20200, '2026-05-02 04:30:05'),
-(3016, 3014, 20200, '2026-05-05 03:55:56'),
-(3020, 3015, 30018, '2026-05-08 03:05:23'),
-(3021, 3013, 20200, '2026-05-09 04:33:46');
+(3026, 3018, 20200, '2026-05-12 17:33:10');
 
 -- --------------------------------------------------------
 
@@ -320,7 +323,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name`, `email`, `profile_pic`, `last_logged`, `status`, `created_at`, `password_hashed`, `year_level`, `program_id`, `contact_no`) VALUES
-(20200, NULL, 'Roger', 'Lance', NULL, 'adote.ronadrian.molleda@gmail.com', NULL, NULL, 'active', '2026-05-11 10:34:59', 'password123', '2nd', 22, '09703416914'),
+(20200, NULL, 'Roger', 'Lance', NULL, 'adote.ronadrian.molleda@gmail.com', 'user_20200_1778609836.jpg', NULL, 'active', '2026-05-12 18:17:16', '$2y$10$7ZAGnV3BUV/1jMAcJ7Jxse8yuFhf.lFaQxcI0sJjOPT', 'Alumni', 25, '09703416914'),
 (20202, 'client', 'John', 'Client', 'A.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-26', 'active', '2026-05-11 10:34:59', 'password123', NULL, NULL, '09703416914'),
 (20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-05-11 10:34:59', 'password123', 'Irregular', 21, '09703416914'),
 (20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', 'users_20204_1778495140.jpg', '2026-03-27', 'active', '2026-05-11 10:38:44', 'letmein', '2nd', 22, '09703416914'),
@@ -448,6 +451,12 @@ ALTER TABLE `events`
   MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3020;
 
 --
+-- AUTO_INCREMENT for table `feedbacks`
+--
+ALTER TABLE `feedbacks`
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `organizations`
 --
 ALTER TABLE `organizations`
@@ -475,7 +484,7 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3022;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3027;
 
 --
 -- AUTO_INCREMENT for table `sponsorships`

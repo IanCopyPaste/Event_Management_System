@@ -205,7 +205,7 @@
                     <p class="txtName">Santos, Ronald M.</p>
                     <p class="txtUserid">User ID: 20200</p>
                 </div>
-                <img src="frontend/assetsImages/organizerSide/profileImg.png" alt="UserIMG.jpeg">
+                <img src="<?= "image_data/user_pic/" . ($_SESSION["users_pic"] ?? "profileImg.png") ?>" alt="UserIMG.jpeg">
             </div>
         </div>
     </div>
