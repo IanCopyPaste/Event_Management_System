@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2026 at 11:11 AM
+-- Generation Time: May 13, 2026 at 06:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -78,7 +78,7 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`event_id`, `org_id`, `event_name`, `description`, `location`, `start_date`, `end_date`, `start_time`, `end_time`, `registration_deadline`, `capacity`, `slot_taken`, `status`, `event_bg_picture`, `approval_status`, `created_at`, `restrictions`) VALUES
-(3020, 1014, 'Tech Innovators Summit 2026', 'Tech Innovators Summit 2026 is an event focused on software development, cybersecurity, artificial intelligence, UI/UX design, and startup innovation. The event includes workshops, coding competitions, startup pitching, sponsor booths, and networking sessions with industry professionals.', 'UKE Main Auditorium', '2026-05-22', '2026-05-22', '07:00:00', '16:00:00', '2026-05-14 22:00:00', 30, 1, 'rescheduled', 'event_6a042fbb9e28b8.09129535.jpg', 'approved', '2026-05-13 16:00:59', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\",\"23\",\"29\"]}');
+(3020, 1014, 'Tech Innovators Summit 2026', 'Tech Innovators Summit 2026 is an event focused on software development, cybersecurity, artificial intelligence, UI/UX design, and startup innovation. The event includes workshops, coding competitions, startup pitching, sponsor booths, and networking sessions with industry professionals.', 'UKE Main Auditorium', '2026-05-22', '2026-05-22', '07:00:00', '16:00:00', '2026-05-14 22:00:00', 30, 0, 'open', 'event_6a042fbb9e28b8.09129535.jpg', 'approved', '2026-05-13 16:00:59', '{\"year_level\":[\"Alumni\"],\"programs\":[\"21\",\"22\",\"23\",\"29\"]}');
 
 -- --------------------------------------------------------
 
@@ -189,13 +189,6 @@ CREATE TABLE `responses` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `responses`
---
-
-INSERT INTO `responses` (`response_id`, `event_id`, `users_id`, `created_at`) VALUES
-(3030, 3020, 20200, '2026-05-13 09:08:57');
-
 -- --------------------------------------------------------
 
 --
@@ -250,7 +243,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`users_id`, `role`, `first_name`, `last_name`, `middle_name`, `email`, `profile_pic`, `last_logged`, `status`, `created_at`, `password_hashed`, `year_level`, `program_id`, `contact_no`) VALUES
-(20200, 'client', 'Roger', 'Lance', NULL, 'adote.ronadrian.molleda@gmail.com', 'user_20200_1778609836.jpg', NULL, 'active', '2026-05-13 08:54:10', 'null123', '2nd', 25, '09703416914'),
+(20200, 'client', 'Roger', 'Lance', NULL, 'adote.ronadrian.molleda@gmail.com', 'user_20200_1778609836.jpg', NULL, 'active', '2026-05-13 16:32:08', 'null123', '2nd', 25, '09703416914'),
 (20202, 'client', 'John', 'Client', 'A.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-26', 'active', '2026-05-11 10:34:59', 'password123', NULL, NULL, '09703416914'),
 (20203, 'client', 'Anna', 'Reyes', 'C.', 'adote.ronadrian.molleda@gmail.com', NULL, '2026-03-20', 'active', '2026-05-11 10:34:59', 'password123', 'Irregular', 21, '09703416914'),
 (20204, 'admin', 'Kevin', 'Lopez', 'R.', 'adote.ronadrian.molleda@gmail.com', 'users_20204_1778495140.jpg', '2026-03-27', 'active', '2026-05-11 10:38:44', 'letmein', '2nd', 22, '09703416914'),
@@ -395,7 +388,7 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3031;
+  MODIFY `response_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3032;
 
 --
 -- AUTO_INCREMENT for table `sponsorships`

@@ -29,7 +29,7 @@ if (mysqli_stmt_execute($stmt)) {
     // --- STEP-BY-STEP VERIFICATION ---
 
     // 1. Check Event Status
-    if ($row["status"] === "finished" || $row["status"] === "ongoing") {
+    if ($row["status"] === "finished" || $row["status"] === "ongoing" || $row["status"] === "closed" || $row["status"] === "cancelled" ) {
         echo json_encode([
             "status" => true,
             "reason" => "status",
@@ -60,9 +60,9 @@ if (mysqli_stmt_execute($stmt)) {
 
     // 4. Check Program Restriction
     // Logic: If the restriction list is NOT empty and user is NOT in it
-    if (!empty($restrict["programs"]) && !in_array($userProgram, $restrict["programs"])) {
+    if (in_array($userProgram, $restrict["programs"])) {
         echo json_encode([
-            "status" => false,
+            "status" => true,
             "reason" => "program",
             "message" => "This event is not open to your specific academic program."
         ]);
@@ -70,7 +70,7 @@ if (mysqli_stmt_execute($stmt)) {
     }
 
     // 5. Check Year Level Restriction
-    if (!empty($restrict["year_level"]) && !in_array($userYear, $restrict["year_level"])) {
+    if (in_array($userYear, $restrict["year_level"])) {
         echo json_encode([
             "status" => true,
             "reason" => "year_level",

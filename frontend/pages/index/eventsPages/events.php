@@ -117,6 +117,9 @@
     .status-rescheduled {
         background: var(--color-rescheduled);
     }
+    .status-cancelled {
+        background-color: black;
+    }
 
     .content {
         padding: 20px;
@@ -215,7 +218,8 @@
             'closed': 'status-closed',
             'ongoing': 'status-ongoing',
             'finished': 'status-finished',
-            'rescheduled': 'status-rescheduled'
+            'rescheduled': 'status-rescheduled',
+            'cancelled': 'status-cancelled'
         };
         return map[s] || 'status-open';
     }

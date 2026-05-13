@@ -88,6 +88,12 @@
     .status-finished {
         background: #6b7280;
     }
+    .status-resched {
+        background: #d67d00;
+    }
+    .status-cancelled {
+        background: #000000;
+    }
 
     .grid {
         display: grid;
@@ -429,6 +435,8 @@ function getStatusClass(s) {
         case "closed": return "status-closed";
         case "ongoing": return "status-ongoing";
         case "finished": return "status-finished";
+        case "rescheduled": return "status-resched";
+        case "cancelled": return "status-cancelled";
         default: return "status-open";
     }
 }
