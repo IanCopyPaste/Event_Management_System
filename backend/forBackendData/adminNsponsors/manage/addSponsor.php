@@ -36,7 +36,6 @@ $password = password_hash(
     PASSWORD_BCRYPT
 );
 
-$approval_status = $_POST["approval_status"] ?? "pending";
 $status = $_POST["status"] ?? "activated";
 
 $checkStmt = $conn->prepare("
@@ -71,7 +70,7 @@ $sponsor_logo = null;
 
 if (!empty($_FILES["sponsor_logo"]["name"])) {
 
-    $uploadDir = "../../../../uploads/sponsor_logos/";
+    $uploadDir = "../../../../image_data/sponsor_logo/";
 
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0755, true);
@@ -113,17 +112,16 @@ $stmt = $conn->prepare("
         password,
         company_name,
         company_address,
-        approval_status,
         status
     )
     VALUES (
         ?, ?, ?, NOW(),
-        ?, ?, ?, ?, ?, ?
+        ?, ?, ?, ?, ?
     )
 ");
 
 $stmt->bind_param(
-    "sssssssss",
+    "ssssssss", 
     $sponsor_logo,
     $sponsor_email,
     $sponsor_contact_no,
@@ -131,7 +129,6 @@ $stmt->bind_param(
     $password,
     $company_name,
     $company_address,
-    $approval_status,
     $status
 );
 

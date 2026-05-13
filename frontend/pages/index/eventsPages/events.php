@@ -67,6 +67,7 @@
     }
 
     .card:hover {
+        cursor: pointer;
         transform: translateY(-8px);
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     }

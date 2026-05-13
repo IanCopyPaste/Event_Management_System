@@ -61,6 +61,9 @@ if ($page === "org" && !isset($_SESSION["users_id"])) {
         case 'eventView':
             include('frontend/pages/index/eventsPages/eventViewing.php');
             break;
+        case 'orgs':
+            include('frontend/pages/index/accredOrgs.php');
+            break;
 
         default:
             echo "Page not found";

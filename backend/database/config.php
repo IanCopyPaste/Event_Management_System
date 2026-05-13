@@ -2,7 +2,7 @@
 $DB_server = "localhost";
 $DB_user = "root";
 $DB_password = "";
-$DB_database = "event_system_g5";
+$DB_database = "event_backup";
 
 $conn = mysqli_connect($DB_server, $DB_user, $DB_password, $DB_database);
 

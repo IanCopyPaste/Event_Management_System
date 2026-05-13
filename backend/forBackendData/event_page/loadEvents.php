@@ -2,7 +2,7 @@
     include("../../database/config.php");
     header("Content-Type: application/json");
 
-    $query = "select e.*, o.org_logo, o.org_name from events e join organizations o ON e.org_id = o.org_id";
+    $query = "select e.*, o.org_logo, o.org_name from events e join organizations o ON e.org_id = o.org_id where e.approval_status = 'approved'";
     $result = mysqli_query($conn, $query);
 
     $events = [];

@@ -479,7 +479,6 @@ async function submitAddSponsor() {
     const formData = new FormData();
     Object.entries(fields).forEach(([k, v]) => formData.append(k, v));
     formData.append("company_address",  document.getElementById("add_company_address").value.trim());
-    formData.append("approval_status",  document.getElementById("add_approval_status").value);
     formData.append("status",           document.getElementById("add_status").value);
 
     const logoFile = document.getElementById("add_sponsor_logo").files[0];

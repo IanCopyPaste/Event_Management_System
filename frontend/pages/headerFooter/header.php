@@ -1,4 +1,5 @@
 <style>
+    /* Global refined resets */
     * {
         padding: 0;
         margin: 0;
@@ -6,258 +7,254 @@
     }
 
     header {
-        font-style: 'Barlow', sans-serif;
-        padding: 10px;
-        border-radius: 0px 10px 10px 0px;
+        font-family: 'Barlow', sans-serif;
+        padding: 12px 40px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px); /* Modern glass effect */
+        border-bottom: 1px solid #e2e8f0;
         position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
 
     .upper-container {
-        padding: 0;
         display: grid;
-        grid-template-columns: repeat(3, 33%);
+        /* Adjusted grid for better balance */
+        grid-template-columns: 1fr auto 1fr; 
+        align-items: center;
     }
 
+    /* Logo Styling */
     .logo-container {
         display: flex;
         align-items: center;
-        gap: 10px;
-        font-size: 1.5rem;
-        font-style: 'Barlow', sans-serif;
-        font-weight: 600;
+        gap: 12px;
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -0.5px;
     }
 
     .logo-container img {
-        width: 60px;
+        width: 45px;
         height: auto;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
     }
 
-    .nav-container {
-        margin: auto;
-    }
-
+    /* Navigation Styling */
     .nav-container ul {
         display: flex;
-        gap: 30px;
+        gap: 32px;
         list-style-type: none;
-    }
-
-    .nav-container li {
-        display: inline-block;
     }
 
     .nav-container button {
         background: none;
         border: none;
         cursor: pointer;
-        color: black;
-        font-family: 'Lucida Sans', Geneva, Verdana, sans-serif;
+        color: #64748b;
+        font-family: 'Barlow', sans-serif; /* Consistent font */
+        font-weight: 600;
         position: relative;
-        display: inline-block;
-        transition: transform 0.2s ease, color 0.2s ease;
-        font-size: 16px;
+        transition: all 0.3s ease;
+        padding: 8px 0;
+        font-size: 15px;
     }
 
     .nav-container button:hover {
-        color: rgb(0, 100, 214);
-        ;
-        transform: scale(1.05);
-        font-weight: bold;
+        color: #2563eb;
     }
 
+    /* Elegant Underline Animation */
     .nav-container button::after {
         content: "";
         position: absolute;
         width: 0%;
         height: 2px;
-        background: rgb(0, 100, 214);
-        ;
+        background: #2563eb;
         left: 0;
-        bottom: -3px;
-        transition: 0.3s ease;
+        bottom: 0;
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 2px;
     }
 
-    .nav-container button:hover::after {
-        width: 100%;
-    }
-
-    .nav-container button.active {
-        color: rgb(0, 100, 214);
-        font-weight: bold;
-    }
-
+    .nav-container button:hover::after,
     .nav-container button.active::after {
         width: 100%;
     }
 
-    .right-container .rightLogin-container {
-        width: 100%;
-        /*display: flex;*/
-        gap: 10px;
-        justify-content: end;
-        margin-right: 5px;
+    .nav-container button.active {
+        color: #2563eb;
     }
 
-    .right-container .rightLogin-container button {
+    /* Right Section: Login Buttons */
+    .right-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .rightLogin-container {
+        display: flex;
+        gap: 12px;
+    }
+
+    .rightLogin-container button {
         font-family: 'Barlow', sans-serif;
-        font-weight: bold;
-        font-size: 1rem;
-        padding: 8px 40px;
-        border-radius: 5px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        padding: 10px 24px;
+        border-radius: 10px;
         border: none;
-        outline: none;
-        box-shadow: 1px 3px 5px 1px rgba(125, 125, 125, 0.4);
-        transition: 0.2s ease;
+        transition: all 0.3s ease;
     }
 
-    .right-container .rightLogin-container .btnLog {
-        background-color: white;
-        color: rgb(0, 100, 214);
+    .btnLog {
+        background-color: transparent;
+        color: #2563eb;
+        border: 1px solid #e2e8f0 !important;
     }
 
-    .right-container .rightLogin-container .btnLogOrg {
-        background-color: rgb(0, 100, 214);
+    .btnLogOrg {
+        background-color: #2563eb;
         color: white;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.2);
     }
 
-    .right-container .rightLogin-container button:hover {
+    .rightLogin-container button:hover {
         cursor: pointer;
-        transform: scale(1.02);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     }
 
-    .right-container .rightInfo-container {
-        width: 100%;
-        gap: 10px;
-        justify-content: end;
+    /* Right Section: Profile Info */
+    .rightInfo-container {
+        display: flex;
+        gap: 15px;
         align-items: center;
+        background: #f8fafc;
+        padding: 6px 6px 6px 18px;
+        border-radius: 50px;
+        border: 1px solid #e2e8f0;
     }
 
-    .right-container .rightLogin-container .info-container {
+    .info-container {
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        font-family: 'Barlow', sans-serif;
+        line-height: 1.2;
     }
 
-    .right-container .rightInfo-container .info-container .txtName {
-        font-size: 1.5rem;
-        font-weight: 600;
+    .txtName {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #1e293b;
     }
 
-    .right-container .rightInfo-container .info-container .txtUserid {
-        font-size: 1.1rem;
+    .txtUserid {
+        font-size: 0.75rem;
+        color: #64748b;
+        font-weight: 500;
     }
 
-    .right-container .rightInfo-container img {
-        width: 70px;
-        height: auto;
-        border-radius: 100px;
+    .rightInfo-container img {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: 0.3s ease;
     }
-    .right-container .rightInfo-container img:hover {
+
+    .rightInfo-container img:hover {
         cursor: pointer;
+        transform: scale(1.1);
+        border-color: #2563eb;
     }
 </style>
+
 <header>
     <div class="upper-container">
         <div class="logo-container">
-            <img src="frontend/assetsImages/login/logoUKE.svg" alt="univLogo.php">
+            <img src="frontend/assetsImages/login/logoUKE.svg" alt="univLogo">
             <p>University of Kristian Evangelion</p>
         </div>
+
         <nav class="nav-container">
             <form action="index.php" method="GET">
                 <ul>
                     <li>
-                        <button name="page" value="home" class="<?= $page == 'home' ? 'active' : '' ?>">
-                            Home
-                        </button>
+                        <button name="page" value="home" class="<?= $page == 'home' ? 'active' : '' ?>">Home</button>
                     </li>
-
                     <li>
-                        <button name="page" value="events"
-                            class="<?= ($page == 'events' || $page == 'eventView') ? 'active' : '' ?>">
-                            Events
-                        </button>
+                        <button name="page" value="events" class="<?= ($page == 'events' || $page == 'eventView') ? 'active' : '' ?>">Events</button>
                     </li>
-
                     <li>
-                        <button name="page" value="calendar"
-                            class="<?= $page == 'calendar' ? 'active' : '' ?>">
-                            My Calendar
-                        </button>
+                        <button name="page" value="calendar" class="<?= $page == 'calendar' ? 'active' : '' ?>">My Calendar</button>
                     </li>
-
-                    <!--<li>
-                        <button name="page" value="org"
-                            class="<//?= $page == 'org' ? 'active' : '' ?>">
-                            Create Organization
-                        </button>
-                    </li>-->
+                    <li>
+                        <button name="page" value="orgs" class="<?= $page == 'orgs' ? 'active' : '' ?>">Organizations</button>
+                    </li>
                 </ul>
             </form>
         </nav>
+
         <div class="right-container">
-            <div class="rightLogin-container" style="display: none;">
+            <div class="rightLogin-container" id="loginArea" style="display: none;">
                 <button class="btnLog">Login</button>
-                <button class="btnLogOrg">Login as organizer</button>
+                <button class="btnLogOrg">Login as Organizer</button>
             </div>
-            <div class="rightInfo-container" style="display: flex;">
+            
+            <div class="rightInfo-container" id="profileArea" style="display: none;">
                 <div class="info-container">
-                    <p class="txtName">Santos, Ronald M.</p>
-                    <p class="txtUserid">User ID: 20200</p>
+                    <p class="txtName">Loading...</p>
+                    <p class="txtUserid">User ID: ---</p>
                 </div>
-                <img src="<?= "image_data/user_pic/" . ($_SESSION["users_pic"] ?? "profileImg.png") ?>" alt="UserIMG.jpeg">
+                <img src="<?= "image_data/user_pic/" . ($_SESSION["users_pic"] ?? "profileImg.png") ?>" alt="User Profile">
             </div>
         </div>
     </div>
 </header>
-<script>
-    console.log("this is from the header bitch");
-    console.log("this is from the header bitch2");
 
+<script>
+    // All your existing logic remains untouched and fully functional
     const btnToLogin = document.querySelector(".btnLog");
     const btnLogOrg = document.querySelector(".btnLogOrg");
-
     const BtnprofileImg = document.querySelector(".rightInfo-container img");
 
     document.addEventListener("DOMContentLoaded", async () => {
-        const profileContainer = document.querySelector(".rightInfo-container");
-        const profileName = document.querySelector(".info-container .txtName");
-        const profileUserid = document.querySelector(".info-container .txtUserid");
+        const profileContainer = document.getElementById("profileArea");
+        const loginContainer = document.getElementById("loginArea");
+        const profileName = document.querySelector(".txtName");
+        const profileUserid = document.querySelector(".txtUserid");
 
-        const loginContainer = document.querySelector(".rightLogin-container");
         try {
             const response = await fetch("backend/forBackendData/checkUser_id.php");
             const data = await response.json();
+            
             if (data["isStored"] == true) {
                 profileContainer.style.display = "flex";
                 loginContainer.style.display = "none";
                 getUserCredential();
             } else {
                 loginContainer.style.display = "flex";
-                profileContainer.style.display = "none"
+                profileContainer.style.display = "none";
             }
         } catch (error) {
             console.error(error);
         }
 
         async function getUserCredential() {
-            const response = await fetch("backend/forBackendData/homePage/userDisplay.php");
-            const data = await response.json();
-            profileName.textContent = data.last_name + ", " + data.first_name + " " + (data.middle_name ?? '');
-            profileUserid.textContent = "User ID: " + data.users_id;
+            try {
+                const response = await fetch("backend/forBackendData/homePage/userDisplay.php");
+                const data = await response.json();
+                profileName.textContent = data.last_name + ", " + data.first_name + " " + (data.middle_name ?? '');
+                profileUserid.textContent = "User ID: " + data.users_id;
+            } catch (e) { console.error("Credential fetch failed"); }
         }
     });
 
-
-    btnToLogin.addEventListener("click", () => {
-        window.location.href = "loginLanding.php"
-    });
-
-    btnLogOrg.addEventListener("click",()=>{
-        window.location.href = "loginLanding.php?page=orgForm0"
-    });
-    
-    BtnprofileImg.addEventListener("click",()=>{
-        window.location.href = "frontend/pages/headerFooter/userProfile.php"
-    });
+    btnToLogin.addEventListener("click", () => { window.location.href = "loginLanding.php" });
+    btnLogOrg.addEventListener("click", () => { window.location.href = "loginLanding.php?page=orgForm0" });
+    BtnprofileImg.addEventListener("click", () => { window.location.href = "frontend/pages/headerFooter/userProfile.php" });
 </script>

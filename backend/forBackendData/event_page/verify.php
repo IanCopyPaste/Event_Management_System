@@ -62,7 +62,7 @@ if (mysqli_stmt_execute($stmt)) {
     // Logic: If the restriction list is NOT empty and user is NOT in it
     if (!empty($restrict["programs"]) && !in_array($userProgram, $restrict["programs"])) {
         echo json_encode([
-            "status" => true,
+            "status" => false,
             "reason" => "program",
             "message" => "This event is not open to your specific academic program."
         ]);

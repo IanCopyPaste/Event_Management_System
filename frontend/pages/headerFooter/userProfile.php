@@ -205,7 +205,11 @@
 </head>
 
 <body>
-
+    <div class="back-nav-container" style="max-width: 900px; margin: 1rem auto 0; padding: 0 1.5rem;">
+        <button onclick="window.location.href='../../../index.php'" style="display: flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; font-weight: 600; color: #4b5563;">
+            <i data-lucide="arrow-left"></i> Go Back
+        </button>
+    </div>
     <div class="main-container">
         <section class="profile-header">
             <div class="avatar-container">
@@ -290,14 +294,9 @@
             </div>
         </div>
     </div>
-    <div class="back-nav-container" style="max-width: 900px; margin: 1rem auto 0; padding: 0 1.5rem;">
-        <button onclick="window.location.href='../../../index.php'" style="display: flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; font-weight: 600; color: #4b5563;">
-            <i data-lucide="arrow-left"></i> Go Back
-        </button>
-    </div>
 
     <script>
-        async function logout(){
+        async function logout() {
             const r = await fetch("../../../backend/forBackendData/logout.php");
             const d = await r.json();
             alert(d.message);
