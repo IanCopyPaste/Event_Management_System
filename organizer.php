@@ -75,6 +75,9 @@ $page = $_GET["organizerPages"] ?? 'eventsDash';
             case 'sponsorApply':
                 include("frontend/pages/organizerPages/sponsorDash/sponsorApply.php");
                 break;
+            case 'responses':
+                include("frontend/pages/organizerPages/responsesDash/responses.php");
+                break;
             case 'settingsDash':
                 include("frontend/pages/organizerPages/settings.php");
                 break;

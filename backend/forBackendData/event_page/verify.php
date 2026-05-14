@@ -64,7 +64,8 @@ if (mysqli_stmt_execute($stmt)) {
         echo json_encode([
             "status" => true,
             "reason" => "program",
-            "message" => "This event is not open to your specific academic program."
+            "message" => "This event is not open to your specific academic program.",
+            "program" => $restrict["programs"]
         ]);
         exit;
     }
