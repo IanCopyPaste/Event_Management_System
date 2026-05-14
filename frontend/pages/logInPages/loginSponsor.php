@@ -4,7 +4,7 @@
             <<button>
     </div>
     <h2></h2>
-    <p style="color: red; text-align: center;">Only verified sponsor accounts can login.</p>
+    <p style="color: red; text-align: center;">Only verified sponsor/s by the Student Affairs Office can login.</p>
     <h1>Hello Sponsor! Login Now!</h1>
     <div class="input-container">
         <div class="txtBoxes-container">

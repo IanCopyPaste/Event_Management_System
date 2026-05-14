@@ -448,14 +448,14 @@
                         <h4>🎁 Your Package Info</h4>
                     </div>
                     <div class="info-row"><strong>Package:</strong> <span id="d_pkg_name"></span></div>
-                    <div class="info-row"><strong>Approval:</strong> <span id="d_pkg_approval" class="badge"></span></div>
+                    <div class="info-row"><strong>Approval Status:</strong> <span id="d_pkg_approval" class="badge"></span></div>
                     <div class="info-row"><strong>Live Status:</strong> <span id="d_pkg_status" class="badge"></span></div>
                     <div style="margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 10px;">
                         <strong>Description:</strong>
                         <p id="d_pkg_desc" style="font-size: 0.9rem; color: #475569; margin-top: 5px;"></p>
                     </div>
                     <div style="margin-top: 15px;">
-                        <strong style="color: var(--text-main);">✨ Package Benefits:</strong>
+                        <strong style="color: var(--text-main);">✨ What we Offer:</strong>
                         <ul id="d_pkg_benefits" class="majestic-list"></ul>
                     </div>
                 </div>
@@ -469,11 +469,11 @@
                     <div class="info-row"><strong>Email:</strong> <span id="d_org_email"></span></div>
                     <div class="info-row" style="margin-bottom: 15px;"><strong>Contact:</strong> <span id="d_org_contact"></span></div>
 
-                    <div class="info-row"><strong>Event Approval:</strong> <span id="d_evt_approval" class="badge"></span></div>
+                    <div class="info-row"><strong>Event Approval Status:</strong> <span id="d_evt_approval" class="badge"></span></div>
 
                     <div class="info-row"><strong>Event Status:</strong> <span id="d_evt_status" class="badge"></span></div>
-                    <div class="info-row"><strong>Start:</strong> <span id="d_start"></span></div>
-                    <div class="info-row"><strong>End:</strong> <span id="d_end"></span></div>
+                    <div class="info-row"><strong>Start Date:</strong> <span id="d_start"></span></div>
+                    <div class="info-row"><strong>End Date:</strong> <span id="d_end"></span></div>
                     <div class="info-row"><strong>Capacity:</strong> <span id="d_cap"></span></div>
                 </div>
             </div>

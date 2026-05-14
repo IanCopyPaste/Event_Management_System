@@ -281,12 +281,15 @@
 <script>
     let currentEvents = [];
     let programMap = {};
-
+    
     async function fetchData() {
         const res = await fetch('backend/forBackendData/organizerNevents/manage/fetch_events.php');
         const data = await res.json();
         currentEvents = data.events;
-        data.programs.forEach(p => programMap[p.program_id] = p.prog_abbreviation);
+        
+        // FIXED: Changed p.prog_abbreviation to p.prog_abv to match your JSON payload
+        data.programs.forEach(p => programMap[p.program_id] = p.prog_abv);
+        
         renderTable();
     }
 
@@ -322,6 +325,8 @@
 
         const rest = JSON.parse(e.restrictions);
         document.getElementById('m_year_list').innerHTML = rest.year_level.map(y => `<span class="tag">${y}</span>`).join('') || 'None';
+        
+        // This will now successfully pull the abbreviation from programMap
         document.getElementById('m_prog_list').innerHTML = rest.programs.map(p => `<span class="tag">${programMap[p] || p}</span>`).join('') || 'None';
 
         const isPending = e.approval_status === 'pending';
@@ -362,10 +367,10 @@
 
     async function submitUpdate(id, action) {
         if(document.getElementById('m_cap').value > 500 || document.getElementById('m_cap').value < 0) {
-            alert("Capacity cannot be less than 0. or greater than 500.");
+            alert("Capacity cannot be less than 0 or greater than 500.");
             return;
-
         }
+        
         const payload = {
             event_id: id,
             action: action,
@@ -397,6 +402,7 @@
     function closeModal() {
         document.getElementById('eventModal').style.display = 'none';
     }
+    
     fetchData();
     setInterval(fetchData, 60000);
 </script>
