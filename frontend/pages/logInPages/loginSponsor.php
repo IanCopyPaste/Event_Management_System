@@ -4,6 +4,7 @@
             <<button>
     </div>
     <h2></h2>
+    <p style="color: red; text-align: center;">Only verified sponsor accounts can login.</p>
     <h1>Hello Sponsor! Login Now!</h1>
     <div class="input-container">
         <div class="txtBoxes-container">
@@ -83,4 +84,15 @@
     btn_back.addEventListener("click", () => {
         window.location.href = "loginLanding.php?page=login0"
     });
+
+// Function to handle the Enter key press
+window.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        // Prevents default behavior (like form submission if inside a <form> tag)
+        event.preventDefault(); 
+        // Triggers the login function directly
+        login();
+    }
+});
+
 </script>

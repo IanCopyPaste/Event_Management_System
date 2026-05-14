@@ -122,7 +122,7 @@ if(!isset($_SESSION["sponsor_id"])){
     
     <form action="sponsor.php" method="GET">
         <button name="SponPage" value="applications" id="<?= $sponPage == 'applications' ? 'admin-active' : ''?>">Manage Packages</button>
-        <button name="SponPage" value="packages" id="<?= $sponPage == 'packages' ? 'admin-active' : ''?>">Apply Packages</button>
+        <button name="SponPage" value="packages" id="<?= $sponPage == 'packages' ? 'admin-active' : ''?>">Sponsor Event/s</button>
         <button name="SponPage" value="settings" id="<?= $sponPage == 'settings' ? 'admin-active' : ''?>">Profile</button>
     </form>
 </div>
