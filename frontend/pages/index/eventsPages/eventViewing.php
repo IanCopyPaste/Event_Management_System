@@ -314,6 +314,132 @@
     color: #64748b;
     font-weight: 600;
 }
+
+/* =========================
+   REGISTRATION CONFIRMATION MODAL
+========================= */
+.confirm-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+    backdrop-filter: blur(2px);
+}
+
+.confirm-modal-box {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.confirm-modal-box h3 {
+    font-size: 20px;
+    color: #111827;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.confirm-modal-box p {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.confirm-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.confirm-modal-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.confirm-modal-btn.yes {
+    background: #22c55e;
+    color: white;
+}
+
+.confirm-modal-btn.yes:hover {
+    background: #16a34a;
+}
+
+/* Crimson styling for Cancellation confirmation button */
+.confirm-modal-btn.cancel-yes {
+    background: #ef4444;
+    color: white;
+}
+
+.confirm-modal-btn.cancel-yes:hover {
+    background: #dc2626;
+}
+
+.confirm-modal-btn.no {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.confirm-modal-btn.no:hover {
+    background: #cbd5e1;
+}
+
+/* =========================
+   SUCCESS STATUS MODALS
+========================= */
+.success-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.success-icon-circle {
+    width: 64px;
+    height: 64px;
+    background-color: #dcfce7;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #16a34a;
+    font-size: 32px;
+    font-weight: bold;
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cancel-success-icon-circle {
+    width: 64px;
+    height: 64px;
+    background-color: #fee2e2;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #dc2626;
+    font-size: 32px;
+    font-weight: bold;
+    animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
 </style>
 
 <div class="container">
@@ -387,6 +513,7 @@
         <button class="cancel-btn" id="cancelBtn" style="display:none;">Cancel Registration</button>
         <p class="restriction" id="restrictionMsg">⚠ You are restricted to register for this event.</p>
     </div>
+    
     <div class="feedback-section">
         <h2 class="feedback-header">Attendee Feedback</h2>
 
@@ -409,12 +536,74 @@
     </div>
 </div>
 
+<div class="confirm-modal-overlay" id="confirmModal">
+    <div class="confirm-modal-box">
+        <h3>Confirm Registration</h3>
+        <p>Are you sure you want to register for this event? Please verify your availability before finalizing.</p>
+        <div class="confirm-modal-actions">
+            <button class="confirm-modal-btn no" id="confirmNoBtn">Cancel</button>
+            <button class="confirm-modal-btn yes" id="confirmYesBtn">Yes, Register</button>
+        </div>
+    </div>
+</div>
+
+<div class="confirm-modal-overlay" id="cancelConfirmModal">
+    <div class="confirm-modal-box">
+        <h3>Cancel Registration</h3>
+        <p>Are you sure you want to cancel your registration? This action will surrender your slot back to the capacity pool.</p>
+        <div class="confirm-modal-actions">
+            <button class="confirm-modal-btn no" id="cancelConfirmNoBtn">Go Back</button>
+            <button class="confirm-modal-btn cancel-yes" id="cancelConfirmYesBtn">Yes, Remove Me</button>
+        </div>
+    </div>
+</div>
+
+<div class="confirm-modal-overlay" id="successModal">
+    <div class="confirm-modal-box">
+        <div class="success-icon-wrapper">
+            <div class="success-icon-circle">✓</div>
+        </div>
+        <h3>Success!</h3>
+        <p>You are now registered!</p>
+        <div class="confirm-modal-actions">
+            <button class="confirm-modal-btn yes" id="successDoneBtn" style="padding: 10px 32px;">OK</button>
+        </div>
+    </div>
+</div>
+
+<div class="confirm-modal-overlay" id="cancelSuccessModal">
+    <div class="confirm-modal-box">
+        <div class="success-icon-wrapper">
+            <div class="cancel-success-icon-circle">✓</div>
+        </div>
+        <h3>Cancelled Successfully</h3>
+        <p>Your registration has been removed.</p>
+        <div class="confirm-modal-actions">
+            <button class="confirm-modal-btn cancel-yes" id="cancelSuccessDoneBtn" style="padding: 10px 32px;">OK</button>
+        </div>
+    </div>
+</div>
+
 <script>
 const params = new URLSearchParams(window.location.search);
 const eventID = params.get("eventID");
 
 const btnRegister = document.querySelector(".register-btn");
 const btnCancelGlobal = document.querySelector(".cancel-btn");
+
+const confirmModal = document.getElementById("confirmModal");
+const confirmYesBtn = document.getElementById("confirmYesBtn");
+const confirmNoBtn = document.getElementById("confirmNoBtn");
+
+const cancelConfirmModal = document.getElementById("cancelConfirmModal");
+const cancelConfirmYesBtn = document.getElementById("cancelConfirmYesBtn");
+const cancelConfirmNoBtn = document.getElementById("cancelConfirmNoBtn");
+
+const successModal = document.getElementById("successModal");
+const successDoneBtn = document.getElementById("successDoneBtn");
+
+const cancelSuccessModal = document.getElementById("cancelSuccessModal");
+const cancelSuccessDoneBtn = document.getElementById("cancelSuccessDoneBtn");
 
 let isRestricted = true;
 let isRegistered = true;
@@ -442,7 +631,7 @@ function getStatusClass(s) {
 }
 
 /* -----------------------------
-   VERIFY RESTRICTIONS
+    VERIFY RESTRICTIONS
 ------------------------------*/
 async function verifyRestriction(event_id) {
     const res = await fetch("backend/forBackendData/event_page/verify.php", {
@@ -456,7 +645,7 @@ async function verifyRestriction(event_id) {
 }
 
 /* -----------------------------
-   VERIFY REGISTRATION
+    VERIFY REGISTRATION
 ------------------------------*/
 async function verifyRegistration() {
     const response = await fetch("backend/forBackendData/event_page/verifyRegs.php", {
@@ -470,7 +659,7 @@ async function verifyRegistration() {
 }
 
 /* -----------------------------
-   LOAD EVENT (FIXED)
+    LOAD EVENT (FIXED)
 ------------------------------*/
 async function loadEvent() {
     try {
@@ -487,7 +676,6 @@ async function loadEvent() {
             return;
         }
 
-        // SAFE: supports object OR array
         const r = Array.isArray(data.records)
             ? data.records[0]
             : data.records;
@@ -532,7 +720,7 @@ async function loadEvent() {
         const btnCancel = document.getElementById("cancelBtn");
 
         /* -------------------------
-           REGISTERED STATE UI
+            REGISTERED STATE UI
         --------------------------*/
         if (isRegistered) {
             btn.style.display = "none";
@@ -543,7 +731,7 @@ async function loadEvent() {
         }
 
         /* -------------------------
-           RESTRICTION UI LOCK
+            RESTRICTION UI LOCK
         --------------------------*/
         if (isRestricted) {
             msg.style.display = "block";
@@ -570,9 +758,22 @@ async function loadEvent() {
 }
 
 /* -----------------------------
-   REGISTER BUTTON
+    REGISTER BUTTON INTERCEPT
 ------------------------------*/
-btnRegister.addEventListener("click", async () => {
+btnRegister.addEventListener("click", () => {
+    confirmModal.style.display = "flex";
+});
+
+/* -----------------------------
+    REGISTRATION CONFIRMATION ACTION
+------------------------------*/
+confirmNoBtn.addEventListener("click", () => {
+    confirmModal.style.display = "none";
+});
+
+confirmYesBtn.addEventListener("click", async () => {
+    confirmModal.style.display = "none"; 
+    
     const response = await fetch("backend/forBackendData/event_page/register.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -582,17 +783,37 @@ btnRegister.addEventListener("click", async () => {
     const data = await response.json();
 
     if (data.status === true) {
-        alert("You Registered Successfully!");
-        location.reload();
+        successModal.style.display = "flex";
     } else {
         alert("Registration went wrong :(");
     }
 });
 
 /* -----------------------------
-   CANCEL BUTTON
+    SUCCESS MODAL CLICK THROUGH
 ------------------------------*/
-btnCancelGlobal.addEventListener("click", async () => {
+successDoneBtn.addEventListener("click", () => {
+    successModal.style.display = "none";
+    location.reload();
+});
+
+/* -----------------------------
+    CANCEL BUTTON INTERCEPT
+------------------------------*/
+btnCancelGlobal.addEventListener("click", () => {
+    cancelConfirmModal.style.display = "flex";
+});
+
+/* -----------------------------
+    CANCELLATION CONFIRMATION ACTION
+------------------------------*/
+cancelConfirmNoBtn.addEventListener("click", () => {
+    cancelConfirmModal.style.display = "none";
+});
+
+cancelConfirmYesBtn.addEventListener("click", async () => {
+    cancelConfirmModal.style.display = "none";
+    
     const response = await fetch("backend/forBackendData/event_page/cancel.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -602,21 +823,38 @@ btnCancelGlobal.addEventListener("click", async () => {
     const data = await response.json();
 
     if (data.status === true) {
-        alert("You Canceled Your Registration");
-        location.reload();
+        cancelSuccessModal.style.display = "flex";
     } else {
         alert("Canceling went wrong :(");
     }
 });
 
 /* -----------------------------
-   INIT
+    CANCEL SUCCESS MODAL CLICK THROUGH
+------------------------------*/
+cancelSuccessDoneBtn.addEventListener("click", () => {
+    cancelSuccessModal.style.display = "none";
+    location.reload();
+});
+
+// Close confirmation modals if clicking anywhere outside bounding boxes
+window.addEventListener("click", (e) => {
+    if (e.target === confirmModal) {
+        confirmModal.style.display = "none";
+    }
+    if (e.target === cancelConfirmModal) {
+        cancelConfirmModal.style.display = "none";
+    }
+});
+
+/* -----------------------------
+    INIT
 ------------------------------*/
 if (eventID) loadEvent();
-/* =========================
-   FEEDBACK LOGIC
-========================= */
 
+/* =========================
+    FEEDBACK LOGIC
+========================= */
 async function loadFeedback() {
     const list = document.getElementById("feedbackList");
     try {
@@ -629,7 +867,6 @@ async function loadFeedback() {
 
         if (data.status && data.records.length > 0) {
             list.innerHTML = data.records.map(f => {
-                // Formatting the user details from the table 
                 const fullName = `${f.first_name} ${f.last_name}`;
                 const profileImg = f.profile_pic ? `image_data/profile_pics/${f.profile_pic}` : 'image_data/profile_pics/default_user.png';
                 const yearLevel = f.year_level ? `${f.year_level} Year` : 'Alumni/Other';
@@ -659,7 +896,6 @@ async function loadFeedback() {
     }
 }
 
-// Check eligibility to show the form
 function checkFeedbackEligibility(eventStatus) {
     const form = document.getElementById("feedbackForm");
     if (isRegistered && (eventStatus || "").toLowerCase() === "finished") {
@@ -669,7 +905,6 @@ function checkFeedbackEligibility(eventStatus) {
     }
 }
 
-// Handle Form Submission
 document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const rating = document.querySelector('input[name="rating"]:checked')?.value;
@@ -692,7 +927,7 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
         if (data.status) {
             alert("Thank you for your feedback!");
             document.getElementById("feedbackForm").reset();
-            await loadFeedback(); // Reload the list to show the new comment
+            await loadFeedback();
         } else {
             alert(data.message || "Failed to submit feedback.");
         }
@@ -702,17 +937,12 @@ document.getElementById("feedbackForm").addEventListener("submit", async (e) => 
     }
 });
 
-// IMPORTANT: Hook the new functions into your existing loadEvent flow
-// We wrap the original loadEvent to ensure feedback loads right after it finishes.
 const originalLoadEvent = loadEvent;
 loadEvent = async () => {
     await originalLoadEvent();
-    
-    // We need to grab the status again from the DOM since the variable is scoped inside loadEvent
     const currentStatus = document.getElementById("eventStatus").textContent;
     checkFeedbackEligibility(currentStatus);
     loadFeedback();
 };
 loadEvent();
-
 </script>

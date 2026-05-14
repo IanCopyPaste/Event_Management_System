@@ -69,7 +69,7 @@ if ($adminPages == 'manageSpon' || $adminPages == 'applySpon') {
                 include("frontend/pages/adminPages/orgDashboards/orgDashboard.php");
                 break;
             case 'userDash':
-                include("frontend/pages/adminPages/userDasboard.html");
+                include("frontend/pages/adminPages/userDashboard.php");
                 break;
             case 'eventDash':
                 include("frontend/pages/adminPages/eventDashboard.html");
