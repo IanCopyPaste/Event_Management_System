@@ -12,6 +12,14 @@ $result = mysqli_stmt_get_result($stmt);
 
 if($row = mysqli_fetch_assoc($result)){
     if(($data["users_id"] == $row["users_id"]) && ($data["password"] == $row["password_hashed"])){
+        if($row["status"] == "inactive"){
+            echo json_encode([
+                "remarks" => false,
+                "message" => "Your account is currently inactive. Please contact the administrator for assistance."
+            ]);
+            exit();
+
+        }
         echo json_encode([
             "remarks" => true,
             "role" => $row["role"],

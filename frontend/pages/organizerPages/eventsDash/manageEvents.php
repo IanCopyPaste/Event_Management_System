@@ -361,6 +361,11 @@
     }
 
     async function submitUpdate(id, action) {
+        if(document.getElementById('m_cap').value > 500 || document.getElementById('m_cap').value < 0) {
+            alert("Capacity cannot be less than 0. or greater than 500.");
+            return;
+
+        }
         const payload = {
             event_id: id,
             action: action,
