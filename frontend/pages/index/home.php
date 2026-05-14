@@ -271,7 +271,7 @@
         <div class="overlay-shading"></div>
     </div>
 
-    <h1 class="featured-title">Featured Events</h1>
+    <h1 class="featured-title">Current Events</h1>
 
     <div class="top-img-container">
         <img src="frontend/assetsImages/imgBG.jpg" alt="Event Image" class="top-img-main">
