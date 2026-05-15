@@ -7,12 +7,18 @@
             <p class="mt-2 text-sm text-gray-600">Manage roles, update statuses, and bulk register new members.</p>
         </div>
         
-        <div class="mt-4 sm:mt-0 flex items-center gap-3 bg-white p-2 rounded-xl shadow-sm border border-gray-200">
-            <input type="file" id="csvFile" class="text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer w-full max-w-[200px]">
-            <button onclick="handleUpload()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition shadow-sm flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                Upload
-            </button>
+        <div class="mt-4 sm:mt-0 flex flex-col items-end gap-1.5">
+            <div class="flex items-center gap-3 bg-white p-2 rounded-xl shadow-sm border border-gray-200 w-full sm:w-auto">
+                <input type="file" id="csvFile" accept=".csv" onchange="clearUploadError()" class="text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer w-full max-w-[200px]">
+                <button onclick="handleUpload()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition shadow-sm flex items-center gap-2 shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                    Upload
+                </button>
+            </div>
+            <div id="uploadErrorNotice" class="text-xs font-semibold text-red-600 hidden flex items-center gap-1 animate-pulse mr-1">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                Please select a CSV file first before uploading.
+            </div>
         </div>
     </div>
 
@@ -44,40 +50,71 @@
                 </tr>
             </thead>
             <tbody id="userTableBody" class="divide-y divide-gray-200 bg-white">
-                </tbody>
+            </tbody>
         </table>
     </div>
 </div>
 
-<div id="statusModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden flex items-center justify-center z-50 transition-opacity">
-    <div class="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-sm mx-4 transform transition-all">
-        <div class="flex justify-between items-center mb-5">
-            <h2 class="text-xl font-bold text-gray-900">Update Status</h2>
-            <button onclick="toggleModal()" class="text-gray-400 hover:text-gray-500">
+<div id="statusModal" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden flex items-center justify-center z-50 opacity-0 transition-opacity duration-300 ease-in-out">
+    <div id="modalCard" class="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-md mx-4 transform translate-y-8 opacity-0 transition-all duration-300 ease-out border border-gray-100">
+        <div class="flex justify-between items-center mb-4 pb-3 border-b border-gray-100">
+            <h2 class="text-xl font-bold text-gray-900">User Profile Details</h2>
+            <button onclick="toggleModal()" class="text-gray-400 hover:text-gray-500 transition">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
         </div>
+        
+        <div class="space-y-3 text-sm text-gray-700 mb-6 bg-gray-50 p-4 rounded-xl border border-gray-200/60">
+            <div class="flex justify-between py-1 border-b border-gray-200/40">
+                <span class="font-medium text-gray-500">Student ID:</span>
+                <span id="modalUserId" class="font-semibold text-gray-900"></span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-gray-200/40">
+                <span class="font-medium text-gray-500">Full Name:</span>
+                <span id="modalFullName" class="font-semibold text-gray-900"></span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-gray-200/40">
+                <span class="font-medium text-gray-500">Email Address:</span>
+                <span id="modalEmail" class="font-semibold text-gray-900 break-all pl-4 text-right"></span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-gray-200/40">
+                <span class="font-medium text-gray-500">Contact Number:</span>
+                <span id="modalContact" class="font-semibold text-gray-900"></span>
+            </div>
+            <div class="flex justify-between py-1 border-b border-gray-200/40">
+                <span class="font-medium text-gray-500">Program / Degree:</span>
+                <span id="modalProgram" class="font-semibold text-gray-900"></span>
+            </div>
+            <div class="flex justify-between py-1">
+                <span class="font-medium text-gray-500">Current Year Level:</span>
+                <span id="modalYearLevel" class="font-semibold text-gray-900"></span>
+            </div>
+        </div>
+
         <div class="space-y-3">
-            <button onclick="submitStatus('active')" class="w-full flex items-center justify-center gap-2 py-3 bg-green-50 text-green-700 font-semibold rounded-xl border border-green-200 hover:bg-green-100 transition">
-                <div class="w-2 h-2 rounded-full bg-green-500"></div> Set to Active
-            </button>
-            <button onclick="submitStatus('inactive')" class="w-full flex items-center justify-center gap-2 py-3 bg-red-50 text-red-700 font-semibold rounded-xl border border-red-200 hover:bg-red-100 transition">
-                <div class="w-2 h-2 rounded-full bg-red-500"></div> Set to Inactive
-            </button>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-1">Edit Account Status</label>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="submitStatus('active')" class="flex items-center justify-center gap-2 py-3 bg-green-50 text-green-700 font-semibold rounded-xl border border-green-200 hover:bg-green-100 transition shadow-sm">
+                    <div class="w-2 h-2 rounded-full bg-green-500"></div> Set Active
+                </button>
+                <button onclick="submitStatus('inactive')" class="flex items-center justify-center gap-2 py-3 bg-red-50 text-red-700 font-semibold rounded-xl border border-red-200 hover:bg-red-100 transition shadow-sm">
+                    <div class="w-2 h-2 rounded-full bg-red-500"></div> Set Inactive
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
 let selectedUserId = null;
-let allUsers = []; // Store data globally to allow fast client-side searching
+let allUsers = []; 
 
 // FLOW 1: LOAD USERS
 async function loadUsers() {
     try {
         const response = await fetch('backend/forBackendData/adminNusers/get_users.php');
         allUsers = await response.json();
-        renderTable(); // Call render function instead of building HTML directly here
+        renderTable(); 
     } catch (error) {
         console.error("Failed to fetch users:", error);
         document.getElementById('userTableBody').innerHTML = `<tr><td colspan="4" class="p-6 text-center text-red-500 font-medium">Failed to load data.</td></tr>`;
@@ -90,7 +127,6 @@ function renderTable() {
     const statusFilter = document.getElementById('statusFilter').value;
     const container = document.getElementById('userTableBody');
 
-    // Filter logic
     const filteredUsers = allUsers.filter(user => {
         const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
         const matchesSearch = fullName.includes(searchQuery) || user.email.toLowerCase().includes(searchQuery);
@@ -98,7 +134,6 @@ function renderTable() {
         return matchesSearch && matchesStatus;
     });
 
-    // Empty state handling
     if (filteredUsers.length === 0) {
         container.innerHTML = `
             <tr>
@@ -111,7 +146,6 @@ function renderTable() {
         return;
     }
 
-    // Build Table Rows
     container.innerHTML = filteredUsers.map(user => `
         <tr class="hover:bg-gray-50 transition-colors duration-150">
             <td class="px-6 py-4 whitespace-nowrap">
@@ -137,22 +171,34 @@ function renderTable() {
                 </span>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button onclick="prepareStatusChange(${user.users_id})" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition">
-                    Edit Status
+                <button onclick="viewInformation(${user.users_id})" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-md transition">
+                    View Information
                 </button>
             </td>
         </tr>
     `).join('');
 }
 
-// EVENT LISTENERS FOR SEARCH & DROPDOWN
 document.getElementById('searchInput').addEventListener('input', renderTable);
 document.getElementById('statusFilter').addEventListener('change', renderTable);
 
-// FLOW 3: MODAL FLOW
-function prepareStatusChange(userId) {
+// FLOW 3: MODAL FLOW & USER LOOKUP INJECTION
+function viewInformation(userId) {
     selectedUserId = userId; 
-    toggleModal();
+    const targetUser = allUsers.find(user => parseInt(user.users_id) === parseInt(userId));
+
+    if (targetUser) {
+        document.getElementById("modalUserId").innerText = targetUser.users_id || 'N/A';
+        document.getElementById("modalFullName").innerText = `${targetUser.first_name} ${targetUser.last_name}`;
+        document.getElementById("modalEmail").innerText = targetUser.email || 'N/A';
+        document.getElementById("modalContact").innerText = targetUser.contact_no || 'N/A';
+        document.getElementById("modalProgram").innerText = targetUser.program_abv || 'N/A';
+        document.getElementById("modalYearLevel").innerText = targetUser.year_level ? `Year ${targetUser.year_level}` : 'N/A';
+        
+        toggleModal();
+    } else {
+        console.error("User match indexing failure.");
+    }
 }
 
 async function submitStatus(newStatus) {
@@ -166,21 +212,26 @@ async function submitStatus(newStatus) {
             body: formData
         });
         toggleModal();
-        loadUsers(); // Refresh the real data
+        loadUsers(); 
     } catch (error) {
         alert("Failed to update status.");
     }
 }
 
-// FLOW 4: CSV UPLOAD
+// FLOW 4: CSV UPLOAD WITH RED ERROR NOTICE
 async function handleUpload() {
     const fileInput = document.getElementById('csvFile');
+    const errorNotice = document.getElementById('uploadErrorNotice');
+    
     if (!fileInput.files.length) {
-        return alert("Please select a file first.");
+        // Show the red notice layout context instead of a disruptive standard alert popup
+        errorNotice.classList.remove('hidden');
+        return;
     }
 
     const formData = new FormData();
-    formData.append('user_file', fileInput.files[0]);
+    // FIXED: Form payload initialization array indexing setup fix
+    formData.append('user_file', fileInput.files);
 
     try {
         await fetch('backend/forBackendData/adminNusers/upload_users.php', {
@@ -188,15 +239,37 @@ async function handleUpload() {
             body: formData
         });
         alert("Upload processed!");
-        fileInput.value = ''; // Reset file input
+        fileInput.value = ''; 
+        clearUploadError();
         loadUsers();
     } catch (error) {
         alert("Upload failed.");
     }
 }
 
+// Helper block to clean up error trace upon proper item assignment selections
+function clearUploadError() {
+    document.getElementById('uploadErrorNotice').classList.add('hidden');
+}
+
+// FLOW 5: ANIMATED MODAL ROUTINES
 function toggleModal() {
-    document.getElementById('statusModal').classList.toggle('hidden');
+    const overlay = document.getElementById('statusModal');
+    const card = document.getElementById('modalCard');
+
+    if (overlay.classList.contains('hidden')) {
+        overlay.classList.remove('hidden');
+        setTimeout(() => {
+            overlay.classList.remove('opacity-0');
+            card.classList.remove('translate-y-8', 'opacity-0');
+        }, 20);
+    } else {
+        overlay.classList.add('opacity-0');
+        card.classList.add('translate-y-8', 'opacity-0');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+        }, 300);
+    }
 }
 
 // Initialize

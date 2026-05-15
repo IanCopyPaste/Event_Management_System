@@ -120,9 +120,27 @@
         text-align: center;
     }
 
+    /* Actions Container Grid Alignment Layout context setup */
+    .btnSubmit-container {
+        grid-column: span 2;
+        display: flex;
+        flex-direction: column-reverse;
+        sm-flex-direction: row;
+        gap: 16px;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 640px) {
+        .btnSubmit-container {
+            flex-direction: row;
+        }
+    }
+
     .btnSubmit {
         width: 100%;
-        max-width: 300px;
+        max-width: 240px;
         font-weight: 600;
         font-size: 1rem;
         padding: 14px;
@@ -138,6 +156,27 @@
         background: var(--dark-blue);
         transform: translateY(-2px);
         box-shadow: 0 10px 15px -3px rgba(39, 115, 255, 0.3);
+    }
+
+    /* Secondary Action Button - Clear Action Interface */
+    .btnClear {
+        width: 100%;
+        max-width: 160px;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 14px;
+        border-radius: 8px;
+        border: 1.5px solid var(--border-color);
+        background: #ffffff;
+        color: #64748b;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .btnClear:hover {
+        background: #f1f5f9;
+        color: #334155;
+        border-color: #cbd5e1;
     }
 
     /* Disabled Dynamic State */
@@ -263,10 +302,11 @@
 
         <div class="filesInput-container">
             <label style="display:block; margin-bottom:10px; font-weight:600;">Event Background Photo</label>
-            <input type="file" accept=".pdf,.jpg,.jpeg,.png">
+            <input type="file" id="event_file" accept=".pdf,.jpg,.jpeg,.png">
         </div>
 
         <div class="btnSubmit-container">
+            <button type="button" class="btnClear" onclick="clearForm()">Clear Form</button>
             <button class="btnSubmit">Submit Application</button>
         </div>
 
@@ -372,12 +412,43 @@
         });
     });
 
+    // FLOW FOR ACTION ABORTION: GLOBAL FIELD PURGE ROUTINE
+    function clearForm() {
+        // 1. Flush standard inputs entirely
+        const fieldIds = ["event_name", "event_desc", "event_location", "event_capacity", "event_start_date", "event_end_date", "event_start_time", "event_end_time", "event_regs_deadline"];
+        fieldIds.forEach(id => {
+            const inputElement = document.getElementById(id);
+            inputElement.value = "";
+            inputElement.style.borderColor = "var(--border-color)"; // Purge aggressive validation colors
+        });
+
+        // 2. Wipe dynamic/static file elements
+        document.getElementById("event_file").value = "";
+
+        // 3. Reset arrays tracking parameters
+        restrictedEntities.year_level = [];
+        restrictedEntities.programs = [];
+
+        // 4. Flush DOM Tree Checkbox items
+        const checkboxes = document.querySelectorAll(".checkbox-group input[type='checkbox']");
+        checkboxes.forEach(cb => cb.checked = false);
+
+        // 5. Explicit structural warning block dynamic drop context
+        capacityWarning.style.display = "none";
+        yearWarning.style.display = "none";
+        programWarning.style.display = "none";
+
+        // 6. Recalculate validation context frames to freeze operational submit buttons cleanly
+        validateForm();
+    }
+
     // Modal Configuration Helpers
     function showModal(msg) {
         document.getElementById('modalMessage').innerText = msg;
         successModal.style.display = "flex";
     }
 
+    // Direct close and state logic
     function closeModalAndReload() {
         location.reload();
     }
@@ -400,6 +471,7 @@
         } catch (err) { console.error("Error fetching programs", err); }
     }
 
+    // Synchronize selected checkboxes to tracking array contexts
     function updateArray(arr, value, checked) {
         if (checked) {
             if (!arr.includes(value)) arr.push(value);
@@ -434,7 +506,7 @@
         fieldIds.forEach(id => formData.append(id, document.getElementById(id).value));
         formData.append("restricted", JSON.stringify(restrictedEntities));
 
-        const file_input = document.querySelector(".filesInput-container input[type='file']");
+        const file_input = document.getElementById("event_file");
         if (file_input.files.length > 0) {
             formData.append("file", file_input.files);
         }
