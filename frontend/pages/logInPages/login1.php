@@ -91,4 +91,13 @@
     btn_back.addEventListener("click", () => {
         window.location.href = "loginLanding.php?page=login0    "
     });
+
+    window.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        // Prevents default behavior (like form submission if inside a <form> tag)
+        event.preventDefault(); 
+        // Triggers the login function directly
+        login();
+    }
+});
 </script>

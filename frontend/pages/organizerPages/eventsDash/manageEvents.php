@@ -258,11 +258,11 @@
             <div class="form-group full"><label>Registration Deadline</label><input type="datetime-local" id="m_dl"></div>
 
             <div class="form-group">
-                <label>Year Levels</label>
+                <label>Restricted Level/s</label>
                 <div class="restriction-box" id="m_year_list"></div>
             </div>
             <div class="form-group">
-                <label>Programs</label>
+                <label>Restricted Program/s</label>
                 <div class="restriction-box" id="m_prog_list"></div>
             </div>
 

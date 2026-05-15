@@ -136,7 +136,13 @@
         box-shadow: 0 10px 15px -3px rgba(39, 115, 255, 0.3);
     }
 
-    .disabled { background: #94a3b8; cursor: not-allowed; }
+    /* Disabled State styling when errors exist */
+    .disabled { 
+        background: #94a3b8 !important; 
+        cursor: not-allowed !important;
+        transform: none !important;
+        box-shadow: none !important;
+    }
 
     /* Modal Styles */
     .modal-overlay {
@@ -188,6 +194,9 @@
         <div class="txtInputs-container">
             <label for="event_capacity">Capacity</label>
             <input type="number" id="event_capacity" placeholder="0">
+            <span id="capacityWarning" style="color: #ef4444; display: none; font-size: 0.8rem; font-weight: 600; margin-top: -4px;">
+                ⚠️ Capacity cannot exceed 1000 attendees.
+            </span>
         </div>
 
         <div class="txtInputs-container">
@@ -225,12 +234,18 @@
                 <label class="checkbox-item"><input type="checkbox" value="Alumni"><span>Alumni</span></label>
                 <label class="checkbox-item"><input type="checkbox" value="Irregular"><span>Irregular</span></label>
             </div>
+            <span id="yearWarning" style="color: #ef4444; display: none; font-size: 0.8rem; font-weight: 600; margin-top: 10px;">
+                ⚠️ You cannot restrict all year levels at the same time.
+            </span>
         </div>
 
         <div class="section-card">
             <p>Put a Check on Restricted Programs</p>
             <div class="checkbox-group" id="programs">
-                </div>
+            </div>
+            <span id="programWarning" style="color: #ef4444; display: none; font-size: 0.8rem; font-weight: 600; margin-top: 10px;">
+                ⚠️ You cannot restrict all programs at the same time.
+            </span>
         </div>
 
         <div class="filesInput-container">
@@ -261,11 +276,88 @@
     // Elements
     const btnSubmit = document.querySelector(".btnSubmit");
     const successModal = document.querySelector("#successModal");
+    const capacityInput = document.getElementById("event_capacity");
+    const capacityWarning = document.getElementById("capacityWarning");
+    const yearWarning = document.getElementById("yearWarning");
+    const programWarning = document.getElementById("programWarning");
+
+    const MAX_CAPACITY = 1000; 
 
     let restrictedEntities = {
         year_level: [],
         programs: []
     };
+    
+    let totalProgramCheckboxes = 0;
+
+    // Real-Time Form State & Color Synchronization Function
+    function validateForm() {
+        let isFormValid = true;
+
+        // 1. Text Fields Validation
+        const fields = ["event_name", "event_desc", "event_location", "event_capacity", "event_start_date", "event_end_date", "event_start_time", "event_end_time", "event_regs_deadline"];
+        fields.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el.value.trim()) {
+                isFormValid = false;
+            }
+        });
+
+        // 2. Capacity Check
+        const capacityVal = parseInt(capacityInput.value, 10);
+        if (isNaN(capacityVal) || capacityVal > MAX_CAPACITY || capacityVal <= 0) {
+            isFormValid = false;
+            if (capacityVal > MAX_CAPACITY) {
+                capacityWarning.style.display = "block";
+                capacityInput.style.borderColor = "#ef4444";
+            }
+        } else {
+            capacityWarning.style.display = "none";
+            capacityInput.style.borderColor = "var(--border-color)";
+        }
+
+        // 3. Year Level Checkboxes Validation
+        const totalYearCheckboxes = document.querySelectorAll("#year_levels input[type='checkbox']").length;
+        if (restrictedEntities.year_level.length === totalYearCheckboxes && totalYearCheckboxes > 0) {
+            isFormValid = false;
+            yearWarning.style.display = "block";
+        } else {
+            yearWarning.style.display = "none";
+        }
+
+        // 4. Program Checkboxes Validation
+        if (restrictedEntities.programs.length === totalProgramCheckboxes && totalProgramCheckboxes > 0) {
+            isFormValid = false;
+            programWarning.style.display = "block";
+        } else {
+            programWarning.style.display = "none";
+        }
+
+        // Color & Usability Toggling for the Submit button
+        if (!isFormValid) {
+            btnSubmit.disabled = true;
+            btnSubmit.classList.add("disabled");
+        } else {
+            btnSubmit.disabled = false;
+            btnSubmit.classList.remove("disabled");
+            btnSubmit.innerText = "Submit Application";
+        }
+
+        return isFormValid;
+    }
+
+    // Input listeners to trigger validation and change colors dynamically
+    const standardInputs = document.querySelectorAll(".txtInputs-container input, .txtInputs-container textarea");
+    standardInputs.forEach(input => {
+        input.addEventListener("input", () => {
+            if (input.value.trim()) {
+                input.style.borderColor = "var(--border-color)";
+            } else {
+                input.style.borderColor = "#ef4444";
+            }
+            validateForm();
+        });
+    });
 
     // Modal Helpers
     function showModal(msg) {
@@ -290,6 +382,8 @@
                     <span>${e.prog_abv}</span>
                 </label>`;
             });
+            totalProgramCheckboxes = document.querySelectorAll("#programs input[type='checkbox']").length;
+            validateForm(); // Run once setup is finished
         } catch (err) { console.error("Error fetching programs", err); }
     }
 
@@ -305,34 +399,22 @@
     document.addEventListener("change", (e) => {
         if (e.target.closest("#year_levels")) {
             updateArray(restrictedEntities.year_level, e.target.value, e.target.checked);
+            validateForm();
         }
+        
         if (e.target.closest("#programs")) {
             updateArray(restrictedEntities.programs, e.target.value, e.target.checked);
+            validateForm();
         }
     });
 
-    function checkInputValue() {
-        const fields = ["event_name", "event_desc", "event_location", "event_capacity", "event_start_date", "event_end_date", "event_start_time", "event_end_time", "event_regs_deadline"];
-        let isValid = true;
-        fields.forEach(id => {
-            const el = document.getElementById(id);
-            if (!el.value.trim()) {
-                isValid = false;
-                el.style.borderColor = "#ef4444";
-            } else {
-                el.style.borderColor = "var(--border-color)";
-            }
-        });
-        return isValid;
-    }
-
     btnSubmit.addEventListener("click", async () => {
-        if (!checkInputValue()) {
-            alert("Please fill out all required fields.");
+        // Redundant catch-all check
+        if (!validateForm()) {
             return;
         }
 
-        btnSubmit.disabled = true; // Fixed typo
+        btnSubmit.disabled = true;
         btnSubmit.classList.add("disabled");
         btnSubmit.innerText = "Processing...";
 
@@ -344,7 +426,7 @@
 
         const file_input = document.querySelector(".filesInput-container input[type='file']");
         if (file_input.files.length > 0) {
-            formData.append("file", file_input.files[0]);
+            formData.append("file", file_input.files);
         }
 
         try {
@@ -359,14 +441,11 @@
                 showModal("Application sent successfully! Check your email for confirmation.");
             } else {
                 alert("Error: " + (data.message || "Submission failed"));
-                btnSubmit.disabled = false;
-                btnSubmit.classList.remove("disabled");
-                btnSubmit.innerText = "Submit Application";
+                validateForm();
             }
         } catch (err) {
             console.error(err);
-            btnSubmit.disabled = false;
-            btnSubmit.classList.remove("disabled");
+            validateForm();
         }
     });
 
@@ -394,5 +473,6 @@
     document.addEventListener("DOMContentLoaded", () => {
         getPrograms();
         hasPendingRow();
+        validateForm(); // Initial state check on load
     });
 </script>
