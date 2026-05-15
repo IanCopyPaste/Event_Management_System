@@ -280,7 +280,7 @@
         </div>
         <div class="field">
             <label>Contact No. <span style="color:red">*</span></label>
-            <input type="text" id="add_sponsor_contact_no" placeholder="+63 9XX XXX XXXX">
+            <input type="text" id="add_sponsor_contact_no" placeholder="+63 9XX XXX XXXX" maxlength="11">
         </div>
         <div class="field">
             <label>Company Address</label>

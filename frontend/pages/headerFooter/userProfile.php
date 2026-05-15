@@ -367,7 +367,6 @@
                 const data = await res.json();
 
                 if (data.status) {
-                    alert("Profile successfully updated!");
                     location.reload();
                 }
             } catch (err) {

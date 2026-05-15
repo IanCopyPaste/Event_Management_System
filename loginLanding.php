@@ -25,9 +25,9 @@ $page = $_GET['page'] ?? 'login0';
     <img src="frontend/assetsImages/login/logoUKE.svg" alt="Background Logo" id="logoBg">
     <img src="frontend/assetsImages/login/shape1.svg" alt="Background Shape" id="rdmBg0">
     <section>
-        <div class="logo-container">
-            <img src="frontend/assetsImages/login/logoUKE.svg" alt="">
-        </div>
+        <a href="index.php" class="logo-container">
+            <img src="frontend/assetsImages/login/logoUKE.svg" alt="" class="logo">
+        </a>
         <?php
         switch ($page) {
             case 'login0':
@@ -64,6 +64,11 @@ $page = $_GET['page'] ?? 'login0';
         };
         ?>
     </section>
+    <script>
+        document.querySelector(".logo-container").addEventListener("click", function() {
+            window.location.href = "index.php";
+        });
+    </script>
 </body>
 
 </html>

@@ -33,7 +33,9 @@
         gap: 24px;
     }
 
-    .full-width { grid-column: span 2; }
+    .full-width {
+        grid-column: span 2;
+    }
 
     .txtInputs-container {
         display: flex;
@@ -99,7 +101,9 @@
         font-size: 0.85rem;
     }
 
-    .checkbox-item:hover { border-color: var(--primary-blue); }
+    .checkbox-item:hover {
+        border-color: var(--primary-blue);
+    }
 
     .checkbox-item input {
         accent-color: var(--primary-blue);
@@ -136,7 +140,7 @@
         box-shadow: 0 10px 15px -3px rgba(39, 115, 255, 0.3);
     }
 
-    /* Disabled State styling when errors exist */
+    /* Disabled Dynamic State */
     .disabled { 
         background: #94a3b8 !important; 
         cursor: not-allowed !important;
@@ -147,7 +151,10 @@
     /* Modal Styles */
     .modal-overlay {
         position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background: rgba(0, 0, 0, 0.5);
         display: none;
         justify-content: center;
@@ -167,8 +174,14 @@
     }
 
     @keyframes slideUp {
-        from { transform: translateY(20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 </style>
 
@@ -290,11 +303,11 @@
     
     let totalProgramCheckboxes = 0;
 
-    // Real-Time Form State & Color Synchronization Function
+    // Unified Live Validation Framework
     function validateForm() {
         let isFormValid = true;
 
-        // 1. Text Fields Validation
+        // 1. Text Field Tracking & Red Borders
         const fields = ["event_name", "event_desc", "event_location", "event_capacity", "event_start_date", "event_end_date", "event_start_time", "event_end_time", "event_regs_deadline"];
         fields.forEach(id => {
             const el = document.getElementById(id);
@@ -303,11 +316,11 @@
             }
         });
 
-        // 2. Capacity Check
+        // 2. Capacity Constraints Bounds Check
         const capacityVal = parseInt(capacityInput.value, 10);
         if (isNaN(capacityVal) || capacityVal > MAX_CAPACITY || capacityVal <= 0) {
             isFormValid = false;
-            if (capacityVal > MAX_CAPACITY) {
+            if (capacityVal > MAX_CAPACITY || capacityVal <= 0) {
                 capacityWarning.style.display = "block";
                 capacityInput.style.borderColor = "#ef4444";
             }
@@ -316,7 +329,7 @@
             capacityInput.style.borderColor = "var(--border-color)";
         }
 
-        // 3. Year Level Checkboxes Validation
+        // 3. Year Level Box Cap Rules Check
         const totalYearCheckboxes = document.querySelectorAll("#year_levels input[type='checkbox']").length;
         if (restrictedEntities.year_level.length === totalYearCheckboxes && totalYearCheckboxes > 0) {
             isFormValid = false;
@@ -325,7 +338,7 @@
             yearWarning.style.display = "none";
         }
 
-        // 4. Program Checkboxes Validation
+        // 4. Dynamic Programs Checked Elements Cap Check
         if (restrictedEntities.programs.length === totalProgramCheckboxes && totalProgramCheckboxes > 0) {
             isFormValid = false;
             programWarning.style.display = "block";
@@ -333,7 +346,7 @@
             programWarning.style.display = "none";
         }
 
-        // Color & Usability Toggling for the Submit button
+        // Toggle UI State colors cleanly
         if (!isFormValid) {
             btnSubmit.disabled = true;
             btnSubmit.classList.add("disabled");
@@ -346,12 +359,12 @@
         return isFormValid;
     }
 
-    // Input listeners to trigger validation and change colors dynamically
+    // Input listeners update styling choices dynamically
     const standardInputs = document.querySelectorAll(".txtInputs-container input, .txtInputs-container textarea");
     standardInputs.forEach(input => {
         input.addEventListener("input", () => {
             if (input.value.trim()) {
-                input.style.borderColor = "var(--border-color)";
+                if(input.id !== "event_capacity") input.style.borderColor = "var(--border-color)";
             } else {
                 input.style.borderColor = "#ef4444";
             }
@@ -359,7 +372,7 @@
         });
     });
 
-    // Modal Helpers
+    // Modal Configuration Helpers
     function showModal(msg) {
         document.getElementById('modalMessage').innerText = msg;
         successModal.style.display = "flex";
@@ -383,7 +396,7 @@
                 </label>`;
             });
             totalProgramCheckboxes = document.querySelectorAll("#programs input[type='checkbox']").length;
-            validateForm(); // Run once setup is finished
+            validateForm();
         } catch (err) { console.error("Error fetching programs", err); }
     }
 
@@ -409,10 +422,7 @@
     });
 
     btnSubmit.addEventListener("click", async () => {
-        // Redundant catch-all check
-        if (!validateForm()) {
-            return;
-        }
+        if (!validateForm()) return;
 
         btnSubmit.disabled = true;
         btnSubmit.classList.add("disabled");
@@ -420,7 +430,7 @@
 
         const formData = new FormData();
         const fieldIds = ["event_name", "event_desc", "event_location", "event_capacity", "event_start_date", "event_end_date", "event_start_time", "event_end_time", "event_regs_deadline"];
-        
+
         fieldIds.forEach(id => formData.append(id, document.getElementById(id).value));
         formData.append("restricted", JSON.stringify(restrictedEntities));
 
@@ -435,7 +445,7 @@
                 body: formData
             });
             const data = await response.json();
-            
+
             if (data.status == true) {
                 await sendEmail(document.getElementById("event_name").value);
                 showModal("Application sent successfully! Check your email for confirmation.");
@@ -450,7 +460,7 @@
     });
 
     async function sendEmail(event_name) {
-        await fetch("backend/forBackendData/organizerNevents/sendEmail.php",{
+        await fetch("backend/forBackendData/organizerNevents/sendEmail.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ "event_name": event_name })
@@ -467,12 +477,12 @@
                 btnCont.style.display = "none";
                 pending.style.display = "block";
             }
-        } catch (err) {}
+        } catch (err) { }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
         getPrograms();
         hasPendingRow();
-        validateForm(); // Initial state check on load
+        validateForm();
     });
 </script>

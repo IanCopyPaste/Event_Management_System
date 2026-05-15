@@ -4,7 +4,7 @@
             <<button>
     </div>
     <h2></h2>
-    <p style="color: red; text-align:center;">Only verified organizer accounts can log in.</p>
+    <p style="color: red; text-align:center;">Only verified organizer by the Student Affairs Office can log in.</p>
     <h1>Welcome, Organizer!</h1>
     <div class="input-container">
         <div class="txtBoxes-container">

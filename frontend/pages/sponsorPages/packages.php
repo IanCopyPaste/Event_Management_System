@@ -512,13 +512,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Benefits</label>
+                        <label>Offers</label>
                         <div id="benefitsContainer"></div>
                         <button type="button" id="addBenefitBtn" class="btn-secondary">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
                                 <path d="M12 5v14M5 12h14" />
                             </svg>
-                            Add Benefit
+                            Add Offer
                         </button>
                     </div>
 
